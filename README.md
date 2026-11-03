@@ -1,4 +1,4 @@
-<p align="center" style="color: ; font-weight: bold; font-size: 3em;">SkillAtlas</p>
+<p align="center" style="color: #95EDA9 ; font-weight: bold; font-size: 3em;">SkillAtlas</p>
 
 <p align="center">
   <strong>The open marketplace and registry for AI Agent Skills.</strong>
@@ -98,7 +98,3 @@ SkillAtlas/
 ```
 
 ---
-
-## License
-
-This project is licensed under the [ISC License](LICENSE).
