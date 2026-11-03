@@ -407,3 +407,27 @@ export async function findTagsByNames(names) {
         },
     });
 }
+
+export async function findOrCreateTags(names) {
+    if (!names.length) return [];
+
+    return Promise.all(
+        names.map(async (name) => {
+            const slug = name
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-");
+
+            return prisma.tag.upsert({
+                where: { name },
+                update: {},
+                create: {
+                    name,
+                    slug: slug || name,
+                },
+            });
+        }),
+    );
+}

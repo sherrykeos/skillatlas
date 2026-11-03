@@ -15,6 +15,7 @@ import {
     restoreSkill,
     findCategoryById,
     findTagsByNames,
+    findOrCreateTags,
 } from "./skill.repository.js";
 
 /**
@@ -110,36 +111,18 @@ async function resolveTagIds(tags = []) {
 
     const normalizedTags = [
         ...new Set(
-            tags.map((tag) =>
-                tag.trim().toLowerCase()
-            ),
+            tags
+                .map((tag) => tag.trim().toLowerCase())
+                .filter(Boolean),
         ),
     ];
 
-    const foundTags = await findTagsByNames(normalizedTags);
-
-    const foundTagNames = new Set(
-        foundTags.map((tag) => tag.name),
-    );
-
-    const missingTags = normalizedTags.filter(
-        (tag) => !foundTagNames.has(tag),
-    );
-
-    if (missingTags.length > 0) {
-        throw new ApiError(
-            400,
-            `Unknown tags: ${missingTags.join(", ")}`,
-            "INVALID_TAGS",
-            missingTags.map((tag) => ({
-                field: "tags",
-                value: tag,
-                message: `Tag "${tag}" does not exist.`,
-            })),
-        );
+    if (!normalizedTags.length) {
+        return [];
     }
 
-    return foundTags.map((tag) => tag.id);
+    const tagRecords = await findOrCreateTags(normalizedTags);
+    return tagRecords.map((tag) => tag.id);
 }
 
 
