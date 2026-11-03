@@ -54,10 +54,6 @@ export const importRepositorySchema = z.object({
     .min(1, "At least one file must be selected.")
     .max(50, "Cannot import more than 50 files.")
     .refine(
-      (fileList) => fileList.includes("SKILL.md"),
-      "SKILL.md must be included in selected files.",
-    )
-    .refine(
       (fileList) => new Set(fileList).size === fileList.length,
       "Duplicate selected file paths are not allowed.",
     ),

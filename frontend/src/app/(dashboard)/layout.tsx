@@ -27,7 +27,6 @@ export default function DashboardLayout({
       const creatorOnlyRoutes = [
         "/dashboard",
         "/skills",
-        "/github-import",
       ];
       const isCreatorRoute = creatorOnlyRoutes.some(
         (r) => currentPath === r || (r !== "/dashboard" && currentPath.startsWith(r))

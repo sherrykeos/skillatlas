@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import authenticate from "../auth/src/auth.middleware.js";
-import { requireCreator } from "../../middlewares/auth.role.middleware.js";
 import validate from "../../middlewares/validate.js";
 
 import {
@@ -20,36 +19,31 @@ const router = Router();
 
 /**
  * POST /api/github/inspect
- * Inspect public repository details and branches.
+ * Inspect public repository details and branches (Public, no auth required).
  */
 router.post(
   "/inspect",
-  authenticate,
-  requireCreator,
   validate(inspectRepositorySchema),
   inspect,
 );
 
 /**
  * GET /api/github/tree
- * Browse repository tree files for selection UI.
+ * Browse repository tree files for selection UI (Public, no auth required).
  */
 router.get(
   "/tree",
-  authenticate,
-  requireCreator,
   validate(repositoryTreeSchema, "query"),
   getRepositoryTree,
 );
 
 /**
  * POST /api/github/import
- * Import selected files into a new DRAFT SkillAtlas skill.
+ * Import selected files into a new DRAFT SkillAtlas skill (Requires user authentication).
  */
 router.post(
   "/import",
   authenticate,
-  requireCreator,
   validate(importRepositorySchema),
   importRepo,
 );

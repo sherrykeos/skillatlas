@@ -35,8 +35,7 @@ import { toast } from "sonner";
 
 export default function GitHubImportPage() {
   const router = useRouter();
-  const { isCreator, becomeCreator } = useAuth();
-  const [activatingCreator, setActivatingCreator] = useState(false);
+  const { user, isCreator, refreshUser } = useAuth();
 
   // Wizard Steps (1: Connect, 2: Select Files, 3: Configure, 4: Review)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
@@ -86,19 +85,27 @@ export default function GitHubImportPage() {
         repoUrl.trim(),
         data.repository.defaultBranch || "main"
       );
-      setTreeFiles(tree.files || []);
+      const files = tree.files || [];
+      setTreeFiles(files);
 
-      // Auto-select SKILL.md and README.md if found
-      const defaultSelected = (tree.files || [])
-        .map((f) => f.path)
-        .filter(
-          (p) =>
-            p === "SKILL.md" ||
-            p === "README.md" ||
-            p.startsWith("scripts/") ||
-            p.startsWith("references/")
-        );
-      setSelectedFiles(defaultSelected.length > 0 ? defaultSelected : ["SKILL.md"]);
+      // Auto-select standard entry files if present, or first few files
+      const allPaths = files.map((f) => f.path);
+      const defaultSelected = allPaths.filter(
+        (p) =>
+          p === "SKILL.md" ||
+          p.toLowerCase() === "readme.md" ||
+          p === "package.json" ||
+          p === "requirements.txt" ||
+          p === "pyproject.toml" ||
+          p === "index.js" ||
+          p === "index.ts" ||
+          p === "main.py" ||
+          p.startsWith("scripts/") ||
+          p.startsWith("src/")
+      );
+      const initialSelection =
+        defaultSelected.length > 0 ? defaultSelected.slice(0, 20) : allPaths.slice(0, 5);
+      setSelectedFiles(initialSelection);
 
       setCurrentStep(2);
       toast.success("Repository inspected successfully!");
@@ -141,8 +148,8 @@ export default function GitHubImportPage() {
 
   // Step 4: Confirm Import Handler
   const handleImport = async () => {
-    if (!selectedFiles.includes("SKILL.md")) {
-      toast.error("SKILL.md is required in the selected files list.");
+    if (selectedFiles.length === 0) {
+      toast.error("Please select at least one file to import.");
       return;
     }
 
@@ -156,8 +163,10 @@ export default function GitHubImportPage() {
         files: selectedFiles,
       });
 
+      await refreshUser();
       toast.success(`Imported "${skillName}" as draft! Opening studio...`);
-      router.push(`/skills/${result.skill.id}/edit`);
+      const target = result.skill.slug || result.skill.id;
+      router.push(`/skills/${target}/edit`);
     } catch (err: any) {
       const msg = err.message || "Failed to import GitHub repository.";
       setError(msg);
@@ -168,66 +177,20 @@ export default function GitHubImportPage() {
   };
 
   const hasSkillMd = selectedFiles.includes("SKILL.md");
-
-  const handleActivateCreator = async () => {
-    try {
-      setActivatingCreator(true);
-      await becomeCreator();
-      toast.success("Creator access activated!");
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to activate creator mode.");
-    } finally {
-      setActivatingCreator(false);
-    }
-  };
-
-  if (!isCreator) {
-    return (
-      <div className="mx-auto max-w-xl space-y-6 py-10">
-        <div className="rounded-xl border border-[#252D28] bg-[#0E1210] p-8 text-center shadow-xl">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
-            <Sparkles className="h-7 w-7" />
-          </div>
-          <h1 className="text-xl font-bold text-[#F1F4EF]">
-            Creator Access Required
-          </h1>
-          <p className="mx-auto mt-2 max-w-md text-xs text-[#A9B1AA]">
-            Importing agent skills from GitHub requires Creator status. Activation is instant, free, and enables repository syncing.
-          </p>
-
-          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              onClick={handleActivateCreator}
-              disabled={activatingCreator}
-              className="w-full bg-[#30E87F] font-semibold text-[#080B0A] hover:bg-[#28C76D] sm:w-auto"
-            >
-              {activatingCreator ? "Activating..." : "Activate Creator Access (Instant)"}
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="w-full border-[#252D28] bg-transparent text-[#A9B1AA] hover:bg-[#141916] sm:w-auto"
-            >
-              <Link href="/dashboard">Back to Dashboard</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const repoHasSkillMd = treeFiles.some((f) => f.path === "SKILL.md");
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#252D28] pb-4">
+      <div className="flex items-center justify-between border-b border-[#1E2433] pb-4">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1.5 text-xs text-[#707A72] hover:text-[#CCD7C5] transition-colors font-mono"
+          className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-emerald-400 transition-colors font-mono"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Dashboard</span>
         </Link>
-        <span className="text-xs font-mono text-[#CCD7C5]">GitHub Import Wizard</span>
+        <span className="text-xs font-mono text-emerald-400">GitHub Import Wizard</span>
       </div>
 
       {/* Stepper Navigation */}
@@ -242,10 +205,10 @@ export default function GitHubImportPage() {
             key={item.step}
             className={`py-2 px-3 rounded-[6px] border transition-colors ${
               currentStep === item.step
-                ? "bg-[#141916] text-[#CCD7C5] border-[#CCD7C5]/40 font-bold"
+                ? "bg-[#161B26] text-emerald-400 border-emerald-500/40 font-bold"
                 : currentStep > item.step
-                ? "bg-[#0E1210] text-[#9FBEA5] border-[#9FBEA5]/30"
-                : "bg-[#0E1210] text-[#707A72] border-[#252D28]"
+                ? "bg-[#0F1219] text-emerald-300 border-emerald-500/20"
+                : "bg-[#0F1219] text-[#64748B] border-[#1E2433]"
             }`}
           >
             {item.label}
@@ -254,28 +217,28 @@ export default function GitHubImportPage() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-[6px] border border-[#C58F8F]/30 bg-[#C58F8F]/10 text-xs text-[#C58F8F] flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 shrink-0" />
+        <div className="p-3 rounded-[8px] border border-rose-500/30 bg-rose-500/10 text-xs text-rose-300 flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 shrink-0 text-rose-400" />
           <span>{error}</span>
         </div>
       )}
 
       {/* STEP 1: Connect */}
       {currentStep === 1 && (
-        <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-xl">
+        <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl">
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-[#F1F4EF] flex items-center gap-2">
-              <GithubIcon className="h-5 w-5 text-[#CCD7C5]" />
+            <h2 className="text-xl font-bold text-[#F8FAFC] flex items-center gap-2">
+              <GithubIcon className="h-5 w-5 text-emerald-400" />
               <span>Connect Public GitHub Repository</span>
             </h2>
-            <p className="text-xs text-[#A9B1AA]">
+            <p className="text-xs text-[#94A3B8]">
               Enter the full HTTPS URL of a public repository containing your skill specification.
             </p>
           </div>
 
           <form onSubmit={handleInspect} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Repository URL</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Repository URL</label>
               <Input
                 type="url"
                 value={repoUrl}
@@ -284,7 +247,7 @@ export default function GitHubImportPage() {
                 required
                 className="text-xs font-mono"
               />
-              <p className="text-[10px] text-[#707A72]">
+              <p className="text-[10px] text-[#64748B]">
                 Public repositories only. Private repository tokens are not required.
               </p>
             </div>
@@ -295,7 +258,7 @@ export default function GitHubImportPage() {
                 disabled={isInspecting}
                 variant="primary"
                 size="default"
-                className="gap-2 font-semibold"
+                className="gap-2 font-semibold shadow-md shadow-emerald-500/15"
               >
                 {isInspecting ? (
                   <>
@@ -316,23 +279,23 @@ export default function GitHubImportPage() {
 
       {/* STEP 2: Select Files */}
       {currentStep === 2 && inspectData && (
-        <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-4">
+        <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-4">
             <div>
-              <h2 className="text-lg font-bold text-[#F1F4EF]">
+              <h2 className="text-lg font-bold text-[#F8FAFC]">
                 Select Skill Files ({selectedFiles.length} selected)
               </h2>
-              <p className="text-xs text-[#A9B1AA]">
+              <p className="text-xs text-[#94A3B8]">
                 Choose up to 50 files to import into your SkillAtlas draft.
               </p>
             </div>
 
             <div className="w-[180px]">
               <Select value={selectedBranch} onValueChange={handleBranchChange}>
-                <SelectTrigger className="h-8 bg-[#141916] border-[#252D28] text-xs">
+                <SelectTrigger className="h-8 bg-[#161B26] border-[#1E2433] text-xs">
                   <SelectValue placeholder="Branch" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0E1210] border-[#252D28]">
+                <SelectContent className="bg-[#0F1219] border-[#1E2433]">
                   {inspectData.branches.map((b) => (
                     <SelectItem key={b.name} value={b.name}>
                       {b.name}
@@ -343,17 +306,26 @@ export default function GitHubImportPage() {
             </div>
           </div>
 
-          {!hasSkillMd && (
-            <div className="p-3 rounded-[6px] border border-[#C9B98A]/30 bg-[#C9B98A]/10 text-xs text-[#C9B98A] flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 shrink-0" />
+          {!repoHasSkillMd ? (
+            <div className="p-3.5 rounded-[8px] border border-emerald-500/30 bg-emerald-500/10 text-xs text-emerald-300 flex items-start gap-2.5">
+              <Sparkles className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+              <div>
+                <strong className="text-emerald-200">Public Repository Auto-Synthesis:</strong> No{" "}
+                <code className="bg-[#090A0F] px-1 py-0.5 rounded text-emerald-400 font-mono text-[11px]">SKILL.md</code>{" "}
+                found. SkillAtlas will automatically generate a standard agent skill specification from your repository README and code structure on import.
+              </div>
+            </div>
+          ) : !hasSkillMd ? (
+            <div className="p-3 rounded-[8px] border border-amber-500/30 bg-amber-500/10 text-xs text-amber-300 flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-amber-400" />
               <span>
-                <strong>SKILL.md is required.</strong> Please make sure to check SKILL.md in the file tree below.
+                <strong>Note:</strong> <code className="font-mono">SKILL.md</code> exists in this repository but is not selected. If unselected, a synthesized specification will be generated.
               </span>
             </div>
-          )}
+          ) : null}
 
           {/* Tree Files Picker */}
-          <div className="border border-[#252D28] rounded-[8px] bg-[#080B0A] max-h-80 overflow-y-auto divide-y divide-[#1A211D]">
+          <div className="border border-[#1E2433] rounded-[8px] bg-[#090A0F] max-h-80 overflow-y-auto divide-y divide-[#1E2433]">
             {treeFiles.map((file) => {
               const isChecked = selectedFiles.includes(file.path);
               const isSkillMd = file.path === "SKILL.md";
@@ -361,23 +333,23 @@ export default function GitHubImportPage() {
               return (
                 <label
                   key={file.path}
-                  className="flex items-center justify-between p-2.5 px-3 hover:bg-[#141916]/50 cursor-pointer transition-colors"
+                  className="flex items-center justify-between p-2.5 px-3 hover:bg-[#161B26]/50 cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <Checkbox
                       checked={isChecked}
                       onCheckedChange={() => handleToggleFile(file.path)}
                     />
-                    <span className="text-xs font-mono text-[#F1F4EF]">
+                    <span className="text-xs font-mono text-[#F8FAFC]">
                       {file.path}
                     </span>
                     {isSkillMd && (
                       <Badge variant="brand" className="text-[10px]">
-                        Required
+                        Specification
                       </Badge>
                     )}
                   </div>
-                  <span className="text-[11px] font-mono text-[#707A72]">
+                  <span className="text-[11px] font-mono text-[#64748B]">
                     {(file.size / 1024).toFixed(1)} KB
                   </span>
                 </label>
@@ -395,10 +367,10 @@ export default function GitHubImportPage() {
             </Button>
             <Button
               onClick={() => setCurrentStep(3)}
-              disabled={!hasSkillMd || selectedFiles.length === 0}
+              disabled={selectedFiles.length === 0}
               variant="primary"
               size="default"
-              className="gap-1.5 font-semibold"
+              className="gap-1.5 font-semibold shadow-md shadow-emerald-500/15"
             >
               <span>Next: Configure Metadata</span>
               <ArrowRight className="h-4 w-4" />
@@ -409,19 +381,19 @@ export default function GitHubImportPage() {
 
       {/* STEP 3: Configure Metadata */}
       {currentStep === 3 && (
-        <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-xl">
+        <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl">
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-[#F1F4EF]">
+            <h2 className="text-lg font-bold text-[#F8FAFC]">
               Configure Skill Details
             </h2>
-            <p className="text-xs text-[#A9B1AA]">
+            <p className="text-xs text-[#94A3B8]">
               Review the imported name, description, category, and tags.
             </p>
           </div>
 
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Skill Name</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Skill Name</label>
               <Input
                 type="text"
                 value={skillName}
@@ -432,7 +404,7 @@ export default function GitHubImportPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Description</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Description</label>
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -443,12 +415,12 @@ export default function GitHubImportPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-[#F1F4EF]">Category</label>
+                <label className="text-xs font-medium text-[#F8FAFC]">Category</label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="h-9 bg-[#0E1210] border-[#252D28] text-xs">
+                  <SelectTrigger className="h-9 bg-[#0F1219] border-[#1E2433] text-xs">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0E1210] border-[#252D28]">
+                  <SelectContent className="bg-[#0F1219] border-[#1E2433]">
                     {CATEGORIES.map((cat) => (
                       <SelectItem key={cat.slug} value={cat.slug}>
                         {cat.name}
@@ -459,12 +431,12 @@ export default function GitHubImportPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-[#F1F4EF]">Branch</label>
+                <label className="text-xs font-medium text-[#F8FAFC]">Branch</label>
                 <Input
                   type="text"
                   value={selectedBranch}
                   disabled
-                  className="text-xs font-mono bg-[#141916]"
+                  className="text-xs font-mono bg-[#161B26]"
                 />
               </div>
             </div>
@@ -483,7 +455,7 @@ export default function GitHubImportPage() {
               disabled={!skillName.trim()}
               variant="primary"
               size="default"
-              className="gap-1.5 font-semibold"
+              className="gap-1.5 font-semibold shadow-md shadow-emerald-500/15"
             >
               <span>Next: Review &amp; Import</span>
               <ArrowRight className="h-4 w-4" />
@@ -494,45 +466,53 @@ export default function GitHubImportPage() {
 
       {/* STEP 4: Review & Final Import */}
       {currentStep === 4 && (
-        <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-xl">
+        <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl">
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-[#F1F4EF]">
+            <h2 className="text-lg font-bold text-[#F8FAFC]">
               Review &amp; Import Snapshot
             </h2>
-            <p className="text-xs text-[#A9B1AA]">
+            <p className="text-xs text-[#94A3B8]">
               Verify your snapshot configuration before creating the draft.
             </p>
           </div>
 
-          <div className="border border-[#252D28] rounded-[8px] bg-[#080B0A] p-5 space-y-4 text-xs font-mono">
+          <div className="border border-[#1E2433] rounded-[8px] bg-[#090A0F] p-5 space-y-4 text-xs font-mono">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <span className="text-[#707A72] block">Repository:</span>
-                <span className="text-[#F1F4EF] truncate block">{repoUrl}</span>
+                <span className="text-[#64748B] block">Repository:</span>
+                <span className="text-[#F8FAFC] truncate block">{repoUrl}</span>
               </div>
               <div>
-                <span className="text-[#707A72] block">Branch:</span>
-                <span className="text-[#CCD7C5]">{selectedBranch}</span>
+                <span className="text-[#64748B] block">Branch:</span>
+                <span className="text-emerald-400">{selectedBranch}</span>
               </div>
               <div>
-                <span className="text-[#707A72] block">Skill Name:</span>
-                <span className="text-[#F1F4EF]">{skillName}</span>
+                <span className="text-[#64748B] block">Skill Name:</span>
+                <span className="text-[#F8FAFC]">{skillName}</span>
               </div>
               <div>
-                <span className="text-[#707A72] block">Category:</span>
-                <span className="text-[#CCD7C5] capitalize">{category}</span>
+                <span className="text-[#64748B] block">Category:</span>
+                <span className="text-emerald-400 capitalize">{category}</span>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#1A211D]">
-              <span className="text-[#707A72] block mb-2">
-                Selected Files ({selectedFiles.length}):
-              </span>
-              <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 rounded bg-[#141916] border border-[#252D28]">
+            <div className="pt-3 border-t border-[#1E2433]">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[#64748B]">
+                  Selected Files ({selectedFiles.length}):
+                </span>
+                {!hasSkillMd && (
+                  <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 font-sans">
+                    <Sparkles className="h-3 w-3" />
+                    Auto-synthesizes SKILL.md
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 rounded bg-[#161B26] border border-[#1E2433]">
                 {selectedFiles.map((file) => (
                   <span
                     key={file}
-                    className="px-2 py-0.5 rounded text-[11px] bg-[#080B0A] border border-[#252D28] text-[#A9B1AA]"
+                    className="px-2 py-0.5 rounded text-[11px] bg-[#090A0F] border border-[#1E2433] text-[#94A3B8]"
                   >
                     {file}
                   </span>
@@ -554,7 +534,7 @@ export default function GitHubImportPage() {
               disabled={isImporting}
               variant="primary"
               size="default"
-              className="gap-2 font-semibold shadow-md"
+              className="gap-2 font-semibold shadow-md shadow-emerald-500/15"
             >
               {isImporting ? (
                 <>

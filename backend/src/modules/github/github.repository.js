@@ -40,6 +40,12 @@ export async function createImportedSkill({
   files,
 }) {
   return prisma.$transaction(async (tx) => {
+    // If the importing user is currently USER, promote them to CREATOR
+    await tx.user.updateMany({
+      where: { id: authorId, role: "USER" },
+      data: { role: "CREATOR" },
+    });
+
     const skill = await tx.skill.create({
       data: {
         name,

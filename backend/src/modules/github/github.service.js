@@ -190,10 +190,6 @@ export async function importSkill(userId, { url, branch, files }) {
     throw new ApiError(400, `Cannot import more than ${MAX_FILES} files.`, "GITHUB_TOO_MANY_FILES");
   }
 
-  if (!files.includes("SKILL.md")) {
-    throw new ApiError(400, "SKILL.md must be included in selected files.", "SKILL_MD_REQUIRED");
-  }
-
   const repoData = await client.getRepository(owner, repo);
   const canonicalUrl = repoData.html_url;
 
@@ -235,14 +231,40 @@ export async function importSkill(userId, { url, branch, files }) {
     }),
   );
 
-  const skillMdFile = fetchedFiles.find((f) => f.path === "SKILL.md");
-  if (!skillMdFile || !skillMdFile.content || skillMdFile.content.trim().length === 0) {
-    throw new ApiError(400, "SKILL.md file cannot be empty.", "SKILL_MD_EMPTY");
-  }
-
   const skillName = repoData.name;
   const skillDescription = repoData.description || `Skill imported from ${repoData.full_name}`;
   const slug = await generateUniqueSlug(skillName);
+
+  // If the repository does not contain SKILL.md, auto-synthesize a standard SKILL.md specification
+  let skillMdFile = fetchedFiles.find((f) => f.path === "SKILL.md");
+  if (!skillMdFile) {
+    const readmeFile = fetchedFiles.find((f) => f.path.toLowerCase() === "readme.md");
+    const autoContent = [
+      "---",
+      `name: ${skillName}`,
+      `description: ${skillDescription.replace(/[\r\n]+/g, " ")}`,
+      `version: 1.0.0`,
+      "---",
+      "",
+      `# ${skillName}`,
+      "",
+      skillDescription ? `${skillDescription}\n` : "",
+      "## Overview",
+      `Imported from public repository: ${canonicalUrl} (branch: ${branch}).`,
+      "",
+      readmeFile?.content
+        ? `## Repository Documentation\n\n${readmeFile.content}`
+        : "## Usage\nConfigure agent instructions, commands, and tools for this skill.",
+    ].join("\n");
+
+    fetchedFiles.push({
+      path: "SKILL.md",
+      content: autoContent,
+      mimeType: "text/markdown",
+    });
+  } else if (!skillMdFile.content || skillMdFile.content.trim().length === 0) {
+    skillMdFile.content = `# ${skillName}\n\n${skillDescription}\n`;
+  }
 
   const createdSkill = await createImportedSkill({
     name: skillName,
