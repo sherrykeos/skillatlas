@@ -20,7 +20,7 @@ function createVerificationEmail({
       </p>
 
       <p>
-        Please verify your email address to activate your account and start playing.
+        Please verify your email address to activate your account and start sharing and discovering agent skills.
       </p>
 
       <p>

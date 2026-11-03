@@ -1,8 +1,8 @@
 export const app = {
-  name: "Project_Name",
-  company: "Company_Name",
-  supportEmail: process.env.EMAIL_FROM,
-  frontendUrl: process.env.FRONTEND_URL,
+  name: "SkillAtlas",
+  company: "SkillAtlas",
+  supportEmail: process.env.EMAIL_FROM || "shaj7492@gmail.com",
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:3000",
 };
 
 export default {

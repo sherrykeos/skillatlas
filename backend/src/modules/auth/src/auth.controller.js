@@ -105,13 +105,14 @@ async function resetPassword(req, res, next) {
 
 async function googleCallback(req, res, next) {
   try {
-    await authService.googleLogin(req.user, res);
+    const session = await authService.googleLogin(req.user, res);
 
     return res.redirect(
-      `${app.frontendUrl}/auth/success`
+      `${app.frontendUrl}/auth/callback?token=${session.accessToken}`
     );
   } catch (error) {
-    next(error);
+    console.error("[Google OAuth Error]:", error);
+    return res.redirect(`${app.frontendUrl}/login?error=google_failed`);
   }
 }
 

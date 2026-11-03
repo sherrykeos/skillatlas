@@ -108,20 +108,25 @@ async function register(data) {
   /* Verification Link */
   /* ------------------------------------------------------- */
 
-  const verificationUrl = `${app.frontendUrl}/auth/verify?token=${verificationToken}`;
+  const verificationUrl = `${app.frontendUrl}/verify-email?token=${verificationToken}`;
 
   /* ------------------------------------------------------- */
   /* Send Email */
   /* ------------------------------------------------------- */
 
-  await sendEmail({
-    to: user.email,
-    subject: `Verify your ${app.name} account`,
-    html: createVerificationEmail({
-      username: user.username,
-      verificationUrl,
-    }),
-  });
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: `Verify your ${app.name} account`,
+      html: createVerificationEmail({
+        username: user.username,
+        verificationUrl,
+      }),
+    });
+  } catch (err) {
+    console.error(`[Auth] Failed to send verification email to ${user.email}:`, err.message);
+    console.log(`[Auth] [Dev Link] Verify email URL: ${verificationUrl}`);
+  }
 
   /* ------------------------------------------------------- */
 
@@ -435,16 +440,21 @@ async function forgotPassword(data) {
 
   await createPasswordResetToken(user.id, resetTokenHash, expiresAt);
 
-  const resetUrl = `${app.frontendUrl}/auth/reset-password?token=${resetToken}`;
+  const resetUrl = `${app.frontendUrl}/reset-password?token=${resetToken}`;
 
-  await sendEmail({
-    to: user.email,
-    subject: `Reset your ${app.name} password`,
-    html: createResetPasswordEmail({
-      username: user.username,
-      resetUrl,
-    }),
-  });
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: `Reset your ${app.name} password`,
+      html: createResetPasswordEmail({
+        username: user.username,
+        resetUrl,
+      }),
+    });
+  } catch (err) {
+    console.error(`[Auth] Failed to send password reset email to ${user.email}:`, err.message);
+    console.log(`[Auth] [Dev Link] Reset password URL: ${resetUrl}`);
+  }
 
   return {
     success: true,
@@ -492,14 +502,20 @@ async function googleLogin(profile, res) {
   }
 
   if (!user) {
+    let username = profile.displayName.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "user";
+    const existingUsername = await findUserByUsername(username);
+    if (existingUsername) {
+      username = `${username}${Math.floor(1000 + Math.random() * 9000)}`;
+    }
+
     user = await createGoogleUser({
-      username: profile.displayName.replace(/\s+/g, "").toLowerCase(),
+      username,
 
       email: profile.emails[0].value.toLowerCase(),
 
       avatar: profile.photos?.[0]?.value,
 
-      provider: "google",
+      provider: "GOOGLE",
 
       providerId: profile.id,
 
@@ -579,20 +595,25 @@ async function resendVerification(email) {
   /* Verification Link */
   /* ------------------------------------------------------- */
 
-  const verificationUrl = `${app.frontendUrl}/auth/verify?token=${verificationToken}`;
+  const verificationUrl = `${app.frontendUrl}/verify-email?token=${verificationToken}`;
 
   /* ------------------------------------------------------- */
   /* Send Email */
   /* ------------------------------------------------------- */
 
-  await sendEmail({
-    to: user.email,
-    subject: `Verify your ${app.name} account`,
-    html: createVerificationEmail({
-      username: user.username,
-      verificationUrl,
-    }),
-  });
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: `Verify your ${app.name} account`,
+      html: createVerificationEmail({
+        username: user.username,
+        verificationUrl,
+      }),
+    });
+  } catch (err) {
+    console.error(`[Auth] Failed to send verification email to ${user.email}:`, err.message);
+    console.log(`[Auth] [Dev Link] Verify email URL: ${verificationUrl}`);
+  }
 
   return {
     success: true,
@@ -608,20 +629,17 @@ async function changePassword(userId, currentPassword, newPassword) {
     throw createError("User not found.", 404);
   }
 
-  if (!user.passwordHash) {
-    throw createError(
-      "Password change is not available for this account.",
-      400,
+  // If the user already has a password, verify the current password.
+  // If they signed up via OAuth and don't have a password yet, allow them to set their password.
+  if (user.passwordHash) {
+    const isPasswordValid = await comparePassword(
+      currentPassword,
+      user.passwordHash,
     );
-  }
 
-  const isPasswordValid = await comparePassword(
-    currentPassword,
-    user.passwordHash,
-  );
-
-  if (!isPasswordValid) {
-    throw createError("Current password is incorrect.", 400);
+    if (!isPasswordValid) {
+      throw createError("Current password is incorrect.", 400);
+    }
   }
 
   const passwordHash = await hashPassword(newPassword);

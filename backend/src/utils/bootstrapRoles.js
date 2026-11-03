@@ -7,22 +7,36 @@ import prisma from "../lib/prisma.js";
  */
 export async function bootstrapRoles() {
   try {
-    // 1. Promote admin
+    // 1. Ensure the designated admin email is platform ADMIN
+    const adminEmail = (process.env.ADMIN_EMAIL || "vybe.srd@gmail.com").toLowerCase().trim();
     const adminUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { username: "sherry" },
-          { email: "shaj7492@gmail.com" },
-        ],
-      },
+      where: { email: adminEmail },
     });
 
-    if (adminUser && adminUser.role !== "ADMIN") {
-      await prisma.user.update({
-        where: { id: adminUser.id },
-        data: { role: "ADMIN" },
+    if (adminUser) {
+      if (adminUser.role !== "ADMIN") {
+        await prisma.user.update({
+          where: { id: adminUser.id },
+          data: { role: "ADMIN" },
+        });
+        console.log(`[Bootstrap] Configured @${adminUser.username} (${adminUser.email}) as platform ADMIN.`);
+      }
+
+      // Enforce single superadmin policy: demote any other ADMIN
+      const otherAdmins = await prisma.user.findMany({
+        where: {
+          role: "ADMIN",
+          id: { not: adminUser.id },
+        },
       });
-      console.log(`[Bootstrap] Designated @${adminUser.username} as platform ADMIN.`);
+
+      for (const other of otherAdmins) {
+        await prisma.user.update({
+          where: { id: other.id },
+          data: { role: "CREATOR" },
+        });
+        console.log(`[Bootstrap] Demoted @${other.username} (${other.email}) from ADMIN to maintain single superadmin policy.`);
+      }
     }
 
     // 2. Promote any user who has authored skills to CREATOR
