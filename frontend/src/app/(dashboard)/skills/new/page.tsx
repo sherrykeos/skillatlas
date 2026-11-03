@@ -97,29 +97,30 @@ export default function CreateSkillPage() {
   if (!isCreator) {
     return (
       <div className="mx-auto max-w-xl space-y-6 py-10">
-        <div className="rounded-xl border border-[#252D28] bg-[#0E1210] p-8 text-center shadow-xl">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+        <div className="rounded-[12px] border border-[#1E2433] bg-[#0F1219] p-8 text-center shadow-2xl relative overflow-hidden">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             <Sparkles className="h-7 w-7" />
           </div>
-          <h1 className="text-xl font-bold text-[#F1F4EF]">
+          <h1 className="text-xl font-bold text-[#F8FAFC]">
             Creator Access Required
           </h1>
-          <p className="mx-auto mt-2 max-w-md text-xs text-[#A9B1AA]">
-            Publishing and editing agent skills requires Creator status. Activation is instant, free, and opens full authoring tools.
+          <p className="mx-auto mt-2 max-w-md text-xs text-[#94A3B8]">
+            Publishing and editing agent skills requires Creator status. Activation is instant, free, and opens full authoring studio capabilities.
           </p>
 
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               onClick={handleActivateCreator}
               disabled={activatingCreator}
-              className="w-full bg-[#30E87F] font-semibold text-[#080B0A] hover:bg-[#28C76D] sm:w-auto"
+              variant="primary"
+              className="w-full font-semibold sm:w-auto shadow-md shadow-emerald-500/15"
             >
               {activatingCreator ? "Activating..." : "Activate Creator Access (Instant)"}
             </Button>
             <Button
               asChild
-              variant="outline"
-              className="w-full border-[#252D28] bg-transparent text-[#A9B1AA] hover:bg-[#141916] sm:w-auto"
+              variant="secondary"
+              className="w-full sm:w-auto"
             >
               <Link href="/dashboard">Back to Dashboard</Link>
             </Button>
@@ -132,29 +133,29 @@ export default function CreateSkillPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-8">
       {/* Top Breadcrumb & Actions */}
-      <div className="flex items-center justify-between border-b border-[#252D28] pb-4">
+      <div className="flex items-center justify-between border-b border-[#1E2433] pb-4">
         <Link
           href="/skills"
-          className="inline-flex items-center gap-1.5 text-xs text-[#707A72] hover:text-[#CCD7C5] transition-colors font-mono"
+          className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-emerald-400 transition-colors font-mono"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to My Skills</span>
         </Link>
-        <span className="text-xs font-mono text-[#CCD7C5]">New Skill Creator</span>
+        <span className="text-xs font-mono text-emerald-400">New Skill Studio</span>
       </div>
 
-      <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl">
         <div className="space-y-1">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
             Create a New Agentic Skill
           </h1>
-          <p className="text-xs text-[#A9B1AA]">
+          <p className="text-xs text-[#94A3B8]">
             Set up skill metadata and initialize your multi-file SKILL.md editor workspace.
           </p>
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 rounded-[6px] border border-[#C58F8F]/30 bg-[#C58F8F]/10 text-xs text-[#C58F8F]">
+          <div className="flex items-center gap-2 p-3 rounded-[8px] border border-rose-500/30 bg-rose-500/10 text-xs text-rose-300">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -162,7 +163,7 @@ export default function CreateSkillPage() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Skill Name</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Skill Name</label>
             <Input
               type="text"
               value={name}
@@ -171,13 +172,13 @@ export default function CreateSkillPage() {
               required
               className="text-xs"
             />
-            <p className="text-[10px] text-[#707A72]">
+            <p className="text-[10px] text-[#64748B]">
               A concise descriptive name for the capability.
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Description</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Description</label>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -185,19 +186,19 @@ export default function CreateSkillPage() {
               required
               className="min-h-[100px] text-xs"
             />
-            <p className="text-[10px] text-[#707A72]">
+            <p className="text-[10px] text-[#64748B]">
               Shown on marketplace search and cards (minimum 10 characters).
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Category</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Category</label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="h-9 bg-[#0E1210] border-[#252D28] text-xs">
+                <SelectTrigger className="h-9 bg-[#0F1219] border-[#1E2433] text-xs">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0E1210] border-[#252D28]">
+                <SelectContent className="bg-[#0F1219] border-[#1E2433]">
                   {CATEGORIES.map((cat) => (
                     <SelectItem key={cat.slug} value={cat.slug}>
                       {cat.name}
@@ -208,7 +209,7 @@ export default function CreateSkillPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Tags (up to 10)</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Tags (up to 10)</label>
               <Input
                 type="text"
                 value={tagInput}
@@ -226,13 +227,13 @@ export default function CreateSkillPage() {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs bg-[#141916] border border-[#252D28] text-[#CCD7C5] font-mono"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs bg-[#161B26] border border-[#1E2433] text-emerald-400 font-mono"
                 >
                   <span>#{tag}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveTag(tag)}
-                    className="text-[#707A72] hover:text-[#C58F8F]"
+                    className="text-[#64748B] hover:text-rose-400 transition-colors"
                   >
                     ×
                   </button>
@@ -241,7 +242,7 @@ export default function CreateSkillPage() {
             </div>
           )}
 
-          <div className="pt-4 border-t border-[#1A211D] flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-[#1E2433] flex items-center justify-end gap-3">
             <Button asChild variant="ghost" size="sm">
               <Link href="/skills">Cancel</Link>
             </Button>
@@ -250,7 +251,7 @@ export default function CreateSkillPage() {
               disabled={isSubmitting}
               variant="primary"
               size="default"
-              className="gap-2 font-semibold"
+              className="gap-2 font-semibold shadow-md shadow-emerald-500/15"
             >
               <PlusCircle className="h-4 w-4" />
               <span>{isSubmitting ? "Initializing..." : "Create Skill Draft"}</span>

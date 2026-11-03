@@ -43,24 +43,25 @@ export default function BecomeCreatorPage() {
   if (isCreator || activated) {
     return (
       <div className="mx-auto max-w-3xl space-y-6 py-8">
-        <div className="relative overflow-hidden rounded-xl border border-[#30E87F]/30 bg-gradient-to-b from-[#141A17] to-[#0E1210] p-8 text-center shadow-2xl">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#30E87F]/40 bg-[#30E87F]/10 text-[#30E87F]">
+        <div className="relative overflow-hidden rounded-[12px] border border-emerald-500/30 bg-[#0F1219] p-8 text-center shadow-2xl">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
             <CheckCircle2 className="h-8 w-8" />
           </div>
-          <Badge className="mb-3 border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+          <Badge className="mb-3 border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             Creator Mode Active
           </Badge>
-          <h1 className="text-2xl font-bold text-[#F1F4EF] sm:text-3xl">
-            You're ready to publish on SkillAtlas!
+          <h1 className="text-2xl font-bold text-[#F8FAFC] sm:text-3xl">
+            You&apos;re ready to publish on SkillAtlas!
           </h1>
-          <p className="mx-auto mt-2 max-w-md text-sm text-[#A9B1AA]">
+          <p className="mx-auto mt-2 max-w-md text-sm text-[#94A3B8]">
             Your account now has full Creator privileges. Start building and sharing agent skills with the community.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               asChild
-              className="w-full bg-[#30E87F] font-semibold text-[#080B0A] hover:bg-[#28C76D] sm:w-auto"
+              variant="primary"
+              className="w-full sm:w-auto font-semibold shadow-md shadow-emerald-500/15"
             >
               <Link href="/skills/new">
                 Create First Skill
@@ -69,11 +70,11 @@ export default function BecomeCreatorPage() {
             </Button>
             <Button
               asChild
-              variant="outline"
-              className="w-full border-[#252D28] bg-[#141A17] text-[#F1F4EF] hover:bg-[#1A211D] sm:w-auto"
+              variant="secondary"
+              className="w-full sm:w-auto"
             >
               <Link href="/github-import">
-                <GitBranch className="mr-2 h-4 w-4 text-[#30E87F]" />
+                <GitBranch className="mr-2 h-4 w-4 text-emerald-400" />
                 Import from GitHub
               </Link>
             </Button>
@@ -86,22 +87,22 @@ export default function BecomeCreatorPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8 py-6">
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-[#252D28] bg-gradient-to-b from-[#141A17] via-[#0E1210] to-[#080B0A] p-8 sm:p-10">
-        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-[#30E87F]/5 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[12px] border border-[#1E2433] bg-[#0F1219] p-8 sm:p-10 shadow-2xl">
+        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-emerald-500/5 blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-2xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#30E87F]/30 bg-[#30E87F]/10 px-3 py-1 text-xs font-semibold text-[#30E87F]">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
             <Sparkles className="h-3.5 w-3.5" />
             1-Click Creator Activation
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#F1F4EF] sm:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#F8FAFC] sm:text-4xl">
             Distribute Your Agent Skills to the World
           </h1>
-          <p className="mt-3 text-base text-[#A9B1AA]">
+          <p className="mt-3 text-base text-[#94A3B8] leading-relaxed">
             Turn your prompts, tools, and agent workflows into discoverable, version-controlled skills. Free for all developers.
           </p>
 
           {error && (
-            <div className="mt-4 rounded-md border border-[#C58F8F]/40 bg-[#C58F8F]/10 p-3 text-xs text-[#E8A0A0]">
+            <div className="mt-4 rounded-md border border-rose-500/40 bg-rose-500/10 p-3 text-xs text-rose-300">
               {error}
             </div>
           )}
@@ -111,7 +112,8 @@ export default function BecomeCreatorPage() {
               size="lg"
               onClick={handleActivate}
               disabled={isLoading}
-              className="bg-[#30E87F] font-bold text-[#080B0A] shadow-lg shadow-[#30E87F]/20 hover:bg-[#28C76D]"
+              variant="primary"
+              className="font-bold shadow-lg shadow-emerald-500/20"
             >
               {isLoading ? (
                 <>
@@ -125,7 +127,7 @@ export default function BecomeCreatorPage() {
                 </>
               )}
             </Button>
-            <span className="text-xs text-[#707A72]">
+            <span className="text-xs text-[#64748B]">
               Instant activation • No review queue
             </span>
           </div>
@@ -134,52 +136,52 @@ export default function BecomeCreatorPage() {
 
       {/* Feature Grid */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="border-[#252D28] bg-[#0E1210] p-5 transition-all hover:border-[#30E87F]/30">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+        <Card className="border-[#1E2433] bg-[#0F1219] p-5 transition-all hover:border-emerald-500/40">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             <Layers className="h-5 w-5" />
           </div>
-          <h3 className="font-semibold text-[#F1F4EF]">Versioned Skill Packaging</h3>
-          <p className="mt-1.5 text-xs leading-relaxed text-[#707A72]">
+          <h3 className="font-semibold text-[#F8FAFC]">Versioned Skill Packaging</h3>
+          <p className="mt-1.5 text-xs leading-relaxed text-[#94A3B8]">
             Tag semantic versions (v1.0.0), write markdown changelogs, and maintain draft updates before pushing live.
           </p>
         </Card>
 
-        <Card className="border-[#252D28] bg-[#0E1210] p-5 transition-all hover:border-[#30E87F]/30">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+        <Card className="border-[#1E2433] bg-[#0F1219] p-5 transition-all hover:border-emerald-500/40">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             <GitBranch className="h-5 w-5" />
           </div>
-          <h3 className="font-semibold text-[#F1F4EF]">GitHub 1-Click Import</h3>
-          <p className="mt-1.5 text-xs leading-relaxed text-[#707A72]">
+          <h3 className="font-semibold text-[#F8FAFC]">GitHub 1-Click Import</h3>
+          <p className="mt-1.5 text-xs leading-relaxed text-[#94A3B8]">
             Sync tools directly from public GitHub repos. We extract folder trees and descriptions automatically.
           </p>
         </Card>
 
-        <Card className="border-[#252D28] bg-[#0E1210] p-5 transition-all hover:border-[#30E87F]/30">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+        <Card className="border-[#1E2433] bg-[#0F1219] p-5 transition-all hover:border-emerald-500/40">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             <BarChart3 className="h-5 w-5" />
           </div>
-          <h3 className="font-semibold text-[#F1F4EF]">Ecosystem Reach & Stats</h3>
-          <p className="mt-1.5 text-xs leading-relaxed text-[#707A72]">
+          <h3 className="font-semibold text-[#F8FAFC]">Ecosystem Reach &amp; Stats</h3>
+          <p className="mt-1.5 text-xs leading-relaxed text-[#94A3B8]">
             Track total installs, agent downloads, upvotes, and community reviews in real time on your creator dashboard.
           </p>
         </Card>
       </div>
 
       {/* Creator Checklist */}
-      <div className="rounded-xl border border-[#252D28] bg-[#0E1210] p-6">
-        <h3 className="text-base font-semibold text-[#F1F4EF]">What happens when you activate?</h3>
+      <div className="rounded-[12px] border border-[#1E2433] bg-[#0F1219] p-6 shadow-xl">
+        <h3 className="text-base font-semibold text-[#F8FAFC]">What happens when you activate?</h3>
         <ul className="mt-4 space-y-3">
-          <li className="flex items-center gap-3 text-sm text-[#A9B1AA]">
-            <CheckCircle2 className="h-4 w-4 text-[#30E87F]" />
-            You gain access to the "Create Skill" and "GitHub Import" features immediately.
+          <li className="flex items-center gap-3 text-sm text-[#94A3B8]">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+            <span>You gain access to the &quot;Create Skill&quot; and &quot;GitHub Import&quot; features immediately.</span>
           </li>
-          <li className="flex items-center gap-3 text-sm text-[#A9B1AA]">
-            <CheckCircle2 className="h-4 w-4 text-[#30E87F]" />
-            Your public author profile shows your published skills and contributions.
+          <li className="flex items-center gap-3 text-sm text-[#94A3B8]">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+            <span>Your public author profile shows your published skills and contributions.</span>
           </li>
-          <li className="flex items-center gap-3 text-sm text-[#A9B1AA]">
-            <CheckCircle2 className="h-4 w-4 text-[#30E87F]" />
-            You keep all standard user capabilities (bookmarking, upvoting, reviewing, downloading).
+          <li className="flex items-center gap-3 text-sm text-[#94A3B8]">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+            <span>You keep all standard user capabilities (bookmarking, upvoting, reviewing, downloading).</span>
           </li>
         </ul>
       </div>

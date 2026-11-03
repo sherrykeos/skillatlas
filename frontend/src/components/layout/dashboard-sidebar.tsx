@@ -83,15 +83,15 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <aside className="w-64 border-r border-[#252D28] bg-[#0E1210] flex flex-col shrink-0 h-screen sticky top-0">
+    <aside className="w-64 border-r border-[#1E2433] bg-[#0F1219] flex flex-col shrink-0 h-screen sticky top-0">
       {/* Brand Header */}
-      <div className="h-14 px-6 border-b border-[#252D28] flex items-center justify-between">
+      <div className="h-14 px-6 border-b border-[#1E2433] flex items-center justify-between">
         <Logo size="sm" />
       </div>
 
       {/* Main Navigation */}
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-        <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#707A72]">
+        <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#64748B]">
           {isCreator ? "Creator Studio" : "Workspace"}
         </div>
         {userItems.map((item) => {
@@ -104,19 +104,19 @@ export function DashboardSidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-[8px] text-xs font-medium transition-all ${
                 item.highlight
-                  ? "bg-[#30E87F]/10 text-[#30E87F] border border-[#30E87F]/30 hover:bg-[#30E87F]/20 font-semibold"
+                  ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 font-semibold"
                   : isActive
-                  ? "bg-[#141916] text-[#CCD7C5] border border-[#252D28] shadow-sm font-semibold"
-                  : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
+                  ? "bg-[#161B26] text-emerald-400 border border-[#1E2433] shadow-sm font-semibold"
+                  : "text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC]"
               }`}
             >
               <Icon
                 className={`h-4 w-4 shrink-0 transition-colors ${
                   item.highlight
-                    ? "text-[#30E87F]"
+                    ? "text-emerald-400"
                     : isActive
-                    ? "text-[#CCD7C5]"
-                    : "text-[#707A72]"
+                    ? "text-emerald-400"
+                    : "text-[#64748B]"
                 }`}
               />
               <span>{item.title}</span>
@@ -127,7 +127,7 @@ export function DashboardSidebar() {
         {/* Dedicated Admin Section */}
         {isAdmin && (
           <>
-            <div className="pt-6 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#9FB8B2]/70">
+            <div className="pt-6 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-cyan-400/80">
               Admin Console
             </div>
             {adminItems.map((item) => {
@@ -140,13 +140,13 @@ export function DashboardSidebar() {
                   href={item.href}
                   className={`flex items-center gap-3 px-3 py-2 rounded-[8px] text-xs font-medium transition-all ${
                     isActive
-                      ? "bg-[#1A2520] text-[#30E87F] border border-[#30E87F]/30 shadow-sm font-semibold"
-                      : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-sm font-semibold"
+                      : "text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC]"
                   }`}
                 >
                   <Icon
                     className={`h-4 w-4 shrink-0 transition-colors ${
-                      isActive ? "text-[#30E87F]" : "text-[#707A72]"
+                      isActive ? "text-emerald-400" : "text-[#64748B]"
                     }`}
                   />
                   <span>{item.title}</span>
@@ -156,7 +156,7 @@ export function DashboardSidebar() {
           </>
         )}
 
-        <div className="pt-6 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#707A72]">
+        <div className="pt-6 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#64748B]">
           Resources
         </div>
         {footerItems.map((item) => {
@@ -168,9 +168,9 @@ export function DashboardSidebar() {
               href={item.href}
               target={item.isExternal ? "_blank" : undefined}
               rel={item.isExternal ? "noopener noreferrer" : undefined}
-              className="flex items-center gap-3 px-3 py-2 rounded-[8px] text-xs font-medium text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF] transition-all"
+              className="flex items-center gap-3 px-3 py-2 rounded-[8px] text-xs font-medium text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC] transition-all"
             >
-              <Icon className="h-4 w-4 shrink-0 text-[#707A72]" />
+              <Icon className="h-4 w-4 shrink-0 text-[#64748B]" />
               <span>{item.title}</span>
             </Link>
           );
@@ -179,29 +179,29 @@ export function DashboardSidebar() {
 
       {/* User Footer Profile Card */}
       {user && (
-        <div className="p-3 border-t border-[#252D28] bg-[#080B0A]/40">
-          <div className="flex items-center justify-between gap-2 p-2 rounded-[8px] bg-[#141916] border border-[#252D28]">
+        <div className="p-3 border-t border-[#1E2433] bg-[#090A0F]/60">
+          <div className="flex items-center justify-between gap-2 p-2 rounded-[8px] bg-[#161B26] border border-[#1E2433]">
             <div className="flex items-center gap-2.5 overflow-hidden">
-              <Avatar className="h-7 w-7 border border-[#252D28]">
+              <Avatar className="h-7 w-7 border border-[#1E2433]">
                 <AvatarImage src={user.avatar || undefined} alt={user.username} />
                 <AvatarFallback className="text-[10px]">{getInitials(user.username)}</AvatarFallback>
               </Avatar>
               <div className="overflow-hidden text-left">
                 <div className="flex items-center gap-1.5">
-                  <p className="text-xs font-medium text-[#F1F4EF] truncate">{user.username}</p>
+                  <p className="text-xs font-medium text-[#F8FAFC] truncate">{user.username}</p>
                   {user.role && user.role !== "USER" && (
-                    <span className="rounded bg-[#30E87F]/10 px-1 py-0.2 text-[9px] font-semibold text-[#30E87F]">
+                    <span className="rounded bg-emerald-500/10 px-1 py-0.2 text-[9px] font-semibold text-emerald-400">
                       {user.role}
                     </span>
                   )}
                 </div>
-                <p className="text-[10px] text-[#707A72] truncate">{user.email}</p>
+                <p className="text-[10px] text-[#64748B] truncate">{user.email}</p>
               </div>
             </div>
             <button
               onClick={() => logout()}
               title="Sign Out"
-              className="p-1 text-[#707A72] hover:text-[#C58F8F] transition-colors rounded hover:bg-[#C58F8F]/10"
+              className="p-1 text-[#64748B] hover:text-rose-400 transition-colors rounded hover:bg-rose-500/10"
             >
               <LogOut className="h-3.5 w-3.5" />
             </button>

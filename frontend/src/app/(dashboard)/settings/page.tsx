@@ -45,21 +45,21 @@ export default function AccountSettingsPage() {
 
   return (
     <div className="max-w-2xl space-y-8">
-      <div className="border-b border-[#252D28] pb-6">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+      <div className="border-b border-[#1E2433] pb-6">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
           Account &amp; Security Settings
         </h1>
-        <p className="text-xs text-[#A9B1AA] mt-1">
+        <p className="text-xs text-[#94A3B8] mt-1">
           Manage your login credentials, security preferences, and account controls.
         </p>
       </div>
 
       {/* Email Overview */}
-      <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 space-y-4">
+      <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 space-y-4 shadow-xl">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <h3 className="text-sm font-semibold text-[#F1F4EF]">Account Email</h3>
-            <p className="text-xs text-[#A9B1AA]">Primary email for notifications and login.</p>
+            <h3 className="text-sm font-semibold text-[#F8FAFC]">Account Email</h3>
+            <p className="text-xs text-[#94A3B8]">Primary email for notifications and login.</p>
           </div>
           <Badge variant="success" className="text-[10px] gap-1">
             <ShieldCheck className="h-3 w-3" />
@@ -68,37 +68,38 @@ export default function AccountSettingsPage() {
         </div>
 
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
           <Input
             type="email"
             value={user?.email || ""}
             disabled
-            className="pl-9 text-xs bg-[#141916] text-[#A9B1AA]"
+            className="pl-9 text-xs bg-[#161B26] text-[#94A3B8]"
           />
         </div>
       </div>
 
       {/* Change Password Form */}
-      <form onSubmit={handlePasswordChange} className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 space-y-5">
+      <form onSubmit={handlePasswordChange} className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 space-y-5 shadow-xl">
         <div className="space-y-0.5">
-          <h3 className="text-sm font-semibold text-[#F1F4EF] flex items-center gap-2">
-            <KeyRound className="h-4 w-4 text-[#CCD7C5]" />
+          <h3 className="text-sm font-semibold text-[#F8FAFC] flex items-center gap-2">
+            <KeyRound className="h-4 w-4 text-emerald-400" />
             <span>Change Password</span>
           </h3>
-          <p className="text-xs text-[#A9B1AA]">
+          <p className="text-xs text-[#94A3B8]">
             Update your password to keep your creator studio secure.
           </p>
         </div>
 
         <div className="space-y-3 pt-2">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Current Password</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Current Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
               <Input
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="••••••••••••"
                 required
                 className="pl-9 text-xs"
               />
@@ -106,14 +107,14 @@ export default function AccountSettingsPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">New Password</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">New Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
               <Input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Minimum 6 characters"
+                placeholder="••••••••••••"
                 required
                 className="pl-9 text-xs"
               />
@@ -121,13 +122,14 @@ export default function AccountSettingsPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Confirm New Password</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Confirm New Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" />
               <Input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••••••"
                 required
                 className="pl-9 text-xs"
               />
@@ -135,44 +137,18 @@ export default function AccountSettingsPage() {
           </div>
         </div>
 
-        <div className="pt-2 flex justify-end">
+        <div className="pt-2">
           <Button
             type="submit"
             disabled={isChangingPassword}
             variant="primary"
             size="sm"
-            className="font-semibold"
+            className="font-semibold shadow-md shadow-emerald-500/15"
           >
-            {isChangingPassword ? "Updating Password..." : "Update Password"}
+            {isChangingPassword ? "Updating..." : "Update Password"}
           </Button>
         </div>
       </form>
-
-      {/* Danger Zone */}
-      <div className="border border-[#C58F8F]/30 rounded-[10px] bg-[#C58F8F]/5 p-6 space-y-3">
-        <div className="flex items-center gap-2 text-[#C58F8F]">
-          <AlertTriangle className="h-4 w-4" />
-          <h3 className="text-sm font-semibold">Danger Zone</h3>
-        </div>
-        <p className="text-xs text-[#A9B1AA] leading-relaxed">
-          Deleting your account will permanently remove all unpublished drafts and personal collections. Published skills will be archived.
-        </p>
-        <div className="pt-2">
-          <Button
-            type="button"
-            onClick={() => {
-              if (confirm("Are you sure you want to request account deletion?")) {
-                toast.info("Account deletion request logged.");
-              }
-            }}
-            variant="danger"
-            size="sm"
-            className="text-xs"
-          >
-            Request Account Deletion
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }

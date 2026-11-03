@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { PlusCircle, Boxes, Download, ThumbsUp, ArrowRight, Sparkles } from "lucide-react";
+import { PlusCircle, Boxes, Download, ThumbsUp, ArrowRight, Sparkles, Terminal } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -52,15 +52,15 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
-              Welcome back{user?.username ? `, ${user.username}` : ""}{" "}
-              <span className="inline-block animate-wave">⚡</span>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
+              Welcome back{user?.username ? `, ${user.username}` : ""}
             </h1>
+            <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
-          <p className="text-xs text-[#A9B1AA]">
+          <p className="text-xs text-[#94A3B8]">
             Here&apos;s a summary of your published skills and community usage.
           </p>
         </div>
@@ -68,12 +68,12 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2.5">
           <Button asChild variant="secondary" size="sm" className="gap-1.5 text-xs">
             <Link href="/github-import">
-              <GithubIcon className="h-3.5 w-3.5 text-[#CCD7C5]" />
+              <GithubIcon className="h-3.5 w-3.5 text-[#94A3B8]" />
               <span>Import GitHub</span>
             </Link>
           </Button>
 
-          <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold">
+          <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold shadow-sm">
             <Link href="/skills/new">
               <PlusCircle className="h-3.5 w-3.5" />
               <span>Create Skill</span>
@@ -85,15 +85,15 @@ export default function DashboardPage() {
       {/* Top Stats Cards */}
       <CreatorStatsGrid
         publishedCount={publishedSkills.length}
+        draftCount={draftSkills.length}
         totalDownloads={totalDownloads}
         totalUpvotes={totalUpvotes}
-        growthRate="+18%"
       />
 
       {/* Chart & Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div className="lg:col-span-7">
-          <DownloadsChart />
+          <DownloadsChart skills={skills} />
         </div>
         <div className="lg:col-span-5">
           <ActivityFeed skills={skills} />
@@ -104,23 +104,23 @@ export default function DashboardPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-bold text-[#F1F4EF] flex items-center gap-2">
-              <Boxes className="h-4 w-4 text-[#CCD7C5]" />
+            <h2 className="text-base font-bold text-[#F8FAFC] flex items-center gap-2">
+              <Boxes className="h-4 w-4 text-emerald-400" />
               <span>My Skills ({skills.length})</span>
             </h2>
-            <p className="text-xs text-[#707A72]">
+            <p className="text-xs text-[#64748B]">
               {publishedSkills.length} published • {draftSkills.length} drafts
             </p>
           </div>
 
-          <Button asChild variant="ghost" size="sm" className="text-xs text-[#CCD7C5]">
+          <Button asChild variant="ghost" size="sm" className="text-xs text-emerald-400 hover:text-emerald-300">
             <Link href="/skills">Manage all skills →</Link>
           </Button>
         </div>
 
         {skills.length === 0 ? (
-          <Card className="p-8 text-center border-[#252D28] bg-[#0E1210] space-y-3">
-            <p className="text-xs text-[#A9B1AA]">
+          <Card className="p-8 text-center border-[#1E2433] bg-[#0F1219] space-y-3 shadow-sm">
+            <p className="text-xs text-[#94A3B8]">
               You haven&apos;t created any skills yet. Build your first reusable AI capability now!
             </p>
             <Button asChild variant="primary" size="sm">
@@ -128,9 +128,9 @@ export default function DashboardPage() {
             </Button>
           </Card>
         ) : (
-          <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] overflow-x-auto">
+          <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] overflow-x-auto shadow-sm">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#141916] border-b border-[#252D28] text-[#707A72] font-mono">
+              <thead className="bg-[#090A0F] border-b border-[#1E2433] text-[#64748B] font-mono">
                 <tr>
                   <th className="p-3.5 pl-4">Skill</th>
                   <th className="p-3.5">Status</th>
@@ -141,18 +141,18 @@ export default function DashboardPage() {
                   <th className="p-3.5 pr-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1A211D]">
+              <tbody className="divide-y divide-[#1E2433]/70">
                 {skills.slice(0, 5).map((skill) => {
                   const latestVersion = skill.versions?.[0]?.version || "1.0.0";
                   const downloads = skill.downloadCount ?? skill._count?.downloads ?? 0;
                   const upvotes = skill.upvoteCount ?? skill._count?.upvotes ?? 0;
 
                   return (
-                    <tr key={skill.id} className="hover:bg-[#141916]/40 transition-colors">
-                      <td className="p-3.5 pl-4 font-semibold text-[#F1F4EF]">
+                    <tr key={skill.id} className="hover:bg-[#161B26]/40 transition-colors">
+                      <td className="p-3.5 pl-4 font-semibold text-[#F8FAFC]">
                         <Link
                           href={`/skills/${skill.slug}`}
-                          className="hover:text-[#CCD7C5] transition-colors"
+                          className="hover:text-emerald-400 transition-colors"
                         >
                           {skill.name}
                         </Link>
@@ -174,10 +174,10 @@ export default function DashboardPage() {
                           </Badge>
                         )}
                       </td>
-                      <td className="p-3.5 font-mono text-[#A9B1AA]">v{latestVersion}</td>
-                      <td className="p-3.5 font-mono text-[#A9B1AA]">{formatNumber(downloads)}</td>
-                      <td className="p-3.5 font-mono text-[#A9B1AA]">{formatNumber(upvotes)}</td>
-                      <td className="p-3.5 font-mono text-[#707A72]">{formatDate(skill.updatedAt)}</td>
+                      <td className="p-3.5 font-mono text-[#94A3B8]">v{latestVersion}</td>
+                      <td className="p-3.5 font-mono text-[#94A3B8]">{formatNumber(downloads)}</td>
+                      <td className="p-3.5 font-mono text-[#94A3B8]">{formatNumber(upvotes)}</td>
+                      <td className="p-3.5 font-mono text-[#64748B]">{formatDate(skill.updatedAt)}</td>
                       <td className="p-3.5 pr-4 text-right">
                         <Button asChild variant="ghost" size="xs">
                           <Link href={`/skills/${skill.id}/edit`}>Edit Studio</Link>

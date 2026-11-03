@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   Boxes,
   MoreVertical,
+  ExternalLink,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
@@ -84,25 +85,25 @@ export default function MySkillsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
             My Skills
           </h1>
-          <p className="text-xs text-[#A9B1AA] mt-1">
-            Manage your draft, published, and archived agentic skills.
+          <p className="text-xs text-[#94A3B8] mt-1">
+            Manage your draft, published, and archived agent capabilities.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           <Button asChild variant="secondary" size="sm" className="gap-1.5 text-xs">
             <Link href="/github-import">
-              <GithubIcon className="h-3.5 w-3.5 text-[#CCD7C5]" />
+              <GithubIcon className="h-3.5 w-3.5 text-[#94A3B8]" />
               <span>Import GitHub</span>
             </Link>
           </Button>
 
-          <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold">
+          <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold shadow-md shadow-emerald-500/15">
             <Link href="/skills/new">
               <PlusCircle className="h-3.5 w-3.5" />
               <span>Create Skill</span>
@@ -117,7 +118,7 @@ export default function MySkillsPage() {
           value={filterTab}
           onValueChange={(val) => setFilterTab(val as "ALL" | SkillStatus)}
         >
-          <TabsList className="bg-[#0E1210] border-[#252D28]">
+          <TabsList className="bg-[#0F1219] border border-[#1E2433]">
             <TabsTrigger value="ALL" className="text-xs">
               All ({skills.length})
             </TabsTrigger>
@@ -149,9 +150,9 @@ export default function MySkillsPage() {
           actionHref="/skills/new"
         />
       ) : (
-        <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] overflow-x-auto">
+        <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] overflow-x-auto shadow-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#141916] border-b border-[#252D28] text-[#707A72] font-mono">
+            <thead className="bg-[#090A0F] border-b border-[#1E2433] text-[#64748B] font-mono">
               <tr>
                 <th className="p-3.5 pl-4">Skill</th>
                 <th className="p-3.5">Status</th>
@@ -162,23 +163,23 @@ export default function MySkillsPage() {
                 <th className="p-3.5 pr-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#1A211D]">
+            <tbody className="divide-y divide-[#1E2433]">
               {filteredSkills.map((skill) => {
                 const latestVersion = skill.versions?.[0]?.version || "1.0.0";
                 const downloads = skill.downloadCount ?? skill._count?.downloads ?? 0;
                 const upvotes = skill.upvoteCount ?? skill._count?.upvotes ?? 0;
 
                 return (
-                  <tr key={skill.id} className="hover:bg-[#141916]/40 transition-colors">
-                    <td className="p-3.5 pl-4 font-semibold text-[#F1F4EF]">
+                  <tr key={skill.id} className="hover:bg-[#161B26]/50 transition-colors">
+                    <td className="p-3.5 pl-4 font-semibold text-[#F8FAFC]">
                       <div className="flex flex-col">
                         <Link
                           href={skill.status === "PUBLISHED" ? `/skills/${skill.slug}` : `/skills/${skill.id}/edit`}
-                          className="hover:text-[#CCD7C5] transition-colors"
+                          className="hover:text-emerald-400 transition-colors"
                         >
                           {skill.name}
                         </Link>
-                        <span className="text-[11px] font-mono text-[#707A72] truncate max-w-xs">
+                        <span className="text-[11px] font-mono text-[#64748B] truncate max-w-xs">
                           {skill.slug}
                         </span>
                       </div>
@@ -200,10 +201,10 @@ export default function MySkillsPage() {
                         </Badge>
                       )}
                     </td>
-                    <td className="p-3.5 font-mono text-[#A9B1AA]">v{latestVersion}</td>
-                    <td className="p-3.5 font-mono text-[#A9B1AA]">{formatNumber(downloads)}</td>
-                    <td className="p-3.5 font-mono text-[#A9B1AA]">{formatNumber(upvotes)}</td>
-                    <td className="p-3.5 font-mono text-[#707A72]">{formatDate(skill.updatedAt)}</td>
+                    <td className="p-3.5 font-mono text-[#94A3B8]">v{latestVersion}</td>
+                    <td className="p-3.5 font-mono text-[#94A3B8]">{formatNumber(downloads)}</td>
+                    <td className="p-3.5 font-mono text-[#94A3B8]">{formatNumber(upvotes)}</td>
+                    <td className="p-3.5 font-mono text-[#64748B]">{formatDate(skill.updatedAt)}</td>
                     <td className="p-3.5 pr-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <Button asChild variant="secondary" size="xs">
@@ -216,14 +217,14 @@ export default function MySkillsPage() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="iconSm">
-                              <MoreVertical className="h-3.5 w-3.5 text-[#707A72]" />
+                              <MoreVertical className="h-3.5 w-3.5 text-[#64748B]" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-40 bg-[#0E1210]">
+                          <DropdownMenuContent align="end" className="w-40 bg-[#0F1219]">
                             {skill.status === "PUBLISHED" && (
                               <DropdownMenuItem asChild>
                                 <Link href={`/skills/${skill.slug}`} className="gap-2">
-                                  <Eye className="h-3.5 w-3.5 text-[#CCD7C5]" />
+                                  <Eye className="h-3.5 w-3.5 text-emerald-400" />
                                   <span>View Public</span>
                                 </Link>
                               </DropdownMenuItem>
@@ -234,7 +235,7 @@ export default function MySkillsPage() {
                                 onClick={() => archiveMutation.mutate(skill.id)}
                                 className="gap-2"
                               >
-                                <Archive className="h-3.5 w-3.5 text-[#AAB8A3]" />
+                                <Archive className="h-3.5 w-3.5 text-[#94A3B8]" />
                                 <span>Archive</span>
                               </DropdownMenuItem>
                             )}
@@ -244,7 +245,7 @@ export default function MySkillsPage() {
                                 onClick={() => restoreMutation.mutate(skill.id)}
                                 className="gap-2"
                               >
-                                <RotateCcw className="h-3.5 w-3.5 text-[#9FBEA5]" />
+                                <RotateCcw className="h-3.5 w-3.5 text-emerald-400" />
                                 <span>Restore to Draft</span>
                               </DropdownMenuItem>
                             )}
@@ -253,13 +254,12 @@ export default function MySkillsPage() {
                               <>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
-                                  danger
                                   onClick={() => {
                                     if (confirm(`Are you sure you want to delete draft "${skill.name}"?`)) {
                                       deleteMutation.mutate(skill.id);
                                     }
                                   }}
-                                  className="gap-2"
+                                  className="gap-2 text-rose-400 hover:text-rose-300 focus:text-rose-300"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
                                   <span>Delete Draft</span>

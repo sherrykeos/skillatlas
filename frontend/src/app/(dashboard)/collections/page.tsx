@@ -25,7 +25,6 @@ export default function CollectionsPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["user-collections"],
@@ -72,12 +71,12 @@ export default function CollectionsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
             Skill Collections
           </h1>
-          <p className="text-xs text-[#A9B1AA] mt-1">
+          <p className="text-xs text-[#94A3B8] mt-1">
             Group skills into curated bundles for specific agent objectives.
           </p>
         </div>
@@ -86,7 +85,7 @@ export default function CollectionsPage() {
           onClick={() => setCreateOpen(true)}
           variant="primary"
           size="sm"
-          className="gap-1.5 text-xs font-semibold"
+          className="gap-1.5 text-xs font-semibold shadow-md shadow-emerald-500/15"
         >
           <Plus className="h-3.5 w-3.5" />
           <span>New Collection</span>
@@ -106,11 +105,11 @@ export default function CollectionsPage() {
           {collections.map((col) => (
             <div
               key={col.id}
-              className="p-5 rounded-[8px] border border-[#252D28] bg-[#0E1210] hover:border-[#CCD7C5]/40 transition-all flex flex-col justify-between space-y-4 shadow-sm"
+              className="p-5 rounded-[10px] border border-[#1E2433] bg-[#0F1219] hover:border-emerald-500/40 hover:bg-[#161B26] transition-all flex flex-col justify-between space-y-4 shadow-xl"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="h-9 w-9 rounded-[6px] border border-[#252D28] bg-[#141916] flex items-center justify-center text-[#CCD7C5]">
+                  <div className="h-9 w-9 rounded-[8px] border border-[#1E2433] bg-[#161B26] flex items-center justify-center text-emerald-400">
                     <FolderHeart className="h-4 w-4" />
                   </div>
                   <button
@@ -119,7 +118,7 @@ export default function CollectionsPage() {
                         deleteMutation.mutate(col.id);
                       }
                     }}
-                    className="p-1.5 text-[#707A72] hover:text-[#C58F8F] rounded hover:bg-[#C58F8F]/10 transition-colors"
+                    className="p-1.5 text-[#64748B] hover:text-rose-400 rounded hover:bg-rose-500/10 transition-colors"
                     title="Delete collection"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -127,18 +126,18 @@ export default function CollectionsPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-base font-bold text-[#F1F4EF]">{col.name}</h3>
-                  <p className="text-xs text-[#A9B1AA] mt-1 line-clamp-2">
+                  <h3 className="text-base font-bold text-[#F8FAFC]">{col.name}</h3>
+                  <p className="text-xs text-[#94A3B8] mt-1 line-clamp-2 leading-relaxed">
                     {col.description || "No description provided."}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-[#1A211D] flex items-center justify-between">
-                <span className="text-xs font-mono text-[#707A72]">
+              <div className="pt-3 border-t border-[#1E2433] flex items-center justify-between">
+                <span className="text-xs font-mono text-[#64748B]">
                   {col._count?.skills ?? col.skills?.length ?? 0} skills
                 </span>
-                <Button asChild variant="ghost" size="xs" className="text-xs text-[#CCD7C5] gap-1">
+                <Button asChild variant="ghost" size="xs" className="text-xs text-emerald-400 hover:text-emerald-300 gap-1">
                   <Link href={`/collections/${col.id}`}>
                     <span>Open</span>
                     <ArrowRight className="h-3 w-3" />
@@ -152,19 +151,19 @@ export default function CollectionsPage() {
 
       {/* Create Collection Modal */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-md bg-[#0E1210] border-[#252D28]">
+        <DialogContent className="max-w-md bg-[#0F1219] border-[#1E2433]">
           <DialogHeader>
-            <DialogTitle className="text-base font-bold text-[#F1F4EF]">
+            <DialogTitle className="text-base font-bold text-[#F8FAFC]">
               Create New Collection
             </DialogTitle>
-            <DialogDescription className="text-xs text-[#A9B1AA]">
+            <DialogDescription className="text-xs text-[#94A3B8]">
               Bundle multiple agentic skills into a themed toolkit.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleCreate} className="space-y-4 py-2">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Collection Name</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Collection Name</label>
               <Input
                 type="text"
                 value={name}
@@ -176,7 +175,7 @@ export default function CollectionsPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Description (Optional)</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Description (Optional)</label>
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -191,6 +190,7 @@ export default function CollectionsPage() {
                 onClick={() => setCreateOpen(false)}
                 variant="ghost"
                 size="sm"
+                className="text-xs text-[#94A3B8]"
               >
                 Cancel
               </Button>
@@ -199,7 +199,7 @@ export default function CollectionsPage() {
                 disabled={createMutation.isPending || !name.trim()}
                 variant="primary"
                 size="sm"
-                className="font-semibold"
+                className="font-semibold shadow-md shadow-emerald-500/15"
               >
                 {createMutation.isPending ? "Creating..." : "Create Collection"}
               </Button>

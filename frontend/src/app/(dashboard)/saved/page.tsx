@@ -26,26 +26,27 @@ export default function SavedPage() {
     queryFn: () => engagementApi.getCollections(),
   });
 
-  const savedSkills = savedData?.savedSkills?.map((item) => ({
-    ...item.skill,
-    hasSaved: true,
-  })) || [];
+  const savedSkills =
+    savedData?.savedSkills?.map((item) => ({
+      ...item.skill,
+      hasSaved: true,
+    })) || [];
 
   const collections = collectionsData?.collections || [];
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-6">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
             My Library
           </h1>
-          <p className="text-xs text-[#A9B1AA] mt-1">
+          <p className="text-xs text-[#94A3B8] mt-1">
             Bookmarked skills and custom collections for your autonomous agents.
           </p>
         </div>
 
-        <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold">
+        <Button asChild variant="primary" size="sm" className="gap-1.5 text-xs font-semibold shadow-md shadow-emerald-500/15">
           <Link href="/explore">
             <Compass className="h-3.5 w-3.5" />
             <span>Discover More Skills</span>
@@ -54,7 +55,7 @@ export default function SavedPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-[#0E1210] border-[#252D28]">
+        <TabsList className="bg-[#0F1219] border border-[#1E2433]">
           <TabsTrigger value="saved" className="text-xs gap-1.5">
             <Bookmark className="h-3.5 w-3.5" />
             <span>Saved Skills ({savedSkills.length})</span>
@@ -99,22 +100,22 @@ export default function SavedPage() {
                 <Link
                   key={col.id}
                   href={`/collections/${col.id}`}
-                  className="group p-5 rounded-[8px] border border-[#252D28] bg-[#0E1210] hover:border-[#CCD7C5]/40 hover:bg-[#141916] transition-all space-y-3 shadow-sm block"
+                  className="group p-5 rounded-[10px] border border-[#1E2433] bg-[#0F1219] hover:border-emerald-500/40 hover:bg-[#161B26] transition-all space-y-3 shadow-xl block"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="h-9 w-9 rounded-[6px] border border-[#252D28] bg-[#141916] flex items-center justify-center text-[#CCD7C5]">
+                    <div className="h-9 w-9 rounded-[8px] border border-[#1E2433] bg-[#161B26] flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
                       <FolderHeart className="h-4 w-4" />
                     </div>
-                    <span className="text-xs font-mono text-[#CCD7C5] bg-[#CCD7C5]/10 px-2 py-0.5 rounded">
+                    <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
                       {col._count?.skills ?? col.skills?.length ?? 0} skills
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-[#F1F4EF] group-hover:text-[#CCD7C5] transition-colors">
+                    <h3 className="text-sm font-bold text-[#F8FAFC] group-hover:text-emerald-400 transition-colors">
                       {col.name}
                     </h3>
-                    <p className="text-xs text-[#A9B1AA] mt-1 line-clamp-2">
+                    <p className="text-xs text-[#94A3B8] mt-1 line-clamp-2 leading-relaxed">
                       {col.description || "Custom skill collection"}
                     </p>
                   </div>

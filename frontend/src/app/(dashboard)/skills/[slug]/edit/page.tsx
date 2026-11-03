@@ -102,101 +102,97 @@ export default function SkillEditStudioPage({
   };
 
   const handleAddFile = (newPath: string) => {
+    const isMarkdown = newPath.endsWith(".md");
     const newFile: SkillFile = {
       path: newPath,
-      content: newPath.endsWith(".md") ? `# ${newPath}\n` : "",
-      mimeType: newPath.endsWith(".md") ? "text/markdown" : "text/plain",
+      content: isMarkdown ? `# ${newPath}\n\n` : "",
+      mimeType: isMarkdown ? "text/markdown" : "text/plain",
     };
     setFiles((prev) => [...prev, newFile]);
     setSelectedPath(newPath);
-    toast.success(`Created file "${newPath}"`);
   };
 
   const handleRenameFile = (oldPath: string, newPath: string) => {
     setFiles((prev) =>
       prev.map((f) => (f.path === oldPath ? { ...f, path: newPath } : f))
     );
-    if (selectedPath === oldPath) setSelectedPath(newPath);
-    toast.success(`Renamed file to "${newPath}"`);
+    if (selectedPath === oldPath) {
+      setSelectedPath(newPath);
+    }
   };
 
-  const handleDeleteFile = (path: string) => {
-    if (path === "SKILL.md") {
-      toast.error("SKILL.md is required and cannot be deleted.");
-      return;
+  const handleDeleteFile = (pathToDelete: string) => {
+    setFiles((prev) => prev.filter((f) => f.path !== pathToDelete));
+    if (selectedPath === pathToDelete) {
+      setSelectedPath("SKILL.md");
     }
-    const remaining = files.filter((f) => f.path !== path);
-    setFiles(remaining);
-    if (selectedPath === path) {
-      setSelectedPath(remaining[0]?.path || "SKILL.md");
-    }
-    toast.success(`Deleted file "${path}"`);
   };
 
   // Save Draft Mutation
   const saveDraftMutation = useMutation({
     mutationFn: async () => {
-      // 1. Update metadata
-      await skillsApi.update(skillId, {
-        name: name.trim(),
-        description: description.trim(),
+      if (!skill) return;
+      await skillsApi.update(skill.id, {
+        name,
+        description,
       });
 
-      // 2. Update files in active version draft
-      if (activeVersion?.id) {
-        await skillsApi.updateVersion(skillId, activeVersion.id, {
-          files,
-        });
+      if (activeVersion) {
+        await skillsApi.updateVersion(skill.id, activeVersion.id, { files });
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["creator-skill", skillId] });
-      queryClient.invalidateQueries({ queryKey: ["my-skills"] });
-      toast.success("Skill draft & files saved successfully!");
+      toast.success("Draft saved successfully.");
     },
-    onError: (err: any) => toast.error(err.message || "Failed to save draft."),
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to save draft.");
+    },
   });
 
   // Create Version Mutation
-  const handleCreateVersion = async (version: string, changelog: string) => {
-    await skillsApi.createVersion(skillId, {
-      version,
-      changelog,
-      files,
-    });
-    queryClient.invalidateQueries({ queryKey: ["creator-skill", skillId] });
-    toast.success(`New version v${version} created!`);
+  const handleCreateVersion = async (versionStr: string, changelog: string) => {
+    if (!skill) return;
+    try {
+      await skillsApi.createVersion(skill.id, {
+        version: versionStr,
+        changelog,
+        files,
+      });
+      queryClient.invalidateQueries({ queryKey: ["creator-skill", skillId] });
+      toast.success(`Version ${versionStr} created!`);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create version.");
+      throw err;
+    }
   };
 
   // Publish Mutation
   const handlePublish = async () => {
-    const skillMd = files.find((f) => f.path === "SKILL.md");
-    if (!skillMd || !skillMd.content.trim()) {
-      toast.error("SKILL.md is required and cannot be empty before publishing.");
-      return;
+    if (!skill) return;
+    try {
+      await saveDraftMutation.mutateAsync();
+      await skillsApi.publish(skill.id, activeVersion?.id);
+      queryClient.invalidateQueries({ queryKey: ["creator-skill", skillId] });
+      toast.success(`"${name}" is now live on SkillAtlas!`);
+      router.push(`/skills/${skill.slug}`);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to publish skill.");
+      throw err;
     }
-
-    // Save current changes first
-    await saveDraftMutation.mutateAsync();
-    // Call publish endpoint
-    await skillsApi.publish(skillId, activeVersion?.id);
-
-    queryClient.invalidateQueries({ queryKey: ["creator-skill", skillId] });
-    queryClient.invalidateQueries({ queryKey: ["my-skills"] });
-    toast.success(`Skill "${name}" published successfully!`);
-    router.push(`/skills/${skill?.slug}`);
   };
 
   if (isLoading) {
-    return <LoadingState message="Loading skill editor studio..." />;
+    return <LoadingState message="Loading skill studio..." />;
   }
 
   if (isError || !skill) {
     return (
       <ErrorState
-        title="Unable to load skill"
-        message="This skill could not be found or you do not have permission to edit it."
-        onRetry={() => refetch()}
+        title="Could not load skill studio"
+        message="The skill might not exist or you might not have creator permissions."
+        actionLabel="Back to My Skills"
+        onAction={() => router.push("/skills")}
       />
     );
   }
@@ -204,19 +200,19 @@ export default function SkillEditStudioPage({
   return (
     <div className="space-y-4">
       {/* Top Navigation & Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-4">
         <div className="flex items-center gap-3">
           <Button asChild variant="ghost" size="iconSm" title="Back to My Skills">
             <Link href="/skills">
-              <ArrowLeft className="h-4 w-4 text-[#707A72]" />
+              <ArrowLeft className="h-4 w-4 text-[#64748B]" />
             </Link>
           </Button>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-bold text-[#F1F4EF] truncate max-w-sm sm:max-w-md">
+              <h1 className="text-lg font-bold text-[#F8FAFC] truncate max-w-sm sm:max-w-md">
                 {name || skill.name}
               </h1>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono border border-[#CCD7C5]/30 bg-[#CCD7C5]/10 text-[#CCD7C5]">
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
                 v{activeVersionNumber}
               </span>
               {skill.status === "PUBLISHED" ? (
@@ -229,7 +225,7 @@ export default function SkillEditStudioPage({
                 </Badge>
               )}
             </div>
-            <p className="text-[11px] font-mono text-[#707A72]">
+            <p className="text-[11px] font-mono text-[#64748B]">
               Slug: {skill.slug} • {files.length} files
             </p>
           </div>
@@ -240,7 +236,7 @@ export default function SkillEditStudioPage({
           {isPublished && (
             <Button asChild variant="outline" size="sm" className="gap-1.5 text-xs">
               <Link href={`/skills/${skill.slug}`}>
-                <Eye className="h-3.5 w-3.5 text-[#CCD7C5]" />
+                <Eye className="h-3.5 w-3.5 text-emerald-400" />
                 <span>View Public</span>
               </Link>
             </Button>
@@ -263,7 +259,7 @@ export default function SkillEditStudioPage({
             size="sm"
             className="gap-1.5 text-xs"
           >
-            <GitBranch className="h-3.5 w-3.5 text-[#CCD7C5]" />
+            <GitBranch className="h-3.5 w-3.5 text-emerald-400" />
             <span>Create Version</span>
           </Button>
 
@@ -271,7 +267,7 @@ export default function SkillEditStudioPage({
             onClick={() => setPublishOpen(true)}
             variant="primary"
             size="sm"
-            className="gap-1.5 text-xs font-semibold shadow-sm"
+            className="gap-1.5 text-xs font-semibold shadow-md shadow-emerald-500/15"
           >
             <CheckCircle2 className="h-4 w-4" />
             <span>Publish</span>
@@ -281,7 +277,7 @@ export default function SkillEditStudioPage({
 
       {/* Main Studio Tabs */}
       <Tabs defaultValue="files" className="w-full">
-        <TabsList className="bg-[#0E1210] border-[#252D28] mb-4">
+        <TabsList className="bg-[#0F1219] border border-[#1E2433] mb-4">
           <TabsTrigger value="files" className="text-xs gap-1.5">
             <FileCode className="h-3.5 w-3.5" />
             <span>Files &amp; Code Editor</span>
@@ -298,7 +294,7 @@ export default function SkillEditStudioPage({
 
         {/* 3-Pane Code Editor Tab */}
         <TabsContent value="files" className="mt-0">
-          <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] flex flex-col lg:flex-row h-[600px] overflow-hidden">
+          <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] flex flex-col lg:flex-row h-[600px] overflow-hidden shadow-2xl">
             {/* Left: Multi-File Tree */}
             <MultiFileTree
               files={files}
@@ -310,9 +306,9 @@ export default function SkillEditStudioPage({
             />
 
             {/* Center: Monaco Editor */}
-            <div className="flex-1 flex flex-col min-w-0 bg-[#0E1210]">
-              <div className="h-10 px-4 border-b border-[#252D28] bg-[#141916]/40 flex items-center justify-between">
-                <span className="text-xs font-mono text-[#CCD7C5]">
+            <div className="flex-1 flex flex-col min-w-0 bg-[#0F1219]">
+              <div className="h-10 px-4 border-b border-[#1E2433] bg-[#090A0F] flex items-center justify-between">
+                <span className="text-xs font-mono text-emerald-400 font-semibold">
                   Editing: {selectedPath}
                 </span>
 
@@ -321,7 +317,7 @@ export default function SkillEditStudioPage({
                     onClick={() => setShowPreview(!showPreview)}
                     variant="ghost"
                     size="xs"
-                    className="text-[11px] text-[#A9B1AA] hover:text-[#F1F4EF]"
+                    className="text-[11px] text-[#94A3B8] hover:text-[#F8FAFC]"
                   >
                     {showPreview ? "Hide Preview" : "Show Preview"}
                   </Button>
@@ -360,9 +356,9 @@ export default function SkillEditStudioPage({
 
         {/* Basic Info Tab */}
         <TabsContent value="info" className="mt-0 space-y-4">
-          <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-6 max-w-2xl space-y-4">
+          <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-6 max-w-2xl space-y-4 shadow-xl">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Skill Name</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Skill Name</label>
               <Input
                 type="text"
                 value={name}
@@ -372,7 +368,7 @@ export default function SkillEditStudioPage({
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Description</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Description</label>
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -385,6 +381,7 @@ export default function SkillEditStudioPage({
               disabled={saveDraftMutation.isPending}
               variant="primary"
               size="sm"
+              className="shadow-md shadow-emerald-500/15"
             >
               {saveDraftMutation.isPending ? "Saving..." : "Save Metadata"}
             </Button>
@@ -394,7 +391,7 @@ export default function SkillEditStudioPage({
         {/* Version Releases Tab */}
         <TabsContent value="versions" className="mt-0 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A9B1AA]">
+            <span className="text-xs text-[#94A3B8]">
               Published versions are locked and immutable. Create a new release to publish updates.
             </span>
             <Button
@@ -403,17 +400,17 @@ export default function SkillEditStudioPage({
               size="sm"
               className="text-xs gap-1.5"
             >
-              <GitBranch className="h-3.5 w-3.5 text-[#CCD7C5]" />
+              <GitBranch className="h-3.5 w-3.5 text-emerald-400" />
               <span>New Version</span>
             </Button>
           </div>
 
-          <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] divide-y divide-[#1A211D]">
+          <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] divide-y divide-[#1E2433] shadow-xl">
             {skill.versions?.map((v) => (
               <div key={v.id} className="p-4 flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-[#F1F4EF]">
+                    <span className="font-mono text-sm font-bold text-[#F8FAFC]">
                       v{v.version}
                     </span>
                     {v.publishedAt ? (
@@ -427,10 +424,10 @@ export default function SkillEditStudioPage({
                     )}
                   </div>
                   {v.changelog && (
-                    <p className="text-xs text-[#A9B1AA] mt-1 font-mono">{v.changelog}</p>
+                    <p className="text-xs text-[#94A3B8] mt-1 font-mono">{v.changelog}</p>
                   )}
                 </div>
-                <div className="text-xs font-mono text-[#707A72]">
+                <div className="text-xs font-mono text-[#64748B]">
                   {v.files?.length || 0} files
                 </div>
               </div>

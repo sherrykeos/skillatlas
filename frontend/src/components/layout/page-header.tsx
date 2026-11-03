@@ -21,36 +21,31 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center gap-4 pb-8 border-b border-[#252D28] mb-8",
+        "flex flex-col items-center justify-center text-center gap-4 pb-8 border-b border-[#1E2433] mb-8",
         className
       )}
     >
       <div className="flex flex-col items-center justify-center space-y-3 max-w-3xl mx-auto">
-        <div>
-          {badge && (
-            <span className="px-2 py-0.4 rounded-full text-xs font-mono border border-[#CCD7C5]/30 bg-[#CCD7C5]/10 text-[#CCD7C5]">
+        {badge && (
+          <div>
+            <span className="px-3 py-1 rounded-full text-xs font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
               {badge}
             </span>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex items-center justify-center gap-3 flex-wrap">
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide text-[#d8eacc]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#F8FAFC]">
             {title}
           </h1>
-
-
         </div>
         {description && (
-          <p className="text-base sm:text-sm text-[#A9B1AA] max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-[#94A3B8] max-w-2xl mx-auto leading-relaxed">
             {description}
           </p>
         )}
-
       </div>
 
-
-      {action && <div className="flex items-center justify-center gap-3 shrink-0">{action}</div>}
+      {action && <div className="pt-2">{action}</div>}
       {children}
     </div>
   );

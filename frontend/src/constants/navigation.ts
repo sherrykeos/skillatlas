@@ -10,7 +10,6 @@ export const PUBLIC_NAV_ITEMS: NavItem[] = [
   { title: "Explore", href: "/explore" },
   { title: "Categories", href: "/categories" },
   { title: "Docs", href: "/docs" },
-  { title: "Blog", href: "/blog" },
 ];
 
 export const AUTH_NAV_ITEMS: NavItem[] = [

@@ -27,7 +27,7 @@ export function MobileBottomNav() {
       ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 border-t border-[#252D28] bg-[#0E1210]/95 backdrop-blur-md flex items-center justify-around px-2">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 border-t border-[#1E2433] bg-[#0F1219]/95 backdrop-blur-md flex items-center justify-around px-2">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
@@ -37,7 +37,7 @@ export function MobileBottomNav() {
             key={item.href}
             href={item.href}
             className={`flex flex-col items-center justify-center py-1 px-3 rounded-[6px] transition-colors ${
-              isActive ? "text-[#CCD7C5]" : "text-[#707A72] hover:text-[#A9B1AA]"
+              isActive ? "text-emerald-400" : "text-[#64748B] hover:text-[#94A3B8]"
             }`}
           >
             <Icon className="h-4 w-4" />

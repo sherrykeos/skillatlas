@@ -59,25 +59,25 @@ export default function CollectionDetailPage({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#252D28] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#1E2433] pb-6">
         <div className="space-y-1">
           <Link
             href="/collections"
-            className="inline-flex items-center gap-1.5 text-xs text-[#707A72] hover:text-[#CCD7C5] transition-colors font-mono mb-2"
+            className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-emerald-400 transition-colors font-mono mb-2"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Collections</span>
           </Link>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
               {collection.name}
             </h1>
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-mono border border-[#CCD7C5]/30 bg-[#CCD7C5]/10 text-[#CCD7C5]">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
               {skills.length} Skills
             </span>
           </div>
           {collection.description && (
-            <p className="text-xs text-[#A9B1AA] max-w-xl leading-relaxed">
+            <p className="text-xs text-[#94A3B8] max-w-xl leading-relaxed">
               {collection.description}
             </p>
           )}
@@ -86,7 +86,7 @@ export default function CollectionDetailPage({
         <div className="flex items-center gap-2">
           <Button asChild variant="secondary" size="sm" className="gap-1.5 text-xs">
             <Link href="/explore">
-              <Compass className="h-3.5 w-3.5 text-[#CCD7C5]" />
+              <Compass className="h-3.5 w-3.5 text-emerald-400" />
               <span>Browse to Add Skills</span>
             </Link>
           </Button>
@@ -102,17 +102,16 @@ export default function CollectionDetailPage({
             className="gap-1.5 text-xs"
           >
             <Trash2 className="h-3.5 w-3.5" />
-            <span>Delete Collection</span>
+            <span>Delete</span>
           </Button>
         </div>
       </div>
 
-      {/* Skills in Collection */}
       <SkillGrid
         skills={skills}
-        emptyTitle="This collection is empty"
-        emptyDescription="Explore skills in the marketplace and add them to this collection."
-        actionLabel="Explore Skills"
+        emptyTitle="This collection is currently empty"
+        emptyDescription="Explore skills on the marketplace and add them to this collection."
+        actionLabel="Browse Marketplace"
         actionHref="/explore"
       />
     </div>

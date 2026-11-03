@@ -48,32 +48,32 @@ export default function ProfileSettingsPage() {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <div className="border-b border-[#252D28] pb-6">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+      <div className="border-b border-[#1E2433] pb-6">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
           Profile Settings
         </h1>
-        <p className="text-xs text-[#A9B1AA] mt-1">
+        <p className="text-xs text-[#94A3B8] mt-1">
           Manage your public creator identity and profile attributes.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 space-y-5 shadow-xl">
         {/* Avatar Preview */}
-        <div className="flex items-center gap-4 pb-4 border-b border-[#1A211D]">
-          <Avatar className="h-14 w-14 border border-[#252D28]">
+        <div className="flex items-center gap-4 pb-4 border-b border-[#1E2433]">
+          <Avatar className="h-14 w-14 border border-[#1E2433] bg-[#161B26]">
             <AvatarImage src={avatar || undefined} alt={username} />
-            <AvatarFallback className="text-sm font-semibold">{getInitials(username)}</AvatarFallback>
+            <AvatarFallback className="text-sm font-semibold text-emerald-400">{getInitials(username)}</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h3 className="text-xs font-semibold text-[#F1F4EF]">Avatar Preview</h3>
-            <p className="text-[11px] text-[#707A72]">
-              Set an image URL below to update your public avatar.
+            <h3 className="text-xs font-semibold text-[#F8FAFC]">Avatar Preview</h3>
+            <p className="text-[11px] text-[#64748B]">
+              Set an image URL below to update your public avatar across SkillAtlas.
             </p>
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Username</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Username</label>
           <Input
             type="text"
             value={username}
@@ -81,13 +81,13 @@ export default function ProfileSettingsPage() {
             required
             className="text-xs font-mono"
           />
-          <p className="text-[10px] text-[#707A72]">
+          <p className="text-[10px] text-[#64748B]">
             Your public URL handle: skillatlas.dev/users/{username || "username"}
           </p>
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Avatar Image URL</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Avatar Image URL</label>
           <Input
             type="url"
             value={avatar}
@@ -103,10 +103,9 @@ export default function ProfileSettingsPage() {
             disabled={isSaving}
             variant="primary"
             size="sm"
-            className="gap-1.5 font-semibold"
+            className="font-semibold shadow-md shadow-emerald-500/15"
           >
-            <Save className="h-3.5 w-3.5" />
-            <span>{isSaving ? "Saving..." : "Save Profile"}</span>
+            {isSaving ? "Saving..." : "Save Profile"}
           </Button>
         </div>
       </form>
