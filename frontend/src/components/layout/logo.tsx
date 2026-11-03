@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -9,10 +10,10 @@ interface LogoProps {
 }
 
 export function Logo({ className, showText = true, size = "md" }: LogoProps) {
-  const iconSizes = {
-    sm: "w-5 h-5",
-    md: "w-6 h-6",
-    lg: "w-8 h-8",
+  const iconDimensions = {
+    sm: { width: 26, height: 26, className: "w-6.5 h-6.5" },
+    md: { width: 34, height: 34, className: "w-8.5 h-8.5" },
+    lg: { width: 44, height: 44, className: "w-11 h-11" },
   };
 
   const textSizes = {
@@ -21,33 +22,38 @@ export function Logo({ className, showText = true, size = "md" }: LogoProps) {
     lg: "text-2xl",
   };
 
+  const dim = iconDimensions[size];
+
   return (
-    <Link href="/" className={cn("inline-flex items-center gap-2.5 group select-none", className)}>
-      <div className={cn("relative flex items-center justify-center shrink-0", iconSizes[size])}>
-        <svg
-          viewBox="0 0 32 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full text-[#CCD7C5] transition-transform group-hover:scale-105 duration-200"
-        >
-          {/* SkillAtlas geometric delta glyph */}
-          <path
-            d="M16 3L3 27H29L16 3Z"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M16 11L9 24H23L16 11Z"
-            fill="currentColor"
-            fillOpacity="0.25"
-          />
-          <circle cx="16" cy="18" r="2" fill="currentColor" />
-        </svg>
+    <Link
+      href="/"
+      className={cn("inline-flex items-center gap-2.5 group select-none", className)}
+    >
+      <div
+        className={cn(
+          "relative flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105",
+          dim.className
+        )}
+      >
+        <Image
+          src="/logo.png"
+          alt="SkillAtlas Logo"
+          width={dim.width}
+          height={dim.height}
+          priority
+          className="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(52,211,153,0.35)]"
+        />
       </div>
+
       {showText && (
-        <span className={cn("font-bold tracking-tight text-[#F1F4EF] transition-colors group-hover:text-[#CCD7C5]", textSizes[size])}>
-          Skill<span className="text-[#CCD7C5]">Atlas</span>
+        <span
+          className={cn(
+            "font-bold tracking-tight text-[#F8FAFC] transition-colors group-hover:text-white flex items-center",
+            textSizes[size]
+          )}
+        >
+          <span>Skill</span>
+          <span className="text-emerald-400 font-extrabold">Atlas</span>
         </span>
       )}
     </Link>
