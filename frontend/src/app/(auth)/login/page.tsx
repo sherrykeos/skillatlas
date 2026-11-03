@@ -180,8 +180,11 @@ function LoginForm() {
         <Button
           type="button"
           onClick={() => {
-            const apiBase = process.env.NEXT_PUBLIC_API_URL || "";
-            window.location.href = `${apiBase}/api/auth/google`;
+            const apiBase = (process.env.NEXT_PUBLIC_API_URL || "/api").replace(/\/+$/, "");
+            const targetUrl = apiBase.endsWith("/api")
+              ? `${apiBase}/auth/google`
+              : `${apiBase}/api/auth/google`;
+            window.location.href = targetUrl;
           }}
           variant="secondary"
           size="sm"

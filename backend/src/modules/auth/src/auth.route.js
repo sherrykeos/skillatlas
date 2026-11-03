@@ -18,6 +18,15 @@ router.patch("/change-password", authenticate, authController.changePassword);
 
 router.get(
   "/google",
+  (req, res, next) => {
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+      return res.status(503).json({
+        success: false,
+        message: "Google OAuth is not configured on this server.",
+      });
+    }
+    next();
+  },
   passport.authenticate("google", {
     scope: ["profile", "email"],
     session: false,
