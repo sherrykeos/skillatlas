@@ -1,8 +1,4 @@
-# SkillAtlas
-
-<p align="center">
-  <img src="frontend/public/logo.png" alt="SkillAtlas Logo" width="110" />
-</p>
+<p align="center" style="color: ; font-weight: bold; font-size: 3em;">SkillAtlas</p>
 
 <p align="center">
   <strong>The open marketplace and registry for AI Agent Skills.</strong>
