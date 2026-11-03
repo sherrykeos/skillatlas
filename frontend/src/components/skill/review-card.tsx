@@ -46,20 +46,20 @@ export function ReviewCard({ review, onUpdate, onDelete }: ReviewCardProps) {
   };
 
   return (
-    <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-4 space-y-3">
+    <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-4 space-y-3 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <Avatar className="h-7 w-7 border border-[#252D28]">
+          <Avatar className="h-7 w-7 border border-[#1E2433]">
             <AvatarImage src={review.user?.avatar || undefined} alt={review.user?.username || "User"} />
             <AvatarFallback className="text-[10px]">
               {getInitials(review.user?.username || "User")}
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-xs font-semibold text-[#F1F4EF]">
+            <p className="text-xs font-semibold text-[#F8FAFC]">
               @{review.user?.username || "developer"}
             </p>
-            <p className="text-[10px] text-[#707A72] font-mono">
+            <p className="text-[10px] text-[#64748B] font-mono">
               {formatDate(review.createdAt)}
             </p>
           </div>
@@ -69,7 +69,7 @@ export function ReviewCard({ review, onUpdate, onDelete }: ReviewCardProps) {
           <div className="flex items-center gap-1">
             <button
               onClick={() => setIsEditing(true)}
-              className="p-1.5 rounded text-[#707A72] hover:text-[#CCD7C5] hover:bg-[#141916] transition-colors"
+              className="p-1.5 rounded text-[#64748B] hover:text-emerald-400 hover:bg-[#161B26] transition-colors"
               title="Edit review"
             >
               <Edit2 className="h-3.5 w-3.5" />
@@ -77,7 +77,7 @@ export function ReviewCard({ review, onUpdate, onDelete }: ReviewCardProps) {
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="p-1.5 rounded text-[#707A72] hover:text-[#C58F8F] hover:bg-[#C58F8F]/10 transition-colors"
+              className="p-1.5 rounded text-[#64748B] hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
               title="Delete review"
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -117,7 +117,7 @@ export function ReviewCard({ review, onUpdate, onDelete }: ReviewCardProps) {
           </div>
         </div>
       ) : (
-        <p className="text-xs text-[#A9B1AA] leading-relaxed whitespace-pre-wrap">
+        <p className="text-xs text-[#94A3B8] leading-relaxed whitespace-pre-wrap">
           {review.content}
         </p>
       )}

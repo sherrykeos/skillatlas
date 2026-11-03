@@ -45,32 +45,32 @@ export function PublishConfirmDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-[#0E1210] border-[#252D28]">
+      <DialogContent className="max-w-md bg-[#0F1219] border-[#1E2433]">
         <DialogHeader>
-          <div className="flex items-center gap-2 text-[#CCD7C5] mb-1">
-            <CheckCircle2 className="h-5 w-5 text-[#9FBEA5]" />
-            <DialogTitle className="text-base font-bold text-[#F1F4EF]">
+          <div className="flex items-center gap-2 text-emerald-400 mb-1">
+            <CheckCircle2 className="h-5 w-5" />
+            <DialogTitle className="text-base font-bold text-[#F8FAFC]">
               Publish Skill &amp; Version v{versionNumber}
             </DialogTitle>
           </div>
-          <DialogDescription className="text-xs text-[#A9B1AA]">
-            Publishing makes <strong className="text-[#F1F4EF]">{skillName}</strong> publicly discoverable on the marketplace.
+          <DialogDescription className="text-xs text-[#94A3B8]">
+            Publishing makes <strong className="text-[#F8FAFC]">{skillName}</strong> publicly discoverable on the marketplace.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3 py-2 text-xs text-[#A9B1AA]">
-          <div className="p-3 rounded-[6px] bg-[#C9B98A]/10 border border-[#C9B98A]/30 text-[#C9B98A] flex items-start gap-2.5">
-            <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+        <div className="space-y-3 py-2 text-xs text-[#94A3B8]">
+          <div className="p-3 rounded-[8px] bg-amber-500/10 border border-amber-500/30 text-amber-300 flex items-start gap-2.5">
+            <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-amber-400" />
             <div className="space-y-1">
-              <span className="font-semibold block">Immutable Release Guarantee</span>
-              <p className="text-[11px] leading-relaxed">
-                Once published, this version’s files and prompts cannot be modified or overwritten. Any future revisions must be published under a new semantic version (e.g. v1.1.0).
+              <span className="font-semibold block text-amber-200">Immutable Release Guarantee</span>
+              <p className="text-[11px] leading-relaxed text-amber-300/90">
+                Once published, this version’s prompt specification and execution scripts cannot be modified or overwritten. Any future modifications must be tagged as a new semantic release.
               </p>
             </div>
           </div>
 
           {error && (
-            <div className="p-2.5 rounded-[6px] bg-[#C58F8F]/10 border border-[#C58F8F]/30 text-xs text-[#C58F8F]">
+            <div className="p-2.5 rounded-[8px] bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300">
               {error}
             </div>
           )}
@@ -82,7 +82,7 @@ export function PublishConfirmDialog({
             onClick={() => onOpenChange(false)}
             variant="ghost"
             size="sm"
-            className="text-xs"
+            className="text-xs text-[#94A3B8] hover:text-[#F8FAFC]"
           >
             Cancel
           </Button>
@@ -92,7 +92,7 @@ export function PublishConfirmDialog({
             disabled={isPublishing}
             variant="primary"
             size="sm"
-            className="text-xs gap-1.5 font-semibold"
+            className="text-xs gap-1.5 font-semibold shadow-md shadow-emerald-500/15"
           >
             <CheckCircle2 className="h-4 w-4" />
             <span>{isPublishing ? "Publishing..." : "Confirm & Publish"}</span>

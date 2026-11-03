@@ -12,8 +12,8 @@ export function LoadingState({
 }: LoadingStateProps) {
   return (
     <div className={`flex flex-col items-center justify-center p-8 text-center ${className}`}>
-      <Loader2 className="h-7 w-7 text-[#CCD7C5] animate-spin mb-3" />
-      <p className="text-xs font-mono uppercase tracking-wider text-[#A9B1AA]">{message}</p>
+      <Loader2 className="h-7 w-7 text-emerald-400 animate-spin mb-3" />
+      <p className="text-xs font-mono uppercase tracking-wider text-[#94A3B8]">{message}</p>
     </div>
   );
 }

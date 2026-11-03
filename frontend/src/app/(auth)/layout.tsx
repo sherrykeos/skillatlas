@@ -8,13 +8,13 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#080B0A] flex flex-col justify-between">
+    <div className="min-h-screen bg-[#090A0F] flex flex-col justify-between">
       {/* Auth Top Header */}
-      <header className="h-16 px-6 sm:px-12 flex items-center justify-between border-b border-[#1A211D]">
+      <header className="h-16 px-6 sm:px-12 flex items-center justify-between border-b border-[#1E2433] bg-[#090A0F]/80 backdrop-blur-md">
         <Logo size="md" />
         <Link
           href="/"
-          className="text-xs text-[#A9B1AA] hover:text-[#CCD7C5] transition-colors"
+          className="text-xs text-[#94A3B8] hover:text-emerald-400 transition-colors font-mono"
         >
           ← Back to Marketplace
         </Link>
@@ -26,8 +26,8 @@ export default function AuthLayout({
       </main>
 
       {/* Auth Footer */}
-      <footer className="h-14 border-t border-[#1A211D] px-6 flex items-center justify-center text-xs text-[#707A72]">
-        <p>© {new Date().getFullYear()} SkillAtlas. Protected by JWT auth.</p>
+      <footer className="h-14 border-t border-[#1E2433] px-6 flex items-center justify-center text-xs text-[#64748B] font-mono">
+        <p>© {new Date().getFullYear()} SkillAtlas. Protected by JWT auth &amp; Argon2/Bcrypt.</p>
       </footer>
     </div>
   );

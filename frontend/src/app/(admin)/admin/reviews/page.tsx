@@ -78,32 +78,32 @@ export default function AdminReviewsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col justify-between gap-4 border-b border-[#252D28] pb-6 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-[#1E2433] pb-6 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#F1F4EF] flex items-center gap-2">
-            <MessageSquare className="h-6 w-6 text-[#30E87F]" />
+          <h1 className="text-2xl font-bold tracking-tight text-[#F8FAFC] flex items-center gap-2">
+            <MessageSquare className="h-6 w-6 text-emerald-400" />
             <span>Reviews &amp; Feedback Moderation</span>
           </h1>
-          <p className="mt-1 text-xs text-[#A9B1AA]">
+          <p className="mt-1 text-xs text-[#94A3B8]">
             Inspect feedback, remove spam or inappropriate comments, and maintain community quality.
           </p>
         </div>
 
         <Button
           onClick={() => fetchReviews()}
-          variant="outline"
+          variant="secondary"
           size="sm"
-          className="border-[#252D28] bg-[#0E1210] text-xs text-[#F1F4EF] hover:bg-[#141916]"
+          className="text-xs"
         >
-          <RefreshCw className="mr-2 h-3.5 w-3.5 text-[#707A72]" />
+          <RefreshCw className="mr-2 h-3.5 w-3.5 text-[#64748B]" />
           <span>Refresh List</span>
         </Button>
       </div>
 
       {/* Search Bar */}
-      <div className="rounded-xl border border-[#252D28] bg-[#0E1210] p-4">
+      <div className="rounded-[10px] border border-[#1E2433] bg-[#0F1219] p-4 shadow-xl">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#707A72]" />
+          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#64748B]" />
           <Input
             type="text"
             placeholder="Search reviews by content, reviewer username, or skill title..."
@@ -112,25 +112,25 @@ export default function AdminReviewsPage() {
               setSearchQuery(e.target.value);
               setCurrentPage(1);
             }}
-            className="border-[#252D28] bg-[#141916] pl-9 text-xs text-[#F1F4EF] placeholder:text-[#707A72]"
+            className="pl-9 text-xs"
           />
         </div>
       </div>
 
       {/* Reviews Table */}
-      <Card className="overflow-hidden border-[#252D28] bg-[#0E1210] shadow-sm">
+      <Card className="overflow-hidden border-[#1E2433] bg-[#0F1219] shadow-xl">
         {isLoading ? (
           <div className="flex h-64 items-center justify-center">
             <LoadingState message="Loading community reviews..." />
           </div>
         ) : !data || data.reviews.length === 0 ? (
-          <div className="py-12 text-center text-xs text-[#707A72]">
+          <div className="py-12 text-center text-xs text-[#64748B]">
             No reviews match the current query.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-[#252D28] bg-[#141916] font-mono uppercase text-[#707A72]">
+              <thead className="border-b border-[#1E2433] bg-[#090A0F] font-mono uppercase text-[#64748B]">
                 <tr>
                   <th className="px-4 py-3">Skill Target</th>
                   <th className="px-4 py-3">Author</th>
@@ -139,52 +139,52 @@ export default function AdminReviewsPage() {
                   <th className="px-4 py-3 text-right">Moderation</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1A211D]">
+              <tbody className="divide-y divide-[#1E2433]">
                 {data.reviews.map((r) => (
-                  <tr key={r.id} className="transition-colors hover:bg-[#141916]/50">
+                  <tr key={r.id} className="transition-colors hover:bg-[#161B26]/50">
                     {/* Skill Info */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5 font-semibold">
                         <Link
                           href={`/skills/${r.skill.slug}`}
                           target="_blank"
-                          className="text-[#F1F4EF] hover:text-[#30E87F] hover:underline"
+                          className="text-[#F8FAFC] hover:text-emerald-400 hover:underline"
                         >
                           {r.skill.name}
                         </Link>
-                        <ExternalLink className="h-3 w-3 text-[#707A72]" />
+                        <ExternalLink className="h-3 w-3 text-[#64748B]" />
                       </div>
                     </td>
 
                     {/* Author */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <Avatar className="h-6 w-6 border border-[#252D28]">
+                        <Avatar className="h-6 w-6 border border-[#1E2433] bg-[#161B26]">
                           <AvatarImage src={r.user.avatar || undefined} alt={r.user.username} />
-                          <AvatarFallback className="text-[9px]">{getInitials(r.user.username)}</AvatarFallback>
+                          <AvatarFallback className="text-[9px] text-emerald-400 font-mono">{getInitials(r.user.username)}</AvatarFallback>
                         </Avatar>
                         <div>
                           <Link
                             href={`/users/${r.user.username}`}
                             target="_blank"
-                            className="text-xs text-[#CCD7C5] hover:underline block"
+                            className="text-xs text-emerald-400 hover:underline block font-mono"
                           >
                             @{r.user.username}
                           </Link>
-                          <span className="text-[10px] text-[#707A72]">{r.user.email}</span>
+                          <span className="text-[10px] text-[#64748B]">{r.user.email}</span>
                         </div>
                       </div>
                     </td>
 
                     {/* Review Content */}
                     <td className="px-4 py-3">
-                      <div className="max-w-md rounded bg-[#141916] border border-[#252D28] p-2 text-[11px] text-[#F1F4EF] leading-relaxed">
-                        "{r.content}"
+                      <div className="max-w-md rounded-[6px] bg-[#090A0F] border border-[#1E2433] p-2.5 text-[11px] text-[#F8FAFC] leading-relaxed">
+                        &quot;{r.content}&quot;
                       </div>
                     </td>
 
                     {/* Date */}
-                    <td className="px-4 py-3 font-mono text-[11px] text-[#707A72]">
+                    <td className="px-4 py-3 font-mono text-[11px] text-[#64748B]">
                       {new Date(r.createdAt).toLocaleDateString()}
                     </td>
 
@@ -194,7 +194,7 @@ export default function AdminReviewsPage() {
                         onClick={() => setReviewToDelete(r)}
                         variant="ghost"
                         size="sm"
-                        className="h-7 px-2 text-[11px] text-[#707A72] hover:bg-[#C58F8F]/10 hover:text-[#C58F8F]"
+                        className="h-7 px-2 text-[11px] text-[#64748B] hover:bg-rose-500/10 hover:text-rose-400"
                         title="Delete review"
                       >
                         <Trash2 className="h-3.5 w-3.5 mr-1" />
@@ -210,7 +210,7 @@ export default function AdminReviewsPage() {
 
         {/* Pagination */}
         {data && data.pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-[#252D28] px-4 py-3 text-xs text-[#707A72]">
+          <div className="flex items-center justify-between border-t border-[#1E2433] px-4 py-3 text-xs text-[#64748B] font-mono">
             <span>
               Showing Page {data.pagination.page} of {data.pagination.totalPages} ({data.pagination.total} reviews)
             </span>
@@ -218,18 +218,18 @@ export default function AdminReviewsPage() {
               <Button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={data.pagination.page <= 1}
-                variant="outline"
+                variant="secondary"
                 size="sm"
-                className="h-7 border-[#252D28] bg-[#141916] text-xs text-[#F1F4EF]"
+                className="h-7 text-xs"
               >
                 Previous
               </Button>
               <Button
                 onClick={() => setCurrentPage((p) => Math.min(data.pagination.totalPages, p + 1))}
                 disabled={data.pagination.page >= data.pagination.totalPages}
-                variant="outline"
+                variant="secondary"
                 size="sm"
-                className="h-7 border-[#252D28] bg-[#141916] text-xs text-[#F1F4EF]"
+                className="h-7 text-xs"
               >
                 Next
               </Button>
@@ -240,38 +240,39 @@ export default function AdminReviewsPage() {
 
       {/* Delete Confirmation Modal */}
       <Dialog open={!!reviewToDelete} onOpenChange={(open) => !open && setReviewToDelete(null)}>
-        <DialogContent className="border-[#C58F8F]/40 bg-[#0E1210] p-6 text-[#F1F4EF] sm:max-w-md">
+        <DialogContent className="border-rose-500/40 bg-[#0F1219] p-6 text-[#F8FAFC] sm:max-w-md">
           <DialogHeader className="space-y-2 text-left">
-            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#C58F8F]/60 bg-[#C58F8F]/15 text-[#C58F8F]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-rose-500/60 bg-rose-500/15 text-rose-400">
               <Trash2 className="h-5 w-5" />
             </div>
-            <DialogTitle className="text-lg font-bold text-[#E8A0A0]">
+            <DialogTitle className="text-lg font-bold text-rose-300">
               Permanently Remove Review?
             </DialogTitle>
-            <DialogDescription className="text-xs text-[#A9B1AA]">
+            <DialogDescription className="text-xs text-[#94A3B8]">
               This will permanently delete this review by @{reviewToDelete?.user.username} from the skill page. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
 
           {reviewToDelete && (
-            <div className="my-2 rounded bg-[#141916] border border-[#252D28] p-3 text-xs text-[#A9B1AA] italic">
-              "{reviewToDelete.content}"
+            <div className="my-2 rounded bg-[#090A0F] border border-[#1E2433] p-3 text-xs text-[#94A3B8] italic">
+              &quot;{reviewToDelete.content}&quot;
             </div>
           )}
 
           <DialogFooter className="mt-4 flex gap-2">
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={() => setReviewToDelete(null)}
               disabled={actionLoading}
-              className="border-[#252D28] bg-transparent text-xs text-[#A9B1AA]"
+              className="text-xs"
             >
               Cancel
             </Button>
             <Button
               onClick={handleDelete}
               disabled={actionLoading}
-              className="bg-[#C58F8F] text-xs font-semibold text-[#080B0A] hover:bg-[#B37878]"
+              variant="danger"
+              className="text-xs font-semibold"
             >
               {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Delete Review"}
             </Button>

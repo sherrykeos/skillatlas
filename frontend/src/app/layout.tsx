@@ -1,38 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const viewport: Viewport = {
-  themeColor: "#080B0A",
+  themeColor: "#090A0F",
   colorScheme: "dark",
 };
 
 export const metadata: Metadata = {
   title: {
-    default: "SkillAtlas — The Agentic Skills Marketplace",
+    default: "SkillAtlas — The Premier Agentic Skills Marketplace",
     template: "%s | SkillAtlas",
   },
   description:
-    "Discover, publish, and share agentic skills to supercharge your AI agents. Serious developer tooling for the agentic future.",
+    "Discover, verify, and integrate production-grade skills and tools for autonomous AI agents. Built for builders.",
   keywords: ["AI skills", "agentic workflows", "AI agents", "SKILL.md", "developer tools", "marketplace"],
   authors: [{ name: "SkillAtlas Team" }],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
-    title: "SkillAtlas — The Agentic Skills Marketplace",
-    description: "Discover, publish, and share agentic skills to supercharge your AI agents.",
+    title: "SkillAtlas — The Premier Agentic Skills Marketplace",
+    description: "Discover, verify, and integrate production-grade skills and tools for autonomous AI agents.",
     type: "website",
+    images: ["/logo.png"],
   },
 };
 
@@ -42,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark antialiased`}>
-      <body className="min-h-screen bg-[#080B0A] text-[#F1F4EF] selection:bg-[#CCD7C5] selection:text-[#080B0A] flex flex-col font-sans">
+    <html lang="en" className="dark antialiased" suppressHydrationWarning>
+      <body className="min-h-screen bg-[#090A0F] text-[#F8FAFC] selection:bg-[#10B981] selection:text-[#090A0F] flex flex-col font-sans">
         <Providers>{children}</Providers>
       </body>
     </html>

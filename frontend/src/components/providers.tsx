@@ -17,12 +17,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
           position="bottom-right"
           toastOptions={{
             style: {
-              background: "#141916",
-              border: "1px solid #252D28",
-              color: "#F1F4EF",
+              background: "#0F1219",
+              border: "1px solid #1E2433",
+              color: "#F8FAFC",
               fontFamily: "var(--font-sans)",
             },
-            className: "border border-[#252D28] bg-[#141916] text-[#F1F4EF] shadow-2xl",
+            className: "border border-[#1E2433] bg-[#0F1219] text-[#F8FAFC] shadow-2xl",
           }}
         />
       </AuthProvider>

@@ -40,8 +40,8 @@ export function ReviewForm({ skillId, onSubmit }: ReviewFormProps) {
 
   if (!isAuthenticated) {
     return (
-      <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-5 text-center">
-        <p className="text-xs text-[#A9B1AA] mb-3">
+      <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-5 text-center shadow-xl">
+        <p className="text-xs text-[#94A3B8] mb-3">
           Sign in to leave a review and share feedback with the developer.
         </p>
         <Button asChild variant="secondary" size="sm">
@@ -52,8 +52,8 @@ export function ReviewForm({ skillId, onSubmit }: ReviewFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-4 space-y-3">
-      <div className="text-xs font-semibold text-[#F1F4EF]">Write a Review</div>
+    <form onSubmit={handleSubmit} className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-4 space-y-3 shadow-xl">
+      <div className="text-xs font-semibold text-[#F8FAFC]">Write a Review</div>
       <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
@@ -67,7 +67,7 @@ export function ReviewForm({ skillId, onSubmit }: ReviewFormProps) {
           disabled={isSubmitting || !content.trim()}
           variant="primary"
           size="sm"
-          className="gap-1.5"
+          className="gap-1.5 font-semibold shadow-md shadow-emerald-500/15"
         >
           <Send className="h-3.5 w-3.5" />
           <span>{isSubmitting ? "Submitting..." : "Submit Review"}</span>

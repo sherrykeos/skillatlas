@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
@@ -36,7 +37,6 @@ function LoginForm() {
 
       let target = "/profile";
       if (customRedirect) {
-        // If a non-creator was trying to hit dashboard, divert them to profile
         if (customRedirect.startsWith("/dashboard") && !isCreatorOrAdmin) {
           target = "/profile";
         } else {
@@ -59,28 +59,41 @@ function LoginForm() {
   };
 
   return (
-    <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div className="space-y-1.5 text-center">
-        <h1 className="text-xl font-bold tracking-tight text-[#F1F4EF]">
-          Sign in to SkillAtlas
-        </h1>
-        <p className="text-xs text-[#A9B1AA]">
-          Enter your developer credentials to manage your skills and tokens.
+    <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      {/* Top subtle glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-20 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+
+      <div className="space-y-3 text-center relative z-10">
+        <Link href="/" className="inline-flex items-center justify-center gap-2 group">
+          <div className="relative h-8 w-8">
+            <Image
+              src="/logo.png"
+              alt="SkillAtlas"
+              fill
+              className="object-contain group-hover:scale-105 transition-transform"
+            />
+          </div>
+          <span className="text-xl font-bold tracking-tight text-[#F8FAFC]">
+            Skill<span className="text-emerald-400">Atlas</span>
+          </span>
+        </Link>
+        <p className="text-xs text-[#94A3B8]">
+          Sign in to manage your agentic skills, security audits, and tokens.
         </p>
       </div>
 
       {error && (
         <div
-          className={`p-3 rounded-[6px] flex flex-col gap-2 text-xs ${
+          className={`p-3 rounded-[8px] flex flex-col gap-2 text-xs ${
             error.toLowerCase().includes("verify")
-              ? "bg-[#251E13] border border-[#D97706]/40 text-[#FBBF24]"
-              : "bg-red-950/40 border border-red-500/30 text-red-300"
+              ? "bg-amber-500/10 border border-amber-500/30 text-amber-300"
+              : "bg-rose-500/10 border border-rose-500/30 text-rose-300"
           }`}
         >
           <div className="flex items-start gap-2.5">
             <AlertCircle
               className={`h-4 w-4 shrink-0 mt-0.5 ${
-                error.toLowerCase().includes("verify") ? "text-[#FBBF24]" : "text-red-400"
+                error.toLowerCase().includes("verify") ? "text-amber-400" : "text-rose-400"
               }`}
             />
             <span className="leading-relaxed">{error}</span>
@@ -89,7 +102,7 @@ function LoginForm() {
             <div className="pl-6.5">
               <Link
                 href="/verify-email"
-                className="font-medium text-[#CCD7C5] underline hover:text-[#F1F4EF]"
+                className="font-medium text-emerald-400 underline hover:text-emerald-300"
               >
                 Resend or complete email verification &rarr;
               </Link>
@@ -98,11 +111,11 @@ function LoginForm() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Email Address</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Email Address</label>
           <div className="relative">
-            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-[#707A72]" />
+            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-[#64748B]" />
             <Input
               type="email"
               placeholder="developer@skillatlas.dev"
@@ -117,16 +130,16 @@ function LoginForm() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-medium text-[#F1F4EF]">Password</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Password</label>
             <Link
               href="/forgot-password"
-              className="text-[11px] text-[#CCD7C5] hover:underline"
+              className="text-[11px] text-[#94A3B8] hover:text-emerald-400 transition-colors"
             >
               Forgot password?
             </Link>
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-2.5 h-4 w-4 text-[#707A72]" />
+            <Lock className="absolute left-3 top-2.5 h-4 w-4 text-[#64748B]" />
             <Input
               type="password"
               placeholder="••••••••••••"
@@ -143,7 +156,7 @@ function LoginForm() {
           type="submit"
           disabled={isLoading}
           variant="primary"
-          className="w-full text-xs font-semibold py-2"
+          className="w-full text-xs font-semibold py-2.5 shadow-md shadow-emerald-500/15"
         >
           {isLoading ? (
             <span>Authenticating...</span>
@@ -157,13 +170,13 @@ function LoginForm() {
       </form>
 
       <div className="relative flex items-center justify-center">
-        <div className="border-t border-[#252D28] w-full" />
-        <span className="bg-[#0E1210] px-3 text-[10px] text-[#707A72] uppercase font-mono tracking-wider absolute">
+        <div className="border-t border-[#1E2433] w-full" />
+        <span className="bg-[#0F1219] px-3 text-[10px] text-[#64748B] uppercase font-mono tracking-wider absolute">
           Or continue with
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 relative z-10">
         <Button
           type="button"
           onClick={() => {
@@ -209,9 +222,9 @@ function LoginForm() {
         </Button>
       </div>
 
-      <p className="text-center text-xs text-[#707A72]">
+      <p className="text-center text-xs text-[#64748B]">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-[#CCD7C5] hover:underline font-medium">
+        <Link href="/register" className="text-emerald-400 hover:underline font-medium">
           Create an account
         </Link>
       </p>
@@ -221,7 +234,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="text-xs text-[#707A72] text-center">Loading...</div>}>
+    <Suspense fallback={<div className="text-xs text-[#64748B] text-center">Loading...</div>}>
       <LoginForm />
     </Suspense>
   );

@@ -53,18 +53,18 @@ export function SkillFileViewer({ files }: SkillFileViewerProps) {
 
   if (!files || files.length === 0) {
     return (
-      <div className="p-8 text-center border border-[#252D28] rounded-[8px] bg-[#0E1210] text-[#A9B1AA] text-sm">
+      <div className="p-8 text-center border border-[#1E2433] rounded-[10px] bg-[#0F1219] text-[#94A3B8] text-sm shadow-sm">
         No files attached to this version.
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col lg:flex-row border border-[#252D28] rounded-[8px] bg-[#0E1210] overflow-hidden min-h-[500px]">
+    <div className="flex flex-col lg:flex-row border border-[#1E2433] rounded-[10px] bg-[#0F1219] overflow-hidden min-h-[500px] shadow-sm">
       {/* Left Sidebar: File Tree */}
-      <div className="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-[#252D28] bg-[#080B0A]/50 flex flex-col">
-        <div className="px-4 py-2.5 border-b border-[#252D28] flex items-center justify-between">
-          <span className="text-xs font-mono uppercase tracking-wider text-[#707A72]">
+      <div className="w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-[#1E2433] bg-[#090A0F]/60 flex flex-col">
+        <div className="px-4 py-2.5 border-b border-[#1E2433] flex items-center justify-between">
+          <span className="text-xs font-mono uppercase tracking-wider text-[#64748B]">
             Files ({files.length})
           </span>
         </div>
@@ -78,30 +78,30 @@ export function SkillFileViewer({ files }: SkillFileViewerProps) {
       </div>
 
       {/* Right Pane: Code / Monaco Viewer */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#0E1210]">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#090A0F]">
         {selectedFile ? (
           <>
             {/* File Path Header & Actions */}
-            <div className="h-10 px-4 border-b border-[#252D28] bg-[#141916]/40 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#F1F4EF] truncate">
-                <FileCode className="h-3.5 w-3.5 text-[#CCD7C5]" />
+            <div className="h-10 px-4 border-b border-[#1E2433] bg-[#161B26]/60 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#F8FAFC] truncate">
+                <FileCode className="h-3.5 w-3.5 text-emerald-400" />
                 <span className="truncate">{selectedFile.path}</span>
-                <span className="text-[#707A72] text-[10px]">
+                <span className="text-[#64748B] text-[10px]">
                   ({selectedFile.content.split("\n").length} lines)
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded bg-[#141916] border border-[#252D28] text-[10px] font-mono text-[#A9B1AA] uppercase">
+                <span className="px-2 py-0.5 rounded bg-[#161B26] border border-[#1E2433] text-[10px] font-mono text-emerald-400 uppercase">
                   {getMonacoLanguage(selectedFile.path)}
                 </span>
                 <button
                   onClick={handleCopy}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-[#141916] text-xs text-[#A9B1AA] hover:text-[#F1F4EF] transition-colors"
+                  className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-[#161B26] text-xs text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
                   title="Copy file content"
                 >
                   {copied ? (
-                    <Check className="h-3.5 w-3.5 text-[#9FBEA5]" />
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
                   ) : (
                     <Copy className="h-3.5 w-3.5" />
                   )}
@@ -133,7 +133,7 @@ export function SkillFileViewer({ files }: SkillFileViewerProps) {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center p-8 text-xs text-[#707A72]">
+          <div className="flex-1 flex items-center justify-center p-8 text-xs text-[#64748B]">
             Select a file from the tree to view its content.
           </div>
         )}

@@ -51,57 +51,57 @@ export function BecomeCreatorDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md border-[#252D28] bg-[#0E1210] p-6 text-[#F1F4EF] shadow-2xl sm:max-w-lg">
+      <DialogContent className="max-w-md border-[#1E2433] bg-[#0F1219] p-6 text-[#F8FAFC] shadow-2xl sm:max-w-lg">
         <DialogHeader className="space-y-2 text-left">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#30E87F]/30 bg-[#30E87F]/10 text-[#30E87F]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
             <Sparkles className="h-5 w-5" />
           </div>
-          <DialogTitle className="text-xl font-bold tracking-tight text-[#F1F4EF]">
+          <DialogTitle className="text-xl font-bold tracking-tight text-[#F8FAFC]">
             Become a SkillAtlas Creator
           </DialogTitle>
-          <DialogDescription className="text-sm text-[#A9B1AA]">
+          <DialogDescription className="text-sm text-[#94A3B8]">
             Publish reusable agent skills, distribute AI tooling, and connect with developers across the ecosystem. Instant & free.
           </DialogDescription>
         </DialogHeader>
 
         {error && (
-          <div className="rounded-md border border-[#C58F8F]/40 bg-[#C58F8F]/10 p-3 text-xs text-[#E8A0A0]">
+          <div className="rounded-md border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
             {error}
           </div>
         )}
 
         <div className="space-y-3 py-2">
-          <div className="flex items-start gap-3 rounded-lg border border-[#1A211D] bg-[#141A17]/70 p-3">
-            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#30E87F]/10 text-[#30E87F]">
+          <div className="flex items-start gap-3 rounded-lg border border-[#1E2433] bg-[#161B26]/70 p-3">
+            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-500/10 text-emerald-400">
               <Layers className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-[#F1F4EF]">Publish & Version Skills</p>
-              <p className="text-xs text-[#707A72]">
+              <p className="text-sm font-medium text-[#F8FAFC]">Publish & Version Skills</p>
+              <p className="text-xs text-[#64748B]">
                 Create drafts, manage versioned skill packages, and maintain changelogs effortlessly.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3 rounded-lg border border-[#1A211D] bg-[#141A17]/70 p-3">
-            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#30E87F]/10 text-[#30E87F]">
+          <div className="flex items-start gap-3 rounded-lg border border-[#1E2433] bg-[#161B26]/70 p-3">
+            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-500/10 text-emerald-400">
               <GitBranch className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-[#F1F4EF]">GitHub 1-Click Import</p>
-              <p className="text-xs text-[#707A72]">
+              <p className="text-sm font-medium text-[#F8FAFC]">GitHub 1-Click Import</p>
+              <p className="text-xs text-[#64748B]">
                 Import repositories directly with automated file tree extraction and markdown conversion.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3 rounded-lg border border-[#1A211D] bg-[#141A17]/70 p-3">
-            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-[#30E87F]/10 text-[#30E87F]">
+          <div className="flex items-start gap-3 rounded-lg border border-[#1E2433] bg-[#161B26]/70 p-3">
+            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-500/10 text-emerald-400">
               <BarChart3 className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-sm font-medium text-[#F1F4EF]">Creator Telemetry & Feedback</p>
-              <p className="text-xs text-[#707A72]">
+              <p className="text-sm font-medium text-[#F8FAFC]">Creator Telemetry & Feedback</p>
+              <p className="text-xs text-[#64748B]">
                 Monitor downloads, upvotes, and reviews as developers install your skills.
               </p>
             </div>
@@ -112,7 +112,8 @@ export function BecomeCreatorDialog({
           <Button
             onClick={handleActivate}
             disabled={isLoading}
-            className="w-full bg-[#30E87F] font-semibold text-[#080B0A] hover:bg-[#28C76D] sm:w-auto"
+            variant="primary"
+            className="w-full sm:w-auto"
           >
             {isLoading ? (
               <>
@@ -130,7 +131,7 @@ export function BecomeCreatorDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isLoading}
-            className="border-[#252D28] bg-transparent text-[#A9B1AA] hover:bg-[#1A211D] hover:text-[#F1F4EF]"
+            className="border-[#1E2433] bg-transparent text-[#94A3B8] hover:bg-[#161B26] hover:text-[#F8FAFC]"
           >
             Maybe Later
           </Button>

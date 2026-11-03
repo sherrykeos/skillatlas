@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { User, Mail, Lock, AlertCircle, CheckCircle2 } from "lucide-react";
+import { User, Mail, Lock, AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth/auth-context";
@@ -50,25 +51,25 @@ export default function RegisterPage() {
 
   if (registeredSuccess) {
     return (
-      <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-2xl text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#9FBEA5]/15 border border-[#9FBEA5]/40 text-[#9FBEA5] mx-auto">
+      <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl text-center relative overflow-hidden">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 mx-auto">
           <CheckCircle2 className="h-6 w-6" />
         </div>
         <div className="space-y-1.5">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
             Check Your Email
           </h1>
-          <p className="text-xs text-[#A9B1AA] leading-relaxed max-w-sm mx-auto">
-            We sent a verification link to <span className="text-[#F1F4EF] font-medium">{email}</span>. Click the link to verify your account and unlock publishing.
+          <p className="text-xs text-[#94A3B8] leading-relaxed max-w-sm mx-auto">
+            We sent a verification link to <span className="text-[#F8FAFC] font-medium">{email}</span>. Click the link to verify your account and unlock publishing capabilities.
           </p>
         </div>
         <div className="pt-2 space-y-3">
           <Button asChild variant="primary" size="default" className="w-full">
             <Link href="/login">Proceed to Sign In</Link>
           </Button>
-          <p className="text-xs text-[#707A72]">
+          <p className="text-xs text-[#64748B]">
             Didn&apos;t receive it? Check spam folder or{" "}
-            <Link href="/verify-email" className="text-[#CCD7C5] underline hover:text-[#F1F4EF]">
+            <Link href="/verify-email" className="text-emerald-400 underline hover:text-emerald-300">
               resend link
             </Link>
           </p>
@@ -78,123 +79,111 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div className="space-y-1.5 text-center">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F4EF]">
-          Create Developer Account
-        </h1>
-        <p className="text-xs text-[#A9B1AA]">
-          Publish, version, and share agentic skills with the community.
+    <div className="border border-[#1E2433] rounded-[12px] bg-[#0F1219] p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      {/* Top subtle glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-20 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+
+      <div className="space-y-3 text-center relative z-10">
+        <Link href="/" className="inline-flex items-center justify-center gap-2 group">
+          <div className="relative h-8 w-8">
+            <Image
+              src="/logo.png"
+              alt="SkillAtlas"
+              fill
+              className="object-contain group-hover:scale-105 transition-transform"
+            />
+          </div>
+          <span className="text-xl font-bold tracking-tight text-[#F8FAFC]">
+            Skill<span className="text-emerald-400">Atlas</span>
+          </span>
+        </Link>
+        <h1 className="text-lg font-bold text-[#F8FAFC]">Create Developer Account</h1>
+        <p className="text-xs text-[#94A3B8]">
+          Publish, version, and share agentic skills with the open developer community.
         </p>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-3 rounded-[6px] border border-[#C58F8F]/30 bg-[#C58F8F]/10 text-xs text-[#C58F8F]">
+        <div className="flex items-center gap-2 p-3 rounded-[8px] border border-rose-500/30 bg-rose-500/10 text-xs text-rose-300">
           <AlertCircle className="h-4 w-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Username</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Username</label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+            <User className="absolute left-3 top-2.5 h-4 w-4 text-[#64748B]" />
             <Input
               type="text"
+              placeholder="developer-handle"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="developer_handle"
+              onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""))}
               required
               className="pl-9 text-xs font-mono"
+              autoComplete="username"
             />
           </div>
-          <p className="text-[10px] text-[#707A72]">Letters, numbers, and underscores only.</p>
+          <span className="text-[10px] text-[#64748B] font-mono">
+            Used as your unique creator slug: skillatlas.dev/@{username || "handle"}
+          </span>
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Email Address</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Email Address</label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-[#64748B]" />
             <Input
               type="email"
+              placeholder="developer@skillatlas.dev"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="sharad@example.com"
               required
               className="pl-9 text-xs"
+              autoComplete="email"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-[#F1F4EF]">Password</label>
+          <label className="text-xs font-medium text-[#F8FAFC]">Password</label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#707A72]" />
+            <Lock className="absolute left-3 top-2.5 h-4 w-4 text-[#64748B]" />
             <Input
               type="password"
+              placeholder="••••••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Minimum 6 characters"
               required
               className="pl-9 text-xs"
+              autoComplete="new-password"
             />
           </div>
+          <span className="text-[10px] text-[#64748B]">Minimum 6 characters.</span>
         </div>
 
         <Button
           type="submit"
           disabled={isLoading}
           variant="primary"
-          size="default"
-          className="w-full font-semibold"
+          className="w-full text-xs font-semibold py-2.5 shadow-md shadow-emerald-500/15"
         >
-          {isLoading ? "Creating Account..." : "Create Account"}
+          {isLoading ? (
+            <span>Creating Account...</span>
+          ) : (
+            <span className="flex items-center justify-center gap-1.5">
+              Create Account
+              <ArrowRight className="h-3.5 w-3.5" />
+            </span>
+          )}
         </Button>
       </form>
 
-      <div className="relative my-4 flex items-center justify-center">
-        <div className="w-full border-t border-[#252D28]" />
-        <span className="bg-[#0E1210] px-3 text-[10px] text-[#707A72] uppercase font-mono tracking-wider absolute">
-          Or continue with
-        </span>
-      </div>
-
-      <Button
-        type="button"
-        onClick={() => {
-          const apiBase = process.env.NEXT_PUBLIC_API_URL || "";
-          window.location.href = `${apiBase}/api/auth/google`;
-        }}
-        variant="secondary"
-        size="sm"
-        className="w-full text-xs gap-1.5 cursor-pointer mb-2"
-      >
-        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-          />
-          <path
-            fill="currentColor"
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-          />
-          <path
-            fill="currentColor"
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-          />
-          <path
-            fill="currentColor"
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-          />
-        </svg>
-        <span>Continue with Google</span>
-      </Button>
-
-      <p className="text-center text-xs text-[#707A72]">
+      <p className="text-center text-xs text-[#64748B]">
         Already have an account?{" "}
-        <Link href="/login" className="text-[#CCD7C5] hover:underline font-medium">
-          Sign in
+        <Link href="/login" className="text-emerald-400 hover:underline font-medium">
+          Sign In
         </Link>
       </p>
     </div>

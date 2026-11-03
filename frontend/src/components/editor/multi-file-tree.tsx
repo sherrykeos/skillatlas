@@ -16,10 +16,10 @@ interface MultiFileTreeProps {
 }
 
 function getFileIcon(filename: string) {
-  if (filename === "SKILL.md") return <FileCode className="h-4 w-4 text-[#CCD7C5]" />;
-  if (filename.endsWith(".md") || filename.endsWith(".txt")) return <FileText className="h-4 w-4 text-[#9FB8B2]" />;
-  if (filename.endsWith(".json") || filename.endsWith(".yaml") || filename.endsWith(".yml")) return <FileJson className="h-4 w-4 text-[#C9B98A]" />;
-  return <FileCode className="h-4 w-4 text-[#AAB8A3]" />;
+  if (filename === "SKILL.md") return <FileCode className="h-4 w-4 text-emerald-400" />;
+  if (filename.endsWith(".md") || filename.endsWith(".txt")) return <FileText className="h-4 w-4 text-sky-400" />;
+  if (filename.endsWith(".json") || filename.endsWith(".yaml") || filename.endsWith(".yml")) return <FileJson className="h-4 w-4 text-amber-400" />;
+  return <FileCode className="h-4 w-4 text-[#94A3B8]" />;
 }
 
 export function MultiFileTree({
@@ -68,17 +68,17 @@ export function MultiFileTree({
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#080B0A]/60 border-r border-[#252D28] w-full lg:w-60 shrink-0">
+    <div className="flex flex-col h-full bg-[#090A0F] border-r border-[#1E2433] w-full lg:w-60 shrink-0">
       {/* Header */}
-      <div className="px-3 py-2.5 border-b border-[#252D28] flex items-center justify-between">
-        <span className="text-xs font-mono uppercase tracking-wider text-[#707A72]">
+      <div className="px-3 py-2.5 border-b border-[#1E2433] flex items-center justify-between">
+        <span className="text-xs font-mono uppercase tracking-wider text-[#64748B]">
           Files ({files.length})
         </span>
         <Button
           onClick={() => setIsAdding(true)}
           variant="ghost"
           size="xs"
-          className="h-6 px-1.5 text-xs text-[#CCD7C5] gap-1 hover:bg-[#141916]"
+          className="h-6 px-1.5 text-xs text-emerald-400 gap-1 hover:bg-[#161B26]"
           title="Create New File"
         >
           <Plus className="h-3.5 w-3.5" />
@@ -88,7 +88,7 @@ export function MultiFileTree({
 
       {/* New File Inline Form */}
       {isAdding && (
-        <form onSubmit={handleCreateFile} className="p-2 border-b border-[#252D28] space-y-1.5 bg-[#141916]">
+        <form onSubmit={handleCreateFile} className="p-2 border-b border-[#1E2433] space-y-1.5 bg-[#0F1219]">
           <Input
             type="text"
             placeholder="scripts/parser.py"
@@ -136,13 +136,13 @@ export function MultiFileTree({
                   autoFocus
                   className="h-7 text-xs font-mono"
                 />
-                <button type="submit" className="p-1 text-[#9FBEA5] hover:bg-[#141916] rounded">
+                <button type="submit" className="p-1 text-emerald-400 hover:bg-[#161B26] rounded">
                   <Check className="h-3.5 w-3.5" />
                 </button>
                 <button
                   type="button"
                   onClick={() => setEditingPath(null)}
-                  className="p-1 text-[#707A72] hover:bg-[#141916] rounded"
+                  className="p-1 text-[#64748B] hover:bg-[#161B26] rounded"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -156,8 +156,8 @@ export function MultiFileTree({
               onClick={() => onSelectFile(file.path)}
               className={`group flex items-center justify-between px-2.5 py-1.5 rounded-[6px] text-xs font-mono cursor-pointer transition-colors ${
                 isSelected
-                  ? "bg-[#141916] text-[#CCD7C5] border border-[#252D28] font-semibold"
-                  : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
+                  ? "bg-[#161B26] text-emerald-400 border border-[#1E2433] font-semibold"
+                  : "text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC]"
               }`}
             >
               <div className="flex items-center gap-2 truncate">
@@ -171,7 +171,7 @@ export function MultiFileTree({
                     <button
                       type="button"
                       onClick={(e) => handleStartRename(file.path, e)}
-                      className="p-1 text-[#707A72] hover:text-[#CCD7C5] rounded"
+                      className="p-1 text-[#64748B] hover:text-[#F8FAFC] rounded"
                       title="Rename file"
                     >
                       <Edit2 className="h-3 w-3" />
@@ -184,7 +184,7 @@ export function MultiFileTree({
                           onDeleteFile(file.path);
                         }
                       }}
-                      className="p-1 text-[#707A72] hover:text-[#C58F8F] rounded"
+                      className="p-1 text-[#64748B] hover:text-rose-400 rounded"
                       title="Delete file"
                     >
                       <Trash2 className="h-3 w-3" />

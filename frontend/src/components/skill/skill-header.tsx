@@ -28,8 +28,6 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const downloads = skill.downloadCount ?? skill._count?.downloads ?? 0;
-  const reviews = skill.reviewCount ?? skill._count?.reviews ?? 0;
   const latestVersion = skill.versions?.[0]?.version || "1.0.0";
 
   const handleUpvote = async () => {
@@ -102,10 +100,10 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
   };
 
   return (
-    <div className="space-y-6 pb-8 border-b border-[#252D28]">
+    <div className="space-y-6 pb-8 border-b border-[#1E2433]">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-xs text-[#707A72]">
-        <Link href="/explore" className="hover:text-[#CCD7C5] transition-colors">
+      <nav className="flex items-center gap-1.5 text-xs text-[#64748B]">
+        <Link href="/explore" className="hover:text-emerald-400 transition-colors">
           Explore
         </Link>
         <ChevronRight className="h-3 w-3" />
@@ -113,46 +111,46 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
           <>
             <Link
               href={`/categories/${skill.category.slug}`}
-              className="hover:text-[#CCD7C5] transition-colors"
+              className="hover:text-emerald-400 transition-colors"
             >
               {skill.category.name}
             </Link>
             <ChevronRight className="h-3 w-3" />
           </>
         ) : null}
-        <span className="text-[#F1F4EF] font-medium truncate max-w-xs">{skill.name}</span>
+        <span className="text-[#F8FAFC] font-medium truncate max-w-xs">{skill.name}</span>
       </nav>
 
       {/* Main Header Row */}
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         <div className="flex items-start gap-4">
           {/* Skill Icon */}
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[10px] border border-[#252D28] bg-[#141916] text-[#CCD7C5] shadow-sm">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[10px] border border-[#1E2433] bg-[#161B26] text-emerald-400 shadow-sm shadow-emerald-500/10">
             <Code2 className="h-7 w-7" />
           </div>
 
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F1F4EF]">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F8FAFC]">
                 {skill.name}
               </h1>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono border border-[#CCD7C5]/30 bg-[#CCD7C5]/10 text-[#CCD7C5]">
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
                 v{latestVersion}
               </span>
             </div>
 
             {/* Author Attribution */}
-            <div className="flex items-center gap-2 text-xs text-[#A9B1AA]">
+            <div className="flex items-center gap-2 text-xs text-[#94A3B8]">
               {skill.author && (
                 <Link
                   href={`/users/${skill.author.username}`}
-                  className="flex items-center gap-1.5 hover:text-[#CCD7C5] transition-colors"
+                  className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
                 >
-                  <Avatar className="h-4 w-4 border border-[#252D28]">
+                  <Avatar className="h-4 w-4 border border-[#1E2433]">
                     <AvatarImage src={skill.author.avatar || undefined} alt={skill.author.username} />
                     <AvatarFallback className="text-[8px]">{getInitials(skill.author.username)}</AvatarFallback>
                   </Avatar>
-                  <span>by <span className="text-[#F1F4EF] font-medium">@{skill.author.username}</span></span>
+                  <span>by <span className="text-[#F8FAFC] font-medium">@{skill.author.username}</span></span>
                 </Link>
               )}
               <span>•</span>
@@ -160,7 +158,7 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
             </div>
 
             {/* Description */}
-            <p className="text-sm text-[#A9B1AA] max-w-3xl leading-relaxed pt-1">
+            <p className="text-sm text-[#94A3B8] max-w-3xl leading-relaxed pt-1">
               {skill.description}
             </p>
 
@@ -198,7 +196,7 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
             disabled={isSaving}
             variant="secondary"
             size="default"
-            className={`gap-2 ${isSaved ? "border-[#CCD7C5]/40 text-[#CCD7C5]" : ""}`}
+            className={`gap-2 ${isSaved ? "border-emerald-500/40 text-emerald-400" : ""}`}
           >
             <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
             <span>{isSaved ? "Saved" : "Save"}</span>
@@ -209,7 +207,7 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
             disabled={isUpvoting}
             variant="secondary"
             size="default"
-            className={`gap-2 ${hasUpvoted ? "border-[#CCD7C5]/40 text-[#CCD7C5]" : ""}`}
+            className={`gap-2 ${hasUpvoted ? "border-emerald-500/40 text-emerald-400" : ""}`}
           >
             <ThumbsUp className={`h-4 w-4 ${hasUpvoted ? "fill-current" : ""}`} />
             <span>{formatNumber(upvotes)}</span>
@@ -222,7 +220,7 @@ export function SkillHeader({ skill }: SkillHeaderProps) {
             aria-label="Share skill"
             title="Share skill"
           >
-            {copied ? <Check className="h-4 w-4 text-[#9FBEA5]" /> : <Share2 className="h-4 w-4 text-[#A9B1AA]" />}
+            {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Share2 className="h-4 w-4 text-[#94A3B8]" />}
           </Button>
         </div>
       </div>

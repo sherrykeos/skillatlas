@@ -11,7 +11,7 @@ interface SkillVersionListProps {
 export function SkillVersionList({ versions }: SkillVersionListProps) {
   if (!versions || versions.length === 0) {
     return (
-      <div className="p-8 text-center border border-[#252D28] rounded-[8px] bg-[#0E1210] text-[#A9B1AA] text-sm">
+      <div className="p-8 text-center border border-[#1E2433] rounded-[10px] bg-[#0F1219] text-[#94A3B8] text-sm shadow-sm">
         No version history recorded for this skill.
       </div>
     );
@@ -22,12 +22,12 @@ export function SkillVersionList({ versions }: SkillVersionListProps) {
       {versions.map((v, index) => (
         <div
           key={v.id || v.version}
-          className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-5 transition-all duration-150 hover:border-[#CCD7C5]/30 space-y-3"
+          className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-5 transition-all duration-150 hover:border-emerald-500/30 space-y-3 shadow-sm"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5 font-mono text-sm font-bold text-[#F1F4EF]">
-                <GitCommit className="h-4 w-4 text-[#CCD7C5]" />
+              <div className="flex items-center gap-1.5 font-mono text-sm font-bold text-[#F8FAFC]">
+                <GitCommit className="h-4 w-4 text-emerald-400" />
                 <span>v{v.version}</span>
               </div>
               {index === 0 && (
@@ -47,7 +47,7 @@ export function SkillVersionList({ versions }: SkillVersionListProps) {
               )}
             </div>
 
-            <div className="flex items-center gap-4 text-xs text-[#707A72] font-mono">
+            <div className="flex items-center gap-4 text-xs text-[#64748B] font-mono">
               <div className="flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
                 <span>{formatDate(v.publishedAt || v.createdAt)}</span>
@@ -62,11 +62,11 @@ export function SkillVersionList({ versions }: SkillVersionListProps) {
           </div>
 
           {v.changelog ? (
-            <div className="text-xs text-[#A9B1AA] bg-[#141916] border border-[#252D28] rounded-[6px] p-3 font-mono leading-relaxed whitespace-pre-wrap">
+            <div className="text-xs text-[#94A3B8] bg-[#161B26] border border-[#1E2433] rounded-[6px] p-3 font-mono leading-relaxed whitespace-pre-wrap">
               {v.changelog}
             </div>
           ) : (
-            <p className="text-xs text-[#707A72] italic">
+            <p className="text-xs text-[#64748B] italic">
               No changelog notes provided for this release.
             </p>
           )}

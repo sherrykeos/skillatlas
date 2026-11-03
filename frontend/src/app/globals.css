@@ -2,24 +2,24 @@
 
 @layer base {
   :root {
-    --background: #080B0A;
-    --surface: #0E1210;
-    --surface-elevated: #141916;
-    --border: #252D28;
-    --border-subtle: #1A211D;
+    --background: #090A0F;
+    --surface: #0F1219;
+    --surface-elevated: #161B26;
+    --border: #1E2433;
+    --border-subtle: #161B26;
     
-    --brand: #CCD7C5;
-    --brand-hover: #DCE5D7;
-    --brand-muted: #AAB8A3;
-    --secondary-accent: #9FB8B2;
+    --brand: #10B981;
+    --brand-hover: #34D399;
+    --brand-muted: #059669;
+    --secondary-accent: #34D399;
     
-    --text-primary: #F1F4EF;
-    --text-secondary: #A9B1AA;
-    --text-muted: #707A72;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
     
-    --success: #9FBEA5;
-    --warning: #C9B98A;
-    --danger: #C58F8F;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
     
     --radius: 8px;
   }
@@ -64,16 +64,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080B0A;
+  background: #090A0F;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252D28;
+  background: #1E2433;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #AAB8A3;
+  background: #10B981;
 }
 
 /* Code block styles */
@@ -83,6 +83,6 @@ code, pre, .font-mono {
 
 /* Selection highlight */
 ::selection {
-  background-color: #CCD7C5;
-  color: #080B0A;
+  background-color: #10B981;
+  color: #090A0F;
 }

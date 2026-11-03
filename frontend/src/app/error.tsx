@@ -16,21 +16,21 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#080B0A] flex flex-col items-center justify-center p-6 text-center">
-      <div className="w-full max-w-md border border-[#C58F8F]/30 rounded-[10px] bg-[#0E1210] p-8 space-y-6 shadow-2xl">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#C58F8F]/15 border border-[#C58F8F]/40 text-[#C58F8F] mx-auto">
+    <div className="min-h-screen bg-[#090A0F] flex flex-col items-center justify-center p-6 text-center">
+      <div className="w-full max-w-md border border-rose-500/30 rounded-[12px] bg-[#0F1219] p-8 space-y-6 shadow-2xl">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 mx-auto">
           <AlertTriangle className="h-7 w-7" />
         </div>
 
         <div className="space-y-1.5">
-          <h1 className="text-xl font-bold text-[#F1F4EF]">Application Error</h1>
-          <p className="text-xs text-[#A9B1AA] leading-relaxed">
+          <h1 className="text-xl font-bold text-[#F8FAFC]">Application Error</h1>
+          <p className="text-xs text-[#94A3B8] leading-relaxed">
             An unexpected error occurred in the client application.
           </p>
         </div>
 
         {error?.message && (
-          <div className="p-3 rounded-[6px] bg-[#141916] border border-[#252D28] text-xs font-mono text-[#C58F8F] text-left overflow-x-auto">
+          <div className="p-3 rounded-[8px] bg-[#090A0F] border border-[#1E2433] text-xs font-mono text-rose-300 text-left overflow-x-auto">
             {error.message}
           </div>
         )}

@@ -109,32 +109,32 @@ export default function AdminSkillsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col justify-between gap-4 border-b border-[#252D28] pb-6 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-[#1E2433] pb-6 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#F1F4EF] flex items-center gap-2">
-            <FileCode className="h-6 w-6 text-[#30E87F]" />
+          <h1 className="text-2xl font-bold tracking-tight text-[#F8FAFC] flex items-center gap-2">
+            <FileCode className="h-6 w-6 text-emerald-400" />
             <span>Skills Moderation &amp; Content Control</span>
           </h1>
-          <p className="mt-1 text-xs text-[#A9B1AA]">
+          <p className="mt-1 text-xs text-[#94A3B8]">
             Review all skills across drafts, published, and archived states. Unpublish or delete non-compliant submissions.
           </p>
         </div>
 
         <Button
           onClick={() => fetchSkills()}
-          variant="outline"
+          variant="secondary"
           size="sm"
-          className="border-[#252D28] bg-[#0E1210] text-xs text-[#F1F4EF] hover:bg-[#141916]"
+          className="text-xs"
         >
-          <RefreshCw className="mr-2 h-3.5 w-3.5 text-[#707A72]" />
+          <RefreshCw className="mr-2 h-3.5 w-3.5 text-[#64748B]" />
           <span>Refresh List</span>
         </Button>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 rounded-xl border border-[#252D28] bg-[#0E1210] p-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-3 rounded-[10px] border border-[#1E2433] bg-[#0F1219] p-4 sm:flex-row sm:items-center shadow-xl">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#707A72]" />
+          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#64748B]" />
           <Input
             type="text"
             placeholder="Search by skill name, slug, or keywords..."
@@ -143,7 +143,7 @@ export default function AdminSkillsPage() {
               setSearchQuery(e.target.value);
               setCurrentPage(1);
             }}
-            className="border-[#252D28] bg-[#141916] pl-9 text-xs text-[#F1F4EF] placeholder:text-[#707A72]"
+            className="pl-9 text-xs"
           />
         </div>
 
@@ -155,10 +155,10 @@ export default function AdminSkillsPage() {
               setCurrentPage(1);
             }}
           >
-            <SelectTrigger className="w-[140px] border-[#252D28] bg-[#141916] text-xs text-[#F1F4EF]">
+            <SelectTrigger className="w-[140px] bg-[#0F1219] border-[#1E2433] text-xs">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            <SelectContent className="border-[#252D28] bg-[#0E1210] text-xs">
+            <SelectContent className="border-[#1E2433] bg-[#0F1219] text-xs">
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="PUBLISHED">Published</SelectItem>
               <SelectItem value="DRAFT">Draft</SelectItem>
@@ -169,19 +169,19 @@ export default function AdminSkillsPage() {
       </div>
 
       {/* Table */}
-      <Card className="overflow-hidden border-[#252D28] bg-[#0E1210] shadow-sm">
+      <Card className="overflow-hidden border-[#1E2433] bg-[#0F1219] shadow-xl">
         {isLoading ? (
           <div className="flex h-64 items-center justify-center">
             <LoadingState message="Loading skills repository..." />
           </div>
         ) : !data || data.skills.length === 0 ? (
-          <div className="py-12 text-center text-xs text-[#707A72]">
+          <div className="py-12 text-center text-xs text-[#64748B]">
             No skills match the selected query or filters.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-[#252D28] bg-[#141916] font-mono uppercase text-[#707A72]">
+              <thead className="border-b border-[#1E2433] bg-[#090A0F] font-mono uppercase text-[#64748B]">
                 <tr>
                   <th className="px-4 py-3">Skill</th>
                   <th className="px-4 py-3">Author</th>
@@ -191,9 +191,9 @@ export default function AdminSkillsPage() {
                   <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1A211D]">
+              <tbody className="divide-y divide-[#1E2433]">
                 {data.skills.map((s) => (
-                  <tr key={s.id} className="transition-colors hover:bg-[#141916]/50">
+                  <tr key={s.id} className="transition-colors hover:bg-[#161B26]/50">
                     {/* Skill Info */}
                     <td className="px-4 py-3">
                       <div>
@@ -201,13 +201,13 @@ export default function AdminSkillsPage() {
                           <Link
                             href={`/skills/${s.slug}`}
                             target="_blank"
-                            className="font-semibold text-[#F1F4EF] hover:text-[#30E87F] hover:underline"
+                            className="font-semibold text-[#F8FAFC] hover:text-emerald-400 hover:underline"
                           >
                             {s.name}
                           </Link>
-                          <ExternalLink className="h-3 w-3 text-[#707A72]" />
+                          <ExternalLink className="h-3 w-3 text-[#64748B]" />
                         </div>
-                        <p className="max-w-xs truncate text-[11px] text-[#707A72]">
+                        <p className="max-w-xs truncate text-[11px] text-[#64748B]">
                           {s.description}
                         </p>
                       </div>
@@ -216,14 +216,14 @@ export default function AdminSkillsPage() {
                     {/* Author */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <Avatar className="h-6 w-6 border border-[#252D28]">
+                        <Avatar className="h-6 w-6 border border-[#1E2433] bg-[#161B26]">
                           <AvatarImage src={s.author.avatar || undefined} alt={s.author.username} />
-                          <AvatarFallback className="text-[9px]">{getInitials(s.author.username)}</AvatarFallback>
+                          <AvatarFallback className="text-[9px] text-emerald-400 font-mono">{getInitials(s.author.username)}</AvatarFallback>
                         </Avatar>
                         <Link
                           href={`/users/${s.author.username}`}
                           target="_blank"
-                          className="text-xs text-[#CCD7C5] hover:underline"
+                          className="text-xs text-emerald-400 hover:underline font-mono"
                         >
                           @{s.author.username}
                         </Link>
@@ -234,12 +234,12 @@ export default function AdminSkillsPage() {
                     <td className="px-4 py-3">
                       <Badge
                         variant="secondary"
-                        className={`text-[10px] font-semibold ${
+                        className={`text-[10px] font-semibold font-mono ${
                           s.status === "PUBLISHED"
-                            ? "border border-[#30E87F]/40 bg-[#30E87F]/10 text-[#30E87F]"
+                            ? "border border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
                             : s.status === "DRAFT"
-                            ? "border border-[#E5C07B]/40 bg-[#E5C07B]/10 text-[#E5C07B]"
-                            : "border border-[#252D28] bg-[#141916] text-[#707A72]"
+                            ? "border border-amber-500/40 bg-amber-500/10 text-amber-300"
+                            : "border border-[#1E2433] bg-[#161B26] text-[#64748B]"
                         }`}
                       >
                         {s.status}
@@ -247,27 +247,27 @@ export default function AdminSkillsPage() {
                     </td>
 
                     {/* Telemetry */}
-                    <td className="px-4 py-3 text-[#A9B1AA]">
+                    <td className="px-4 py-3 text-[#94A3B8]">
                       <div className="flex items-center gap-2 font-mono text-[11px]">
                         <span title="Downloads">
-                          <Download className="mr-1 inline h-3 w-3 text-[#707A72]" />
+                          <Download className="mr-1 inline h-3 w-3 text-[#64748B]" />
                           {s._count.downloads}
                         </span>
                         <span>•</span>
                         <span title="Upvotes">
-                          <ThumbsUp className="mr-1 inline h-3 w-3 text-[#30E87F]" />
+                          <ThumbsUp className="mr-1 inline h-3 w-3 text-emerald-400" />
                           {s._count.upvotes}
                         </span>
                         <span>•</span>
                         <span title="Versions">
-                          <Layers className="mr-1 inline h-3 w-3 text-[#707A72]" />
+                          <Layers className="mr-1 inline h-3 w-3 text-[#64748B]" />
                           {s._count.versions}v
                         </span>
                       </div>
                     </td>
 
                     {/* Date */}
-                    <td className="px-4 py-3 font-mono text-[11px] text-[#707A72]">
+                    <td className="px-4 py-3 font-mono text-[11px] text-[#64748B]">
                       {new Date(s.createdAt).toLocaleDateString()}
                     </td>
 
@@ -277,9 +277,9 @@ export default function AdminSkillsPage() {
                         {s.status === "PUBLISHED" && (
                           <Button
                             onClick={() => setSkillToUnpublish(s)}
-                            variant="outline"
+                            variant="secondary"
                             size="sm"
-                            className="h-7 border-[#E5C07B]/40 px-2 text-[11px] text-[#E5C07B] hover:bg-[#E5C07B]/10"
+                            className="h-7 px-2 text-[11px] text-amber-300 hover:bg-amber-500/10"
                             title="Revert skill to draft status"
                           >
                             <Undo2 className="mr-1 h-3 w-3" />
@@ -291,7 +291,7 @@ export default function AdminSkillsPage() {
                           onClick={() => setSkillToDelete(s)}
                           variant="ghost"
                           size="sm"
-                          className="h-7 px-2 text-[11px] text-[#707A72] hover:bg-[#C58F8F]/10 hover:text-[#C58F8F]"
+                          className="h-7 px-2 text-[11px] text-[#64748B] hover:bg-rose-500/10 hover:text-rose-400"
                           title="Force delete skill"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -307,7 +307,7 @@ export default function AdminSkillsPage() {
 
         {/* Pagination */}
         {data && data.pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-[#252D28] px-4 py-3 text-xs text-[#707A72]">
+          <div className="flex items-center justify-between border-t border-[#1E2433] px-4 py-3 text-xs text-[#64748B] font-mono">
             <span>
               Showing Page {data.pagination.page} of {data.pagination.totalPages} ({data.pagination.total} skills)
             </span>
@@ -315,18 +315,18 @@ export default function AdminSkillsPage() {
               <Button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={data.pagination.page <= 1}
-                variant="outline"
+                variant="secondary"
                 size="sm"
-                className="h-7 border-[#252D28] bg-[#141916] text-xs text-[#F1F4EF]"
+                className="h-7 text-xs"
               >
                 Previous
               </Button>
               <Button
                 onClick={() => setCurrentPage((p) => Math.min(data.pagination.totalPages, p + 1))}
                 disabled={data.pagination.page >= data.pagination.totalPages}
-                variant="outline"
+                variant="secondary"
                 size="sm"
-                className="h-7 border-[#252D28] bg-[#141916] text-xs text-[#F1F4EF]"
+                className="h-7 text-xs"
               >
                 Next
               </Button>
@@ -337,31 +337,32 @@ export default function AdminSkillsPage() {
 
       {/* Unpublish Confirmation Modal */}
       <Dialog open={!!skillToUnpublish} onOpenChange={(open) => !open && setSkillToUnpublish(null)}>
-        <DialogContent className="border-[#252D28] bg-[#0E1210] p-6 text-[#F1F4EF] sm:max-w-md">
+        <DialogContent className="border-[#1E2433] bg-[#0F1219] p-6 text-[#F8FAFC] sm:max-w-md">
           <DialogHeader className="space-y-2 text-left">
-            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#E5C07B]/40 bg-[#E5C07B]/10 text-[#E5C07B]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-300">
               <Undo2 className="h-5 w-5" />
             </div>
             <DialogTitle className="text-lg font-bold">
-              Unpublish Skill "{skillToUnpublish?.name}"?
+              Unpublish Skill &quot;{skillToUnpublish?.name}&quot;?
             </DialogTitle>
-            <DialogDescription className="text-xs text-[#A9B1AA]">
+            <DialogDescription className="text-xs text-[#94A3B8]">
               This will unpublish the skill and revert its status to <strong>DRAFT</strong>. It will no longer appear on the public marketplace until republished by the author.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4 flex gap-2">
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={() => setSkillToUnpublish(null)}
               disabled={actionLoading}
-              className="border-[#252D28] bg-transparent text-xs text-[#A9B1AA]"
+              className="text-xs"
             >
               Cancel
             </Button>
             <Button
               onClick={handleUnpublish}
               disabled={actionLoading}
-              className="bg-[#E5C07B] text-xs font-semibold text-[#080B0A] hover:bg-[#D4AD68]"
+              variant="primary"
+              className="text-xs font-semibold shadow-md shadow-emerald-500/15"
             >
               {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirm Unpublish"}
             </Button>
@@ -371,31 +372,32 @@ export default function AdminSkillsPage() {
 
       {/* Force Delete Confirmation Modal */}
       <Dialog open={!!skillToDelete} onOpenChange={(open) => !open && setSkillToDelete(null)}>
-        <DialogContent className="border-[#C58F8F]/40 bg-[#0E1210] p-6 text-[#F1F4EF] sm:max-w-md">
+        <DialogContent className="border-rose-500/40 bg-[#0F1219] p-6 text-[#F8FAFC] sm:max-w-md">
           <DialogHeader className="space-y-2 text-left">
-            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#C58F8F]/60 bg-[#C58F8F]/15 text-[#C58F8F]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-rose-500/60 bg-rose-500/15 text-rose-400">
               <Trash2 className="h-5 w-5" />
             </div>
-            <DialogTitle className="text-lg font-bold text-[#E8A0A0]">
-              Permanently Delete Skill "{skillToDelete?.name}"?
+            <DialogTitle className="text-lg font-bold text-rose-300">
+              Permanently Delete Skill &quot;{skillToDelete?.name}&quot;?
             </DialogTitle>
-            <DialogDescription className="text-xs text-[#A9B1AA]">
+            <DialogDescription className="text-xs text-[#94A3B8]">
               This will permanently delete this skill and all associated versions, files, and ratings. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4 flex gap-2">
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={() => setSkillToDelete(null)}
               disabled={actionLoading}
-              className="border-[#252D28] bg-transparent text-xs text-[#A9B1AA]"
+              className="text-xs"
             >
               Cancel
             </Button>
             <Button
               onClick={handleDelete}
               disabled={actionLoading}
-              className="bg-[#C58F8F] text-xs font-semibold text-[#080B0A] hover:bg-[#B37878]"
+              variant="danger"
+              className="text-xs font-semibold"
             >
               {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Permanently Delete"}
             </Button>

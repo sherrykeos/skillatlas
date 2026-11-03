@@ -112,7 +112,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
     }
   };
 
-  // Default tab: if owner and not creator, default to "saved". If creator, default to "published" or "saved"
+  // Default tab
   const isProfileCreator = profile.role === "CREATOR" || profile.role === "ADMIN" || (isOwner && isCreator);
   const [activeTab, setActiveTab] = useState<string>(
     isOwner ? (isProfileCreator ? "published" : "saved") : "published"
@@ -197,14 +197,14 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 py-6">
-      {/* Header Profile Section (Instagram Style) */}
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10 border-b border-[#252D28] pb-8">
+      {/* Header Profile Section */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10 border-b border-[#1E2433] pb-8">
         {/* Avatar with gradient accent ring */}
         <div className="relative shrink-0">
-          <div className="p-1 rounded-full bg-gradient-to-tr from-[#252D28] via-[#30E87F]/30 to-[#30E87F]/60">
-            <Avatar className="h-24 w-24 sm:h-28 sm:w-28 border-2 border-[#080B0A] bg-[#0E1210]">
+          <div className="p-1 rounded-full bg-gradient-to-tr from-[#1E2433] via-emerald-500/30 to-emerald-400">
+            <Avatar className="h-24 w-24 sm:h-28 sm:w-28 border-2 border-[#090A0F] bg-[#0F1219]">
               <AvatarImage src={profile.avatar || undefined} alt={profile.username} />
-              <AvatarFallback className="text-2xl font-bold bg-[#141A17] text-[#CCD7C5]">
+              <AvatarFallback className="text-2xl font-bold bg-[#161B26] text-emerald-400 font-mono">
                 {getInitials(profile.username)}
               </AvatarFallback>
             </Avatar>
@@ -216,16 +216,16 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
           {/* Top Line: Username, Role, Action Buttons */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 justify-between">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#F1F4EF] tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#F8FAFC] tracking-tight font-mono">
                 @{profile.username}
               </h1>
               {isProfileCreator ? (
-                <Badge className="bg-[#30E87F]/10 text-[#30E87F] border-[#30E87F]/30 text-xs gap-1">
+                <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 text-xs gap-1 font-mono">
                   <Sparkles className="h-3 w-3" />
                   <span>Creator</span>
                 </Badge>
               ) : (
-                <Badge variant="outline" className="text-xs text-[#A9B1AA] border-[#252D28] bg-[#141916]">
+                <Badge variant="outline" className="text-xs text-[#94A3B8] border-[#1E2433] bg-[#0F1219]">
                   Visitor
                 </Badge>
               )}
@@ -238,16 +238,17 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   <Button
                     onClick={handleBecomeCreator}
                     disabled={isUpgrading}
-                    className="bg-[#30E87F] hover:bg-[#28C76D] text-[#080B0A] font-semibold text-xs gap-1.5 shadow-md shadow-[#30E87F]/10"
+                    variant="primary"
+                    className="font-semibold text-xs gap-1.5 shadow-md shadow-emerald-500/15"
                     size="sm"
                   >
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>{isUpgrading ? "Activating..." : "Become a Creator"}</span>
                   </Button>
                 ) : (
-                  <Button asChild variant="outline" size="sm" className="border-[#30E87F]/40 text-[#30E87F] hover:bg-[#30E87F]/10 text-xs gap-1.5 font-medium">
+                  <Button asChild variant="secondary" size="sm" className="gap-1.5 text-xs font-medium">
                     <Link href="/dashboard">
-                      <LayoutDashboard className="h-3.5 w-3.5" />
+                      <LayoutDashboard className="h-3.5 w-3.5 text-emerald-400" />
                       <span>Creator Dashboard</span>
                     </Link>
                   </Button>
@@ -263,7 +264,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   <span>Edit Profile</span>
                 </Button>
 
-                <Button onClick={handleShare} variant="ghost" size="sm" className="text-xs text-[#707A72] hover:text-[#F1F4EF] p-2">
+                <Button onClick={handleShare} variant="ghost" size="sm" className="text-xs text-[#64748B] hover:text-[#F8FAFC] p-2">
                   <Share2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -277,15 +278,15 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
             )}
           </div>
 
-          {/* Stats Row (Instagram Style: counts | labels) */}
+          {/* Stats Row */}
           <div className="flex items-center justify-center sm:justify-start gap-6 sm:gap-8 text-sm font-mono pt-1">
             {isProfileCreator && (
               <button
                 onClick={() => setActiveTab("published")}
                 className="text-left hover:opacity-80 transition-opacity"
               >
-                <span className="font-bold text-[#F1F4EF] text-base">{publishedCount}</span>{" "}
-                <span className="text-xs text-[#707A72]">skills</span>
+                <span className="font-bold text-[#F8FAFC] text-base">{publishedCount}</span>{" "}
+                <span className="text-xs text-[#64748B]">skills</span>
               </button>
             )}
             {isOwner && (
@@ -294,38 +295,38 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   onClick={() => setActiveTab("saved")}
                   className="text-left hover:opacity-80 transition-opacity"
                 >
-                  <span className="font-bold text-[#F1F4EF] text-base">{savedCount}</span>{" "}
-                  <span className="text-xs text-[#707A72]">saved</span>
+                  <span className="font-bold text-[#F8FAFC] text-base">{savedCount}</span>{" "}
+                  <span className="text-xs text-[#64748B]">saved</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("liked")}
                   className="text-left hover:opacity-80 transition-opacity"
                 >
-                  <span className="font-bold text-[#F1F4EF] text-base">{likedCount}</span>{" "}
-                  <span className="text-xs text-[#707A72]">liked</span>
+                  <span className="font-bold text-[#F8FAFC] text-base">{likedCount}</span>{" "}
+                  <span className="text-xs text-[#64748B]">liked</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("downloads")}
                   className="text-left hover:opacity-80 transition-opacity"
                 >
-                  <span className="font-bold text-[#F1F4EF] text-base">{downloadedCount}</span>{" "}
-                  <span className="text-xs text-[#707A72]">downloads</span>
+                  <span className="font-bold text-[#F8FAFC] text-base">{downloadedCount}</span>{" "}
+                  <span className="text-xs text-[#64748B]">downloads</span>
                 </button>
               </>
             )}
             {!isOwner && isProfileCreator && (
               <>
                 <div>
-                  <span className="font-bold text-[#CCD7C5] text-base">
+                  <span className="font-bold text-emerald-400 text-base">
                     {formatNumber(profile._count?.downloads ?? 0)}
                   </span>{" "}
-                  <span className="text-xs text-[#707A72]">downloads</span>
+                  <span className="text-xs text-[#64748B]">downloads</span>
                 </div>
                 <div>
-                  <span className="font-bold text-[#9FB8B2] text-base">
+                  <span className="font-bold text-sky-400 text-base">
                     {formatNumber(profile._count?.upvotes ?? 0)}
                   </span>{" "}
-                  <span className="text-xs text-[#707A72]">upvotes</span>
+                  <span className="text-xs text-[#64748B]">upvotes</span>
                 </div>
               </>
             )}
@@ -333,14 +334,14 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
 
           {/* Bio & Details */}
           <div className="space-y-2 text-xs">
-            <p className="text-[#A9B1AA] max-w-xl leading-relaxed">
+            <p className="text-[#94A3B8] max-w-xl leading-relaxed">
               {profile.bio ||
                 (isOwner
                   ? "Exploring autonomous agent skills & toolkits on SkillAtlas."
                   : "SkillAtlas community developer.")}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-[#707A72] font-mono text-[11px] pt-1">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-[#64748B] font-mono text-[11px] pt-1">
               {profile.createdAt && (
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3" />
@@ -352,7 +353,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   href={profile.github.startsWith("http") ? profile.github : `https://github.com/${profile.github}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-[#CCD7C5] transition-colors"
+                  className="flex items-center gap-1 hover:text-emerald-400 transition-colors"
                 >
                   <GithubIcon className="h-3 w-3" />
                   <span>GitHub</span>
@@ -363,7 +364,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   href={profile.website.startsWith("http") ? profile.website : `https://${profile.website}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-[#CCD7C5] transition-colors"
+                  className="flex items-center gap-1 hover:text-emerald-400 transition-colors"
                 >
                   <Globe className="h-3 w-3" />
                   <span>Website</span>
@@ -376,16 +377,16 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
 
       {/* Become a Creator Banner for Visitors */}
       {isOwner && !isCreator && (
-        <div className="rounded-xl border border-[#30E87F]/25 bg-gradient-to-r from-[#141A17] via-[#0E1210] to-[#141A17] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+        <div className="rounded-[12px] border border-emerald-500/25 bg-[#0F1219] p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div className="flex items-center gap-3.5 text-center sm:text-left">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#30E87F]/10 border border-[#30E87F]/30 text-[#30E87F]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
               <Sparkles className="h-5 w-5" />
             </div>
             <div className="space-y-0.5">
-              <h3 className="text-sm font-bold text-[#F1F4EF]">
+              <h3 className="text-sm font-bold text-[#F8FAFC]">
                 Want to publish and share your own skills?
               </h3>
-              <p className="text-xs text-[#A9B1AA]">
+              <p className="text-xs text-[#94A3B8]">
                 Become a Creator in 1 click to unlock skill publishing, GitHub sync, and the Creator Analytics Dashboard.
               </p>
             </div>
@@ -393,7 +394,8 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
           <Button
             onClick={handleBecomeCreator}
             disabled={isUpgrading}
-            className="w-full sm:w-auto shrink-0 bg-[#30E87F] hover:bg-[#28C76D] text-[#080B0A] font-semibold text-xs gap-1.5"
+            variant="primary"
+            className="w-full sm:w-auto shrink-0 font-semibold text-xs gap-1.5 shadow-md shadow-emerald-500/15"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>{isUpgrading ? "Activating..." : "Become a Creator"}</span>
@@ -401,17 +403,17 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
         </div>
       )}
 
-      {/* Instagram-Style Centered Icon Tab Bar */}
+      {/* Tabs Bar */}
       <div className="space-y-6">
-        <div className="border-t border-[#252D28] flex items-center justify-center gap-2 sm:gap-8">
-          {/* Published Skills Tab (for creators) */}
+        <div className="border-t border-[#1E2433] flex items-center justify-center gap-2 sm:gap-8">
+          {/* Published Skills Tab */}
           {(isProfileCreator || !isOwner) && (
             <button
               onClick={() => setActiveTab("published")}
               className={`flex items-center gap-2 py-3 px-3 sm:px-4 text-xs font-semibold uppercase tracking-wider transition-all border-t-2 -mt-px ${
                 activeTab === "published"
-                  ? "border-[#30E87F] text-[#F1F4EF]"
-                  : "border-transparent text-[#707A72] hover:text-[#A9B1AA]"
+                  ? "border-emerald-400 text-emerald-400"
+                  : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
               }`}
             >
               <Boxes className="h-4 w-4" />
@@ -426,8 +428,8 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 onClick={() => setActiveTab("saved")}
                 className={`flex items-center gap-2 py-3 px-3 sm:px-4 text-xs font-semibold uppercase tracking-wider transition-all border-t-2 -mt-px ${
                   activeTab === "saved"
-                    ? "border-[#30E87F] text-[#F1F4EF]"
-                    : "border-transparent text-[#707A72] hover:text-[#A9B1AA]"
+                    ? "border-emerald-400 text-emerald-400"
+                    : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
                 }`}
               >
                 <Bookmark className="h-4 w-4" />
@@ -438,8 +440,8 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 onClick={() => setActiveTab("liked")}
                 className={`flex items-center gap-2 py-3 px-3 sm:px-4 text-xs font-semibold uppercase tracking-wider transition-all border-t-2 -mt-px ${
                   activeTab === "liked"
-                    ? "border-[#30E87F] text-[#F1F4EF]"
-                    : "border-transparent text-[#707A72] hover:text-[#A9B1AA]"
+                    ? "border-emerald-400 text-emerald-400"
+                    : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
                 }`}
               >
                 <Heart className="h-4 w-4" />
@@ -450,8 +452,8 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 onClick={() => setActiveTab("downloads")}
                 className={`flex items-center gap-2 py-3 px-3 sm:px-4 text-xs font-semibold uppercase tracking-wider transition-all border-t-2 -mt-px ${
                   activeTab === "downloads"
-                    ? "border-[#30E87F] text-[#F1F4EF]"
-                    : "border-transparent text-[#707A72] hover:text-[#A9B1AA]"
+                    ? "border-emerald-400 text-emerald-400"
+                    : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
                 }`}
               >
                 <Download className="h-4 w-4" />
@@ -462,8 +464,8 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 onClick={() => setActiveTab("collections")}
                 className={`flex items-center gap-2 py-3 px-3 sm:px-4 text-xs font-semibold uppercase tracking-wider transition-all border-t-2 -mt-px ${
                   activeTab === "collections"
-                    ? "border-[#30E87F] text-[#F1F4EF]"
-                    : "border-transparent text-[#707A72] hover:text-[#A9B1AA]"
+                    ? "border-emerald-400 text-emerald-400"
+                    : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
                 }`}
               >
                 <FolderHeart className="h-4 w-4" />
@@ -544,17 +546,17 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
             isLoadingCollections ? (
               <LoadingState message="Loading your collections..." />
             ) : collections.length === 0 ? (
-              <div className="border border-[#252D28] rounded-[10px] bg-[#0E1210] p-8 text-center space-y-4 max-w-md mx-auto">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#141A17] border border-[#252D28] text-[#707A72] mx-auto">
+              <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-8 text-center space-y-4 max-w-md mx-auto shadow-xl">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161B26] border border-[#1E2433] text-[#64748B] mx-auto">
                   <FolderHeart className="h-6 w-6" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-semibold text-[#F1F4EF]">No collections created yet</h3>
-                  <p className="text-xs text-[#A9B1AA]">
-                    Organize your favorite agent skills into curated bundles like "Research Suite" or "Coding Helpers".
+                  <h3 className="text-sm font-semibold text-[#F8FAFC]">No collections created yet</h3>
+                  <p className="text-xs text-[#94A3B8]">
+                    Organize your favorite agent skills into curated bundles like &quot;Research Suite&quot; or &quot;Coding Helpers&quot;.
                   </p>
                 </div>
-                <Button asChild variant="primary" size="sm" className="text-xs gap-1.5">
+                <Button asChild variant="primary" size="sm" className="text-xs gap-1.5 font-semibold shadow-md shadow-emerald-500/15">
                   <Link href="/collections">
                     <PlusCircle className="h-3.5 w-3.5" />
                     <span>Create Collection</span>
@@ -567,27 +569,27 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   <Link
                     key={col.id}
                     href={`/collections/${col.id}`}
-                    className="group border border-[#252D28] rounded-[8px] bg-[#0E1210] p-5 space-y-3 hover:border-[#CCD7C5]/40 transition-colors flex flex-col justify-between"
+                    className="group border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-5 space-y-3 hover:border-emerald-500/40 hover:bg-[#161B26] transition-all flex flex-col justify-between shadow-xl"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <FolderHeart className="h-5 w-5 text-[#30E87F]" />
-                        <span className="text-[11px] font-mono text-[#707A72]">
+                        <FolderHeart className="h-5 w-5 text-emerald-400" />
+                        <span className="text-[11px] font-mono text-[#64748B]">
                           {col.skills?.length || 0} skills
                         </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-[#F1F4EF] group-hover:text-[#30E87F] transition-colors">
+                      <h4 className="text-sm font-semibold text-[#F8FAFC] group-hover:text-emerald-400 transition-colors">
                         {col.name}
                       </h4>
                       {col.description && (
-                        <p className="text-xs text-[#A9B1AA] line-clamp-2">
+                        <p className="text-xs text-[#94A3B8] line-clamp-2">
                           {col.description}
                         </p>
                       )}
                     </div>
-                    <div className="pt-2 border-t border-[#1A211D] flex items-center justify-between text-[11px] font-mono text-[#707A72]">
+                    <div className="pt-2 border-t border-[#1E2433] flex items-center justify-between text-[11px] font-mono text-[#64748B]">
                       <span>View toolkit</span>
-                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 group-hover:text-emerald-400 transition-all" />
                     </div>
                   </Link>
                 ))}
@@ -599,30 +601,30 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
 
       {/* Inline Edit Profile Dialog */}
       <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
-        <DialogContent className="sm:max-w-md bg-[#0E1210] border border-[#252D28] p-6 shadow-2xl">
+        <DialogContent className="sm:max-w-md bg-[#0F1219] border border-[#1E2433] p-6 shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-[#F1F4EF]">
+            <DialogTitle className="text-lg font-bold text-[#F8FAFC]">
               Edit Profile
             </DialogTitle>
-            <DialogDescription className="text-xs text-[#A9B1AA]">
+            <DialogDescription className="text-xs text-[#94A3B8]">
               Update your public identity and profile avatar.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSaveProfile} className="space-y-4 pt-2">
             {/* Avatar Preview */}
-            <div className="flex items-center gap-4 p-3 rounded-[8px] border border-[#1A211D] bg-[#141A17]">
-              <Avatar className="h-14 w-14 border border-[#252D28] shrink-0">
+            <div className="flex items-center gap-4 p-3 rounded-[8px] border border-[#1E2433] bg-[#161B26]">
+              <Avatar className="h-14 w-14 border border-[#1E2433] shrink-0 bg-[#0F1219]">
                 <AvatarImage src={editAvatar || undefined} alt={editUsername} />
-                <AvatarFallback className="text-sm font-bold bg-[#141916] text-[#CCD7C5]">
+                <AvatarFallback className="text-sm font-bold bg-[#161B26] text-emerald-400 font-mono">
                   {getInitials(editUsername || profile.username)}
                 </AvatarFallback>
               </Avatar>
               <div className="space-y-1 min-w-0">
-                <h4 className="text-xs font-semibold text-[#F1F4EF] truncate">
+                <h4 className="text-xs font-semibold text-[#F8FAFC] truncate font-mono">
                   @{editUsername || profile.username}
                 </h4>
-                <p className="text-[11px] text-[#707A72]">
+                <p className="text-[11px] text-[#64748B]">
                   Live preview of how others will see your avatar.
                 </p>
               </div>
@@ -630,9 +632,9 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
 
             {/* Username Input */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Username Handle</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Username Handle</label>
               <div className="relative">
-                <span className="absolute left-3 top-2.5 text-xs text-[#707A72] font-mono">@</span>
+                <span className="absolute left-3 top-2.5 text-xs text-[#64748B] font-mono">@</span>
                 <Input
                   type="text"
                   value={editUsername}
@@ -642,14 +644,14 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                   className="pl-7 text-xs font-mono"
                 />
               </div>
-              <p className="text-[10px] text-[#707A72]">
+              <p className="text-[10px] text-[#64748B]">
                 Letters, numbers, and underscores only. Must be at least 3 characters.
               </p>
             </div>
 
             {/* Avatar URL Input */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-[#F1F4EF]">Avatar Image URL</label>
+              <label className="text-xs font-medium text-[#F8FAFC]">Avatar Image URL</label>
               <Input
                 type="url"
                 value={editAvatar}
@@ -657,7 +659,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 placeholder="https://images.unsplash.com/... or https://github.com/..."
                 className="text-xs font-mono"
               />
-              <p className="text-[10px] text-[#707A72]">
+              <p className="text-[10px] text-[#64748B]">
                 Direct image link (PNG, JPG, or WebP). Leave blank to use letter initials.
               </p>
             </div>
@@ -669,7 +671,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 size="sm"
                 onClick={() => setEditModalOpen(false)}
                 disabled={isSavingProfile}
-                className="text-xs"
+                className="text-xs text-[#94A3B8]"
               >
                 Cancel
               </Button>
@@ -678,7 +680,7 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
                 variant="primary"
                 size="sm"
                 disabled={isSavingProfile}
-                className="text-xs font-semibold"
+                className="text-xs font-semibold shadow-md shadow-emerald-500/15"
               >
                 {isSavingProfile ? (
                   <>
@@ -696,4 +698,3 @@ export function UserProfileView({ profile, isOwner = false }: UserProfileViewPro
     </div>
   );
 }
-

@@ -20,12 +20,12 @@ export function EmptyState({
   actionHref,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center border border-dashed border-[#252D28] rounded-[8px] bg-[#0E1210]/50 my-6">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#141916] border border-[#252D28] text-[#CCD7C5] mb-4">
+    <div className="flex flex-col items-center justify-center p-12 text-center border border-dashed border-[#1E2433] rounded-[10px] bg-[#0F1219]/60 my-6">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161B26] border border-[#1E2433] text-emerald-400 mb-4 shadow-sm shadow-emerald-500/10">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-base font-semibold text-[#F1F4EF] mb-1">{title}</h3>
-      <p className="text-sm text-[#A9B1AA] max-w-sm mb-6">{description}</p>
+      <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">{title}</h3>
+      <p className="text-sm text-[#94A3B8] max-w-sm mb-6">{description}</p>
       {actionLabel && (actionHref || onAction) && (
         actionHref ? (
           <Button asChild variant="primary" size="sm">

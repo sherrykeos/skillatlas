@@ -59,28 +59,28 @@ export function NewVersionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-[#0E1210] border-[#252D28]">
+      <DialogContent className="max-w-md bg-[#0F1219] border-[#1E2433]">
         <DialogHeader>
-          <div className="flex items-center gap-2 text-[#CCD7C5] mb-1">
+          <div className="flex items-center gap-2 text-emerald-400 mb-1">
             <GitBranch className="h-5 w-5" />
-            <DialogTitle className="text-base font-bold text-[#F1F4EF]">
+            <DialogTitle className="text-base font-bold text-[#F8FAFC]">
               Create New Version Release
             </DialogTitle>
           </div>
-          <DialogDescription className="text-xs text-[#A9B1AA]">
+          <DialogDescription className="text-xs text-[#94A3B8]">
             Create a new semantic release draft copying all files from the current version.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           {error && (
-            <div className="p-2.5 rounded-[6px] bg-[#C58F8F]/10 border border-[#C58F8F]/30 text-xs text-[#C58F8F]">
+            <div className="p-2.5 rounded-[8px] bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300">
               {error}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Semantic Version</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Semantic Version</label>
             <Input
               type="text"
               value={version}
@@ -89,16 +89,16 @@ export function NewVersionDialog({
               required
               className="text-xs font-mono"
             />
-            <p className="text-[10px] text-[#707A72]">Current active version: v{latestVersion}</p>
+            <p className="text-[10px] text-[#64748B]">Current active version: v{latestVersion}</p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#F1F4EF]">Release Changelog</label>
+            <label className="text-xs font-medium text-[#F8FAFC]">Release Changelog</label>
             <Textarea
               value={changelog}
               onChange={(e) => setChangelog(e.target.value)}
               placeholder="Document improvements, prompt changes, or bug fixes..."
-              className="min-h-[80px] text-xs font-mono"
+              className="min-h-[90px] text-xs font-mono"
             />
           </div>
 
@@ -106,9 +106,8 @@ export function NewVersionDialog({
             <Button
               type="button"
               onClick={() => onOpenChange(false)}
-              variant="ghost"
+              variant="secondary"
               size="sm"
-              className="text-xs"
             >
               Cancel
             </Button>
@@ -117,10 +116,9 @@ export function NewVersionDialog({
               disabled={isSubmitting}
               variant="primary"
               size="sm"
-              className="text-xs gap-1.5 font-semibold"
+              className="font-semibold shadow-md shadow-emerald-500/15"
             >
-              <Plus className="h-3.5 w-3.5" />
-              <span>{isSubmitting ? "Creating..." : "Create Version Draft"}</span>
+              {isSubmitting ? "Creating..." : "Create Release Draft"}
             </Button>
           </DialogFooter>
         </form>

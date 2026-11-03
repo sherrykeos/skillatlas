@@ -55,10 +55,10 @@ function buildTree(files: SkillFile[]): TreeNode {
 }
 
 function getFileIcon(filename: string) {
-  if (filename === "SKILL.md") return <FileCode className="h-4 w-4 text-[#CCD7C5]" />;
-  if (filename.endsWith(".md") || filename.endsWith(".txt")) return <FileText className="h-4 w-4 text-[#9FB8B2]" />;
-  if (filename.endsWith(".json") || filename.endsWith(".yaml") || filename.endsWith(".yml")) return <FileJson className="h-4 w-4 text-[#C9B98A]" />;
-  return <FileCode className="h-4 w-4 text-[#AAB8A3]" />;
+  if (filename === "SKILL.md") return <FileCode className="h-4 w-4 text-emerald-400" />;
+  if (filename.endsWith(".md") || filename.endsWith(".txt")) return <FileText className="h-4 w-4 text-cyan-400" />;
+  if (filename.endsWith(".json") || filename.endsWith(".yaml") || filename.endsWith(".yml")) return <FileJson className="h-4 w-4 text-amber-400" />;
+  return <FileCode className="h-4 w-4 text-[#94A3B8]" />;
 }
 
 function TreeItem({
@@ -81,8 +81,8 @@ function TreeItem({
         onClick={() => node.file && onSelectFile(node.file)}
         className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-[6px] text-xs font-mono transition-colors text-left ${
           isSelected
-            ? "bg-[#141916] text-[#CCD7C5] border border-[#252D28] font-semibold"
-            : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
+            ? "bg-[#161B26] text-emerald-400 border border-[#1E2433] font-semibold"
+            : "text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC]"
         }`}
         style={{ paddingLeft: `${depth * 14 + 10}px` }}
       >
@@ -96,25 +96,25 @@ function TreeItem({
     const nodeA = node.children![a];
     const nodeB = node.children![b];
     if (nodeA.isFile === nodeB.isFile) return a.localeCompare(b);
-    return nodeA.isFile ? 1 : -1; // directories first
+    return nodeA.isFile ? 1 : -1;
   });
 
   return (
     <div className="space-y-0.5">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded-[6px] text-xs font-mono text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF] transition-colors text-left"
+        className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded-[6px] text-xs font-mono text-[#94A3B8] hover:bg-[#161B26]/60 hover:text-[#F8FAFC] transition-colors text-left"
         style={{ paddingLeft: `${depth * 14 + 8}px` }}
       >
         {isOpen ? (
-          <ChevronDown className="h-3 w-3 text-[#707A72]" />
+          <ChevronDown className="h-3 w-3 text-[#64748B]" />
         ) : (
-          <ChevronRight className="h-3 w-3 text-[#707A72]" />
+          <ChevronRight className="h-3 w-3 text-[#64748B]" />
         )}
         {isOpen ? (
-          <FolderOpen className="h-4 w-4 text-[#9FB8B2]" />
+          <FolderOpen className="h-4 w-4 text-emerald-500/80" />
         ) : (
-          <Folder className="h-4 w-4 text-[#9FB8B2]" />
+          <Folder className="h-4 w-4 text-emerald-500/80" />
         )}
         <span className="truncate font-semibold">{node.name}</span>
       </button>

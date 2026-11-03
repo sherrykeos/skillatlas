@@ -23,7 +23,7 @@ export function MonacoCodeEditor({
   readOnly = false,
 }: MonacoCodeEditorProps) {
   return (
-    <div className="w-full h-full min-h-[480px] bg-[#0E1210]">
+    <div className="w-full h-full min-h-[480px] bg-[#090A0F]">
       <Editor
         height="100%"
         language={language}
