@@ -3,18 +3,28 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Compass, PlusCircle, Bookmark, LayoutDashboard } from "lucide-react";
+import { Home, Compass, PlusCircle, Bookmark, LayoutDashboard, User, Sparkles } from "lucide-react";
+import { useAuth } from "@/lib/auth/auth-context";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
+  const { isCreator } = useAuth();
 
-  const navItems = [
-    { title: "Home", href: "/", icon: Home },
-    { title: "Explore", href: "/explore", icon: Compass },
-    { title: "Create", href: "/skills/new", icon: PlusCircle },
-    { title: "Saved", href: "/saved", icon: Bookmark },
-    { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  ];
+  const navItems = isCreator
+    ? [
+        { title: "Home", href: "/", icon: Home },
+        { title: "Explore", href: "/explore", icon: Compass },
+        { title: "Create", href: "/skills/new", icon: PlusCircle },
+        { title: "Saved", href: "/saved", icon: Bookmark },
+        { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+      ]
+    : [
+        { title: "Home", href: "/", icon: Home },
+        { title: "Explore", href: "/explore", icon: Compass },
+        { title: "Creator", href: "/become-creator", icon: Sparkles },
+        { title: "Saved", href: "/saved", icon: Bookmark },
+        { title: "Profile", href: "/profile", icon: User },
+      ];
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 border-t border-[#252D28] bg-[#0E1210]/95 backdrop-blur-md flex items-center justify-around px-2">

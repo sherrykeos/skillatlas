@@ -31,7 +31,7 @@ export default function AdminLayout({
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated || !isAdmin) {
-        router.push("/dashboard");
+        router.replace("/");
       }
     }
   }, [isAuthenticated, isAdmin, isLoading, router]);

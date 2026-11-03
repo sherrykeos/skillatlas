@@ -27,13 +27,32 @@ function LoginForm() {
     setIsLoading(true);
 
     try {
-      await login(email.trim(), password);
+      const loggedUser = await login(email.trim(), password);
       toast.success("Welcome back!");
-      router.push(redirectPath);
+
+      const isCreatorOrAdmin =
+        loggedUser?.role === "CREATOR" || loggedUser?.role === "ADMIN";
+      const customRedirect = searchParams.get("redirect");
+
+      let target = "/profile";
+      if (customRedirect) {
+        // If a non-creator was trying to hit dashboard, divert them to profile
+        if (customRedirect.startsWith("/dashboard") && !isCreatorOrAdmin) {
+          target = "/profile";
+        } else {
+          target = customRedirect;
+        }
+      } else if (isCreatorOrAdmin) {
+        target = "/dashboard";
+      }
+
+      router.push(target);
     } catch (err: any) {
-      setError(
-        err?.response?.data?.message || "Invalid email or password. Please try again."
-      );
+      const msg =
+        err?.message ||
+        err?.response?.data?.message ||
+        "Invalid email or password. Please try again.";
+      setError(msg);
     } finally {
       setIsLoading(false);
     }
@@ -51,9 +70,31 @@ function LoginForm() {
       </div>
 
       {error && (
-        <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-[6px] flex items-start gap-2.5 text-xs text-red-300">
-          <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-          <span>{error}</span>
+        <div
+          className={`p-3 rounded-[6px] flex flex-col gap-2 text-xs ${
+            error.toLowerCase().includes("verify")
+              ? "bg-[#251E13] border border-[#D97706]/40 text-[#FBBF24]"
+              : "bg-red-950/40 border border-red-500/30 text-red-300"
+          }`}
+        >
+          <div className="flex items-start gap-2.5">
+            <AlertCircle
+              className={`h-4 w-4 shrink-0 mt-0.5 ${
+                error.toLowerCase().includes("verify") ? "text-[#FBBF24]" : "text-red-400"
+              }`}
+            />
+            <span className="leading-relaxed">{error}</span>
+          </div>
+          {error.toLowerCase().includes("verify") && (
+            <div className="pl-6.5">
+              <Link
+                href="/verify-email"
+                className="font-medium text-[#CCD7C5] underline hover:text-[#F1F4EF]"
+              >
+                Resend or complete email verification &rarr;
+              </Link>
+            </div>
+          )}
         </div>
       )}
 
@@ -126,11 +167,12 @@ function LoginForm() {
         <Button
           type="button"
           onClick={() => {
-            toast.info("Google OAuth or Direct Email is enabled.");
+            const apiBase = process.env.NEXT_PUBLIC_API_URL || "";
+            window.location.href = `${apiBase}/api/auth/google`;
           }}
           variant="secondary"
           size="sm"
-          className="text-xs gap-1.5"
+          className="text-xs gap-1.5 cursor-pointer"
         >
           <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
             <path
@@ -156,11 +198,11 @@ function LoginForm() {
         <Button
           type="button"
           onClick={() => {
-            toast.info("Google OAuth or Direct Email is enabled.");
+            toast.info("GitHub OAuth is coming soon.");
           }}
           variant="secondary"
           size="sm"
-          className="text-xs gap-1.5"
+          className="text-xs gap-1.5 cursor-pointer"
         >
           <GithubIcon className="h-3.5 w-3.5" />
           <span>GitHub</span>

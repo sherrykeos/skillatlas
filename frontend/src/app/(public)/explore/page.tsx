@@ -83,72 +83,11 @@ function ExploreContent() {
         description="Discover and integrate reusable agentic capabilities built by the developer community."
         badge={`${pagination.total || 0} Skills`}
       />
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Sidebar Category Filter (Desktop) */}
-        <div className="hidden lg:block lg:col-span-3 border border-[#252D28] rounded-[8px] bg-[#0E1210] p-4 space-y-3 sticky top-20">
-          <div className="flex items-center justify-between border-b border-[#252D28] pb-2.5">
-            <span className="text-xs font-mono uppercase tracking-wider text-[#707A72]">
-              Categories
-            </span>
-            {category && (
-              <button
-                onClick={() => {
-                  setCategory("");
-                  setPage(1);
-                }}
-                className="text-[11px] text-[#CCD7C5] hover:underline"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-
-          <div className="space-y-1">
-            <button
-              onClick={() => {
-                setCategory("");
-                setPage(1);
-              }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-[6px] text-xs transition-colors text-left ${
-                category === ""
-                  ? "bg-[#141916] text-[#CCD7C5] font-semibold border border-[#252D28]"
-                  : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Boxes className="h-3.5 w-3.5" />
-                <span>All Categories</span>
-              </div>
-            </button>
-
-            {CATEGORIES.map((cat) => {
-              const isSelected = category.toLowerCase() === cat.slug.toLowerCase();
-              return (
-                <button
-                  key={cat.slug}
-                  onClick={() => {
-                    setCategory(cat.slug);
-                    setPage(1);
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-[6px] text-xs transition-colors text-left ${
-                    isSelected
-                      ? "bg-[#141916] text-[#CCD7C5] font-semibold border border-[#252D28]"
-                      : "text-[#A9B1AA] hover:bg-[#141916]/60 hover:text-[#F1F4EF]"
-                  }`}
-                >
-                  <div className="flex items-center gap-2 truncate">
-                    <TagIcon className="h-3.5 w-3.5 text-[#707A72]" />
-                    <span className="truncate">{cat.name}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+      <div className="grid grid-cols-1 gap-8 items-start">
+        
 
         {/* Right Main Marketplace Area */}
-        <div className="lg:col-span-9 space-y-6">
+        <div className="space-y-6">
           {/* Top Filter Bar */}
           <MarketplaceFilters
             search={search}

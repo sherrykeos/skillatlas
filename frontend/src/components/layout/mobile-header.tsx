@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, Menu, X, PlusCircle, LayoutDashboard, Bookmark, Settings, LogOut } from "lucide-react";
+import { Search, Menu, X, PlusCircle, LayoutDashboard, Bookmark, Settings, LogOut, User, Sparkles } from "lucide-react";
 import { Logo } from "./logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/lib/auth/auth-context";
@@ -10,7 +10,7 @@ import { getInitials } from "@/lib/utils";
 import { SearchModal } from "@/components/common/search-modal";
 
 export function MobileHeader() {
-  const { user, logout } = useAuth();
+  const { user, isCreator, logout } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -39,22 +39,45 @@ export function MobileHeader() {
 
         {drawerOpen && (
           <div className="absolute top-14 left-0 right-0 border-b border-[#252D28] bg-[#0E1210] p-4 space-y-2 animate-in slide-in-from-top-2">
-            <Link
-              href="/dashboard"
-              onClick={() => setDrawerOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#F1F4EF] hover:bg-[#141916]"
-            >
-              <LayoutDashboard className="h-4 w-4 text-[#CCD7C5]" />
-              <span>Dashboard</span>
-            </Link>
-            <Link
-              href="/skills"
-              onClick={() => setDrawerOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#F1F4EF] hover:bg-[#141916]"
-            >
-              <PlusCircle className="h-4 w-4 text-[#9FB8B2]" />
-              <span>My Skills</span>
-            </Link>
+            {isCreator ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setDrawerOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#F1F4EF] hover:bg-[#141916]"
+                >
+                  <LayoutDashboard className="h-4 w-4 text-[#CCD7C5]" />
+                  <span>Creator Dashboard</span>
+                </Link>
+                <Link
+                  href="/skills"
+                  onClick={() => setDrawerOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#F1F4EF] hover:bg-[#141916]"
+                >
+                  <PlusCircle className="h-4 w-4 text-[#9FB8B2]" />
+                  <span>My Skills</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/profile"
+                  onClick={() => setDrawerOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#F1F4EF] hover:bg-[#141916]"
+                >
+                  <User className="h-4 w-4 text-[#CCD7C5]" />
+                  <span>My Profile</span>
+                </Link>
+                <Link
+                  href="/become-creator"
+                  onClick={() => setDrawerOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-[6px] text-sm text-[#30E87F] hover:bg-[#30E87F]/10 font-medium"
+                >
+                  <Sparkles className="h-4 w-4 text-[#30E87F]" />
+                  <span>Become a Creator</span>
+                </Link>
+              </>
+            )}
             <Link
               href="/saved"
               onClick={() => setDrawerOpen(false)}

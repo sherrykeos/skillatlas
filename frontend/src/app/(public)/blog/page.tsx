@@ -46,7 +46,7 @@ export default function BlogPage() {
       <PageHeader
         title="Engineering Blog"
         description="Deep dives into agentic systems, skill orchestration, prompt engineering, and deterministic agent workflows."
-        badge="Technical Articles"
+      
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

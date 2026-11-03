@@ -124,12 +124,21 @@ export function PublicNavbar() {
                       </div>
                       <p className="text-[11px] text-[#707A72] truncate">{user.email}</p>
                     </div>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="gap-2">
-                        <LayoutDashboard className="h-4 w-4 text-[#CCD7C5]" />
-                        <span>Dashboard</span>
-                      </Link>
-                    </DropdownMenuItem>
+                    {isCreator ? (
+                      <DropdownMenuItem asChild>
+                        <Link href="/dashboard" className="gap-2">
+                          <LayoutDashboard className="h-4 w-4 text-[#CCD7C5]" />
+                          <span>Creator Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile" className="gap-2">
+                          <UserIcon className="h-4 w-4 text-[#CCD7C5]" />
+                          <span>My Profile</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
 
                     {isAdmin && (
                       <DropdownMenuItem asChild>
@@ -154,16 +163,19 @@ export function PublicNavbar() {
                       </DropdownMenuItem>
                     )}
 
+                    {isCreator && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile" className="gap-2">
+                          <UserIcon className="h-4 w-4 text-[#A9B1AA]" />
+                          <span>My Profile</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+
                     <DropdownMenuItem asChild>
                       <Link href="/saved" className="gap-2">
                         <Bookmark className="h-4 w-4 text-[#AAB8A3]" />
                         <span>Saved Skills</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href={`/users/${user.username}`} className="gap-2">
-                        <UserIcon className="h-4 w-4 text-[#A9B1AA]" />
-                        <span>Public Profile</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -216,26 +228,66 @@ export function PublicNavbar() {
             ))}
             {isAuthenticated ? (
               <div className="pt-2 border-t border-[#252D28] space-y-1">
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-[6px] text-sm text-[#CCD7C5] hover:bg-[#141916]"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/skills"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-[6px] text-sm text-[#A9B1AA] hover:bg-[#141916]"
-                >
-                  My Skills
-                </Link>
+                {isCreator ? (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-2 rounded-[6px] text-sm text-[#CCD7C5] hover:bg-[#141916]"
+                    >
+                      Creator Dashboard
+                    </Link>
+                    <Link
+                      href="/skills"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-2 rounded-[6px] text-sm text-[#A9B1AA] hover:bg-[#141916]"
+                    >
+                      My Skills
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/profile"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-2 rounded-[6px] text-sm text-[#CCD7C5] hover:bg-[#141916]"
+                    >
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setCreatorDialogOpen(true);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-[6px] text-sm text-[#30E87F] hover:bg-[#30E87F]/10 flex items-center gap-1.5"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      <span>Become a Creator</span>
+                    </button>
+                  </>
+                )}
+                {isCreator && (
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-3 py-2 rounded-[6px] text-sm text-[#A9B1AA] hover:bg-[#141916]"
+                  >
+                    My Profile
+                  </Link>
+                )}
                 <Link
                   href="/saved"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block px-3 py-2 rounded-[6px] text-sm text-[#A9B1AA] hover:bg-[#141916]"
                 >
                   Saved Skills
+                </Link>
+                <Link
+                  href="/settings"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 rounded-[6px] text-sm text-[#A9B1AA] hover:bg-[#141916]"
+                >
+                  Settings
                 </Link>
                 <button
                   onClick={() => {

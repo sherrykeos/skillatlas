@@ -67,6 +67,37 @@ export const engagementApi = {
     );
   },
 
+  getLikedSkills: async (page = 1, limit = 20) => {
+    return apiClient<{ likedSkills: { skill: Skill; likedAt: string }[]; total?: number }>(
+      "/users/me/liked",
+      {
+        method: "GET",
+        params: { page, limit },
+      }
+    );
+  },
+
+  getDownloadedSkills: async (page = 1, limit = 20) => {
+    return apiClient<{ downloadedSkills: { skill: Skill; downloadedAt: string; version?: string }[]; total?: number }>(
+      "/users/me/downloads",
+      {
+        method: "GET",
+        params: { page, limit },
+      }
+    );
+  },
+
+  getLibraryStats: async () => {
+    return apiClient<{
+      savedCount: number;
+      likedCount: number;
+      downloadedCount: number;
+      collectionsCount: number;
+    }>("/users/me/stats", {
+      method: "GET",
+    });
+  },
+
   // Collections
   getCollections: async () => {
     return apiClient<{ collections: Collection[] }>("/users/me/collections", {

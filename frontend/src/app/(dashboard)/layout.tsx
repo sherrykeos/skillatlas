@@ -14,13 +14,29 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isCreator, isLoading } = useAuth();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push("/login?redirect=" + encodeURIComponent(window.location.pathname));
+      return;
     }
-  }, [isAuthenticated, isLoading, router]);
+
+    if (!isLoading && isAuthenticated && !isCreator) {
+      const currentPath = window.location.pathname;
+      const creatorOnlyRoutes = [
+        "/dashboard",
+        "/skills",
+        "/github-import",
+      ];
+      const isCreatorRoute = creatorOnlyRoutes.some(
+        (r) => currentPath === r || (r !== "/dashboard" && currentPath.startsWith(r))
+      );
+      if (isCreatorRoute) {
+        router.replace("/profile");
+      }
+    }
+  }, [isAuthenticated, isCreator, isLoading, router]);
 
   if (isLoading) {
     return (

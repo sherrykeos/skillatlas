@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PlusCircle, Boxes, Download, ThumbsUp, ArrowRight, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
@@ -17,7 +18,14 @@ import { skillsApi } from "@/lib/api/skills";
 import { formatNumber, formatDate } from "@/lib/utils";
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const router = useRouter();
+  const { user, isCreator, isLoading: isLoadingAuth } = useAuth();
+
+  useEffect(() => {
+    if (!isLoadingAuth && user && !isCreator) {
+      router.replace("/profile");
+    }
+  }, [user, isCreator, isLoadingAuth, router]);
 
   const { data, isLoading } = useQuery({
     queryKey: ["my-skills"],

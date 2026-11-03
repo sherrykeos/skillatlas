@@ -32,7 +32,7 @@ export default function DocsPage() {
       <PageHeader
         title="Developer Documentation"
         description="Official guide to building, formatting, versioning, and deploying agentic skills on SkillAtlas."
-        badge="v1.0 Docs"
+        // badge="v1.0 Docs"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

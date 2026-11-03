@@ -13,7 +13,7 @@ interface AuthContextType {
   isLoading: boolean;
   isCreator: boolean;
   isAdmin: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User | null>;
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -66,19 +66,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const response = await authApi.login({ email, password });
     if (response?.user) {
       setUser(response.user);
+      return response.user;
     } else {
       await refreshUser();
+      return null;
     }
   };
 
   const register = async (username: string, email: string, password: string) => {
     await authApi.register({ username, email, password });
-    // After registration, attempt login or guide to verify
-    try {
-      await login(email, password);
-    } catch {
-      // ignore auto-login failure if email verification is strictly required
-    }
   };
 
   const logout = async () => {
@@ -99,8 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isCreator = user?.role === "CREATOR" || user?.role === "ADMIN";
   const isAdmin =
     user?.role === "ADMIN" ||
-    user?.username?.toLowerCase() === "sherry" ||
-    user?.email?.toLowerCase() === "shaj7492@gmail.com";
+    user?.email?.toLowerCase() === "vybe.srd@gmail.com";
 
   return (
     <AuthContext.Provider

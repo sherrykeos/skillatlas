@@ -49,7 +49,9 @@ export function DashboardSidebar() {
   const { user, isCreator, isAdmin, logout } = useAuth();
 
   const userItems = [
-    { title: "Dashboard", href: "/dashboard", iconName: "LayoutDashboard" },
+    ...(isCreator
+      ? [{ title: "Dashboard", href: "/dashboard", iconName: "LayoutDashboard" }]
+      : [{ title: "My Profile", href: "/profile", iconName: "User" }]),
     ...(!isCreator
       ? [{ title: "Become a Creator", href: "/become-creator", iconName: "Sparkles", highlight: true }]
       : []),
@@ -62,7 +64,9 @@ export function DashboardSidebar() {
       : []),
     { title: "Saved", href: "/saved", iconName: "Bookmark" },
     { title: "Collections", href: "/collections", iconName: "FolderHeart" },
-    { title: "Profile", href: user?.username ? `/users/${user.username}` : "/settings/profile", iconName: "User" },
+    ...(isCreator
+      ? [{ title: "Public Profile", href: user?.username ? `/users/${user.username}` : "/profile", iconName: "User" }]
+      : []),
     { title: "Settings", href: "/settings", iconName: "Settings" },
   ];
 
