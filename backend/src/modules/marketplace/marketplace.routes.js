@@ -7,9 +7,23 @@ import {
 import {
   getSkills,
   getSkillBySlug,
+  getStats,
+  getCategories,
 } from "./marketplace.controller.js";
 
 const router = Router();
+
+/**
+ * GET /api/marketplace/stats
+ * Real-time public aggregate statistics
+ */
+router.get("/stats", getStats);
+
+/**
+ * GET /api/marketplace/categories
+ * Real-time public categories with live skill counts
+ */
+router.get("/categories", getCategories);
 
 /**
  * GET /api/marketplace/skills

@@ -84,8 +84,6 @@ function ExploreContent() {
         badge={`${pagination.total || 0} Skills`}
       />
       <div className="grid grid-cols-1 gap-8 items-start">
-        
-
         {/* Right Main Marketplace Area */}
         <div className="space-y-6">
           {/* Top Filter Bar */}
@@ -114,17 +112,17 @@ function ExploreContent() {
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2">
               {search && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-[#141916] border border-[#252D28] text-[#F1F4EF]">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-[#161B26] border border-[#1E2433] text-[#F8FAFC] font-mono">
                   <span>Query: &quot;{search}&quot;</span>
-                  <button onClick={() => setSearch("")} className="text-[#707A72] hover:text-[#F1F4EF]">
+                  <button onClick={() => setSearch("")} className="text-[#64748B] hover:text-[#F8FAFC]">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
               )}
               {category && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-[#CCD7C5]/10 border border-[#CCD7C5]/30 text-[#CCD7C5]">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono">
                   <span>Category: {CATEGORIES.find((c) => c.slug === category)?.name || category}</span>
-                  <button onClick={() => setCategory("")} className="text-[#CCD7C5] hover:text-[#F1F4EF]">
+                  <button onClick={() => setCategory("")} className="text-emerald-400 hover:text-emerald-300">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
@@ -144,10 +142,10 @@ function ExploreContent() {
 
           {/* Pagination Controls */}
           {pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between pt-6 border-t border-[#252D28]">
-              <div className="text-xs text-[#707A72] font-mono">
-                Page <span className="text-[#F1F4EF] font-medium">{pagination.page}</span> of{" "}
-                <span className="text-[#F1F4EF] font-medium">{pagination.totalPages}</span>
+            <div className="flex items-center justify-between pt-6 border-t border-[#1E2433]">
+              <div className="text-xs text-[#64748B] font-mono">
+                Page <span className="text-[#F8FAFC] font-medium">{pagination.page}</span> of{" "}
+                <span className="text-[#F8FAFC] font-medium">{pagination.totalPages}</span>
               </div>
 
               <div className="flex items-center gap-2">

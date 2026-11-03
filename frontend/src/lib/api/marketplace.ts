@@ -10,6 +10,23 @@ export interface MarketplaceQueryParams {
   sort?: "latest" | "popular" | "upvotes";
 }
 
+export interface MarketplaceStats {
+  totalSkills: number;
+  totalDownloads: number;
+  totalUpvotes: number;
+  totalCategories: number;
+}
+
+export interface CategoryWithCount {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  _count?: {
+    Skills: number;
+  };
+}
+
 export const marketplaceApi = {
   getSkills: async (params: MarketplaceQueryParams = {}) => {
     return apiClient<MarketplaceSkillsResponse>("/marketplace/skills", {
@@ -30,5 +47,19 @@ export const marketplaceApi = {
       method: "GET",
     });
     return data?.skill || (data as unknown as Skill);
+  },
+
+  getStats: async () => {
+    const data = await apiClient<MarketplaceStats | { totalSkills: number; totalDownloads: number; totalUpvotes: number; totalCategories: number }>("/marketplace/stats", {
+      method: "GET",
+    });
+    return data;
+  },
+
+  getCategories: async () => {
+    const data = await apiClient<{ categories: CategoryWithCount[] }>("/marketplace/categories", {
+      method: "GET",
+    });
+    return data?.categories || [];
   },
 };

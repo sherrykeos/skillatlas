@@ -1,4 +1,5 @@
 import ApiError from "../../utils/ApiError.js";
+import prisma from "../../lib/prisma.js";
 import {
   findPublishedSkills,
   countPublishedSkills,
@@ -96,4 +97,43 @@ export async function getMarketplaceSkillBySlug(slug) {
   }
 
   return formatSkillRecord(rawSkill);
+}
+
+/**
+ * Get real-time public marketplace statistics directly from database.
+ */
+export async function getMarketplaceStats() {
+  const [totalSkills, totalDownloads, totalUpvotes, totalCategories] = await Promise.all([
+    prisma.skill.count({ where: { status: "PUBLISHED" } }),
+    prisma.download.count(),
+    prisma.upvote.count(),
+    prisma.category.count(),
+  ]);
+
+  return {
+    totalSkills,
+    totalDownloads,
+    totalUpvotes,
+    totalCategories,
+  };
+}
+
+/**
+ * Get public list of categories with live skill counts.
+ */
+export async function getMarketplaceCategories() {
+  const categories = await prisma.category.findMany({
+    orderBy: { name: "asc" },
+    include: {
+      _count: {
+        select: {
+          Skills: {
+            where: { status: "PUBLISHED" },
+          },
+        },
+      },
+    },
+  });
+
+  return { categories };
 }

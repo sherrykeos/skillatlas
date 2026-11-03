@@ -36,16 +36,16 @@ export default function CategoryDetailPage({
   return (
     <PageContainer>
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-xs text-[#707A72] mb-6">
-        <Link href="/explore" className="hover:text-[#CCD7C5] transition-colors">
+      <nav className="flex items-center gap-1.5 text-xs text-[#64748B] mb-6 font-mono">
+        <Link href="/explore" className="hover:text-emerald-400 transition-colors">
           Explore
         </Link>
         <ChevronRight className="h-3 w-3" />
-        <Link href="/categories" className="hover:text-[#CCD7C5] transition-colors">
+        <Link href="/categories" className="hover:text-emerald-400 transition-colors">
           Categories
         </Link>
         <ChevronRight className="h-3 w-3" />
-        <span className="text-[#F1F4EF] font-medium capitalize">
+        <span className="text-[#F8FAFC] font-medium capitalize">
           {categoryMeta?.name || categorySlug}
         </span>
       </nav>
@@ -60,7 +60,7 @@ export default function CategoryDetailPage({
         action={
           <Button asChild variant="secondary" size="sm">
             <Link href={`/explore?category=${encodeURIComponent(categorySlug)}`}>
-              <Filter className="h-3.5 w-3.5 mr-1.5 text-[#CCD7C5]" />
+              <Filter className="h-3.5 w-3.5 mr-1.5 text-emerald-400" />
               Filter in Marketplace
             </Link>
           </Button>

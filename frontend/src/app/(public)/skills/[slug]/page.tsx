@@ -2,7 +2,6 @@
 
 import React, { use, useState } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FileText,
@@ -10,8 +9,6 @@ import {
   FolderTree,
   GitBranch,
   MessageSquare,
-  Sparkles,
-  AlertCircle,
   Copy,
   Check,
 } from "lucide-react";
@@ -132,7 +129,7 @@ export default function SkillDetailPage({
         {/* Main Tabs Area */}
         <div className="lg:col-span-8 space-y-6">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="w-full justify-start overflow-x-auto h-10 p-1 border border-[#252D28] bg-[#0E1210]">
+            <TabsList className="w-full justify-start overflow-x-auto h-10 p-1 border border-[#1E2433] bg-[#0F1219]">
               <TabsTrigger value="overview" className="gap-1.5 text-xs">
                 <FileText className="h-3.5 w-3.5" />
                 <span>Overview</span>
@@ -157,29 +154,29 @@ export default function SkillDetailPage({
 
             {/* Overview Tab */}
             <TabsContent value="overview" className="mt-6 space-y-6">
-              <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-6">
+              <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-6 shadow-sm">
                 <SkillMarkdownView content={skillMdContent} />
               </div>
             </TabsContent>
 
             {/* SKILL.md Raw Code Tab */}
             <TabsContent value="skillmd" className="mt-6 space-y-4">
-              <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] overflow-hidden">
-                <div className="h-10 px-4 border-b border-[#252D28] bg-[#141916]/40 flex items-center justify-between">
-                  <span className="text-xs font-mono text-[#CCD7C5]">SKILL.md</span>
+              <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] overflow-hidden shadow-sm">
+                <div className="h-10 px-4 border-b border-[#1E2433] bg-[#161B26]/60 flex items-center justify-between">
+                  <span className="text-xs font-mono text-emerald-400">SKILL.md</span>
                   <button
                     onClick={handleCopySkillMd}
-                    className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-[#141916] text-xs text-[#A9B1AA] hover:text-[#F1F4EF] transition-colors"
+                    className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-[#161B26] text-xs text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
                   >
                     {copiedSkillMd ? (
-                      <Check className="h-3.5 w-3.5 text-[#9FBEA5]" />
+                      <Check className="h-3.5 w-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
                     <span className="text-[11px] font-mono">{copiedSkillMd ? "Copied" : "Copy Raw"}</span>
                   </button>
                 </div>
-                <pre className="p-4 font-mono text-xs text-[#F1F4EF] overflow-x-auto whitespace-pre-wrap leading-relaxed">
+                <pre className="p-4 font-mono text-xs text-[#F8FAFC] bg-[#090A0F] overflow-x-auto whitespace-pre-wrap leading-relaxed">
                   {skillMdContent}
                 </pre>
               </div>
@@ -205,12 +202,12 @@ export default function SkillDetailPage({
               />
 
               <div className="space-y-3">
-                <div className="text-xs font-mono uppercase tracking-wider text-[#707A72]">
+                <div className="text-xs font-mono uppercase tracking-wider text-[#64748B]">
                   Community Reviews ({reviews.length})
                 </div>
 
                 {reviews.length === 0 ? (
-                  <div className="p-8 text-center border border-[#252D28] rounded-[8px] bg-[#0E1210] text-[#A9B1AA] text-xs">
+                  <div className="p-8 text-center border border-[#1E2433] rounded-[10px] bg-[#0F1219] text-[#94A3B8] text-xs shadow-sm">
                     No reviews yet. Be the first to share your experience with this skill!
                   </div>
                 ) : (
@@ -245,16 +242,16 @@ export default function SkillDetailPage({
           />
 
           {/* Category & Tags Card */}
-          <div className="border border-[#252D28] rounded-[8px] bg-[#0E1210] p-5 space-y-3">
-            <div className="text-xs font-mono uppercase tracking-wider text-[#707A72]">
+          <div className="border border-[#1E2433] rounded-[10px] bg-[#0F1219] p-5 space-y-3 shadow-sm">
+            <div className="text-xs font-mono uppercase tracking-wider text-[#64748B]">
               Categorization
             </div>
             {skill.category && (
               <div>
-                <span className="text-[11px] text-[#707A72] block mb-1">Primary Category</span>
+                <span className="text-[11px] text-[#64748B] block mb-1">Primary Category</span>
                 <Link
                   href={`/categories/${skill.category.slug}`}
-                  className="text-xs font-medium text-[#CCD7C5] hover:underline"
+                  className="text-xs font-medium text-emerald-400 hover:underline"
                 >
                   {skill.category.name}
                 </Link>
@@ -262,14 +259,14 @@ export default function SkillDetailPage({
             )}
             {skill.tags && skill.tags.length > 0 && (
               <div className="pt-2">
-                <span className="text-[11px] text-[#707A72] block mb-1.5">Tags</span>
+                <span className="text-[11px] text-[#64748B] block mb-1.5">Tags</span>
                 <div className="flex flex-wrap gap-1.5">
                   {skill.tags.map((tag) => (
                     <Link
                       key={tag.id || tag.name}
                       href={`/explore?tag=${encodeURIComponent(tag.slug || tag.name)}`}
                     >
-                      <Badge variant="outline" className="text-[11px] hover:border-[#CCD7C5]/40 transition-colors">
+                      <Badge variant="outline" className="text-[11px] hover:border-emerald-500/40 transition-colors">
                         {tag.name}
                       </Badge>
                     </Link>

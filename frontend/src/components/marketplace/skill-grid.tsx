@@ -31,7 +31,7 @@ export function SkillGrid({
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className="flex flex-col rounded-[8px] border border-[#252D28] bg-[#0E1210] p-5 space-y-4"
+            className="flex flex-col rounded-[10px] border border-[#1E2433] bg-[#0F1219] p-5 space-y-4 shadow-sm"
           >
             <div className="flex items-start justify-between">
               <Skeleton className="h-10 w-10 rounded-[8px]" />
@@ -46,7 +46,7 @@ export function SkillGrid({
               <Skeleton className="h-5 w-16 rounded-full" />
               <Skeleton className="h-5 w-16 rounded-full" />
             </div>
-            <div className="pt-2 border-t border-[#1A211D] flex justify-between">
+            <div className="pt-2 border-t border-[#1E2433] flex justify-between">
               <Skeleton className="h-4 w-20" />
               <Skeleton className="h-4 w-12" />
             </div>
