@@ -288,6 +288,175 @@ export async function countUserSavedSkills(userId) {
   });
 }
 
+export async function findUserLikedSkills(userId, { skip = 0, take = 20 } = {}) {
+  return prisma.upvote.findMany({
+    where: {
+      userId,
+      skill: {
+        status: "PUBLISHED",
+      },
+    },
+    skip,
+    take,
+    orderBy: { createdAt: "desc" },
+    select: {
+      createdAt: true,
+      skill: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          publishedAt: true,
+          createdAt: true,
+          updatedAt: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+              avatar: true,
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              description: true,
+            },
+          },
+          tags: {
+            select: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                  slug: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              downloads: true,
+              upvotes: true,
+              reviews: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+export async function countUserLikedSkills(userId) {
+  return prisma.upvote.count({
+    where: {
+      userId,
+      skill: {
+        status: "PUBLISHED",
+      },
+    },
+  });
+}
+
+export async function findUserDownloadedSkills(userId, { skip = 0, take = 20 } = {}) {
+  return prisma.download.findMany({
+    where: {
+      userId,
+      skill: {
+        status: "PUBLISHED",
+      },
+    },
+    distinct: ["skillId"],
+    skip,
+    take,
+    orderBy: { createdAt: "desc" },
+    select: {
+      createdAt: true,
+      version: true,
+      skill: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          publishedAt: true,
+          createdAt: true,
+          updatedAt: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+              avatar: true,
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              description: true,
+            },
+          },
+          tags: {
+            select: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                  slug: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              downloads: true,
+              upvotes: true,
+              reviews: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+export async function countUserDownloadedSkills(userId) {
+  const distinct = await prisma.download.findMany({
+    where: {
+      userId,
+      skill: {
+        status: "PUBLISHED",
+      },
+    },
+    distinct: ["skillId"],
+    select: { skillId: true },
+  });
+  return distinct.length;
+}
+
+export async function getUserLibraryStatsRepo(userId) {
+  const [savedCount, likedCount, downloadedList, collectionsCount] = await Promise.all([
+    prisma.savedSkill.count({ where: { userId, skill: { status: "PUBLISHED" } } }),
+    prisma.upvote.count({ where: { userId, skill: { status: "PUBLISHED" } } }),
+    prisma.download.findMany({
+      where: { userId, skill: { status: "PUBLISHED" } },
+      distinct: ["skillId"],
+      select: { skillId: true },
+    }),
+    prisma.collection.count({ where: { userId } }),
+  ]);
+
+  return {
+    savedCount,
+    likedCount,
+    downloadedCount: downloadedList.length,
+    collectionsCount,
+  };
+}
+
 // ============================================================
 // COLLECTION REPOSITORY
 // ============================================================

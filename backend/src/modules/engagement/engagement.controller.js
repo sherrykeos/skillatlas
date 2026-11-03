@@ -10,6 +10,9 @@ import {
   saveSkill,
   unsaveSkill,
   getUserSavedSkills,
+  getUserLikedSkills,
+  getUserDownloadedSkills,
+  getUserLibraryStats,
   getUserCollections,
   createCollection,
   updateCollection,
@@ -100,6 +103,27 @@ export const handleGetUserSavedSkills = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, result, "Saved skills fetched successfully."));
+});
+
+export const handleGetUserLikedSkills = asyncHandler(async (req, res) => {
+  const result = await getUserLikedSkills(req.user.id, req.query);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "Liked skills fetched successfully."));
+});
+
+export const handleGetUserDownloadedSkills = asyncHandler(async (req, res) => {
+  const result = await getUserDownloadedSkills(req.user.id, req.query);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "Downloaded skills fetched successfully."));
+});
+
+export const handleGetUserLibraryStats = asyncHandler(async (req, res) => {
+  const stats = await getUserLibraryStats(req.user.id);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, stats, "User library stats fetched successfully."));
 });
 
 // ============================================================

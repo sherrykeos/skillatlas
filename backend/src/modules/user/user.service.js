@@ -105,6 +105,7 @@ export async function getPublicUserProfile(username, { page = 1, limit = 20 } = 
     id: user.id,
     username: user.username,
     avatar: user.avatar,
+    role: user.role,
     createdAt: user.createdAt,
     skills,
   };

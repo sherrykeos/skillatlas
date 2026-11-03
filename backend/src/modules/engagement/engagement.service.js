@@ -17,6 +17,11 @@ import {
   deleteSave as deleteSaveRepo,
   findUserSavedSkills,
   countUserSavedSkills,
+  findUserLikedSkills,
+  countUserLikedSkills,
+  findUserDownloadedSkills,
+  countUserDownloadedSkills,
+  getUserLibraryStatsRepo,
   createCollection as createCollectionRepo,
   findCollectionById,
   updateCollection as updateCollectionRepo,
@@ -250,6 +255,74 @@ export async function getUserSavedSkills(userId, { page = 1, limit = 20 }) {
       totalPages,
     },
   };
+}
+
+export async function getUserLikedSkills(userId, { page = 1, limit = 20 }) {
+  const numericPage = Number(page) || 1;
+  const numericLimit = Number(limit) || 20;
+
+  const skip = (numericPage - 1) * numericLimit;
+  const take = numericLimit;
+
+  const [rawLiked, total] = await Promise.all([
+    findUserLikedSkills(userId, { skip, take }),
+    countUserLikedSkills(userId),
+  ]);
+
+  const likedSkills = rawLiked.map((item) => ({
+    likedAt: item.createdAt,
+    skill: {
+      ...formatSkillRecord(item.skill),
+      hasUpvoted: true,
+    },
+  }));
+
+  const totalPages = Math.ceil(total / numericLimit);
+
+  return {
+    likedSkills,
+    pagination: {
+      page: numericPage,
+      limit: numericLimit,
+      total,
+      totalPages,
+    },
+  };
+}
+
+export async function getUserDownloadedSkills(userId, { page = 1, limit = 20 }) {
+  const numericPage = Number(page) || 1;
+  const numericLimit = Number(limit) || 20;
+
+  const skip = (numericPage - 1) * numericLimit;
+  const take = numericLimit;
+
+  const [rawDownloads, total] = await Promise.all([
+    findUserDownloadedSkills(userId, { skip, take }),
+    countUserDownloadedSkills(userId),
+  ]);
+
+  const downloadedSkills = rawDownloads.map((item) => ({
+    downloadedAt: item.createdAt,
+    version: item.version,
+    skill: formatSkillRecord(item.skill),
+  }));
+
+  const totalPages = Math.ceil(total / numericLimit);
+
+  return {
+    downloadedSkills,
+    pagination: {
+      page: numericPage,
+      limit: numericLimit,
+      total,
+      totalPages,
+    },
+  };
+}
+
+export async function getUserLibraryStats(userId) {
+  return getUserLibraryStatsRepo(userId);
 }
 
 // ============================================================

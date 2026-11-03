@@ -24,6 +24,9 @@ import {
   handleSaveSkill,
   handleUnsaveSkill,
   handleGetUserSavedSkills,
+  handleGetUserLikedSkills,
+  handleGetUserDownloadedSkills,
+  handleGetUserLibraryStats,
   handleGetUserCollections,
   handleCreateCollection,
   handleUpdateCollection,
@@ -131,6 +134,26 @@ router.get(
   authenticate,
   validate(paginationQuerySchema, "query"),
   handleGetUserSavedSkills
+);
+
+router.get(
+  "/users/me/liked",
+  authenticate,
+  validate(paginationQuerySchema, "query"),
+  handleGetUserLikedSkills
+);
+
+router.get(
+  "/users/me/downloads",
+  authenticate,
+  validate(paginationQuerySchema, "query"),
+  handleGetUserDownloadedSkills
+);
+
+router.get(
+  "/users/me/stats",
+  authenticate,
+  handleGetUserLibraryStats
 );
 
 // ============================================================
